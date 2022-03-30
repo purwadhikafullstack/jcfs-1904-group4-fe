@@ -17,10 +17,6 @@ function Login() {
     password: '',
   });
 
-  if (username) {
-    return <Navigate to="/" replace />;
-  }
-
   const handleChange = (e) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
   };
@@ -55,6 +51,10 @@ function Login() {
   const onInputPress = (e) => {
     if (e.code === 'Enter') onLogin();
   };
+
+  if (username) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <Form className="login-form">
