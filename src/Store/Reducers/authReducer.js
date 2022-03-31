@@ -3,12 +3,11 @@ const init = {
   username: '',
   warehouse_id: 0,
   role: '',
+  is_verified: true,
   token: '',
 };
 
 const authReducer = (state = init, action) => {
-  // console.log({ state, action });
-
   switch (action.type) {
     case 'LOGIN_SUCCESS':
       return {
@@ -17,6 +16,7 @@ const authReducer = (state = init, action) => {
         username: action.payload.user.username,
         warehouse_id: action.payload.user.warehoue_id,
         role: action.payload.user.role,
+        is_verified: action.payload.user.is_verified,
         token: action.payload.postToken,
       };
 

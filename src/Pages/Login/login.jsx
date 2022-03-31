@@ -12,6 +12,7 @@ function Login() {
   const dispatch = useDispatch();
   const username = useSelector((state) => state.auth.username);
   const getToken = useSelector((state) => state.auth.token);
+
   const [formState, setFormState] = useState({
     username: '',
     password: '',
@@ -22,7 +23,6 @@ function Login() {
   };
 
   const onLogin = async () => {
-    // console.log('running');
     try {
       const res = await axios.post('/users/login', {
         username: formState.username,
@@ -31,15 +31,14 @@ function Login() {
           Authorization: `Bearer ${getToken}`,
         },
       });
-      // console.log({ res });
 
       const user = res.data.user;
       const postToken = res.data.token;
 
       const action = loginAction({ user, postToken });
-      // console.log(action);
       dispatch(action);
     } catch (error) {
+      window.alert(error.response.data.message);
       console.log({ error });
     }
   };
