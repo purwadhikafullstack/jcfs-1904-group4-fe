@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import "./pm.css"
-import { UncontrolledDropdown, Card, Button, CardTitle, InputGroup, Input, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
+import { Card, Button, InputGroup, FormControl, Dropdown } from "react-bootstrap";
 
 function ProductManager(props) {
     const { paginationState, setPaginationState } = props;
@@ -33,57 +32,66 @@ function ProductManager(props) {
     return (
       <div>
         <div className="filter">
-          <Card className="card" id="filter"
-            style={{backgroundColor: '#444'}}
-          >
-            <CardTitle tag="h4" className="title">
+        <Card style={{ width: '250px', height: '300px', backgroundColor: '#eaeaea', boxShadow: '0 4px 4px 0 rgb(0, 0, 0, 0.2)', padding: '0px' }}>
+          <Card.Header
+            style={{display: 'flex', justifyContent: 'center'}}>
               Filter
-            </CardTitle>
-            <InputGroup>
-              <Input placeholder="Product Name" className="input" />
+          </Card.Header>
+          <Card.Body>
+            <InputGroup className="mb-3">
+              <FormControl
+                placeholder="Product Name"
+              />
             </InputGroup>
-
-          <div className="dropdown">
-          <UncontrolledDropdown>
-            <DropdownToggle caret className="category">
-              Room Category
-            </DropdownToggle>
-            <DropdownMenu right>
-                <DropdownItem>
-                  Kitchen
-                </DropdownItem>
-                <DropdownItem>
-                  Office
-                </DropdownItem>
-                <DropdownItem>
-                  Outdoor
-                </DropdownItem>
-            </DropdownMenu>
-          </UncontrolledDropdown>
-          <UncontrolledDropdown>
-            <DropdownToggle caret className="category">
-              Product Category
-            </DropdownToggle>
-            <DropdownMenu right>
-                <DropdownItem>
-                  Chair
-                </DropdownItem>
-                <DropdownItem>
-                  Table
-                </DropdownItem>
-                <DropdownItem>
-                  Bed
-                </DropdownItem>
-            </DropdownMenu>
-          </UncontrolledDropdown>
-          <Button className="button">
-            Search
-          </Button>
-          </div>
-          </Card>
+              <Dropdown style={{display: 'flex', justifyContent: 'center'}}>
+                <Dropdown.Toggle variant="dark" id="dropdown-basic" style={{width: '100%'}}>
+                  Product Category
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                  <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                  <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+              <Dropdown style={{display: 'flex', justifyContent: 'center', marginTop: '10px'}}>
+                <Dropdown.Toggle variant="dark" id="dropdown-basic" style={{width: '100%'}}>
+                  Room Category
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                  <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                  <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            <Button variant="primary" style={{display: 'flex', alignItems: 'flex-end', width: '100%', marginTop: '50px'}} size="md">
+              Search
+            </Button>
+          </Card.Body>
+        </Card>
         </div>
 
-        <div className="sort">
+        <div className="sort" style={{marginTop: '20px'}}>
+        <Card style={{ width: '250px', height: '135px', backgroundColor: '#eaeaea', boxShadow: '0 4px 4px 0 rgb(0, 0, 0, 0.2)', padding: '0px' }}>
+          <Card.Header
+            style={{display: 'flex', justifyContent: 'center'}}>
+              Sort
+          </Card.Header>
+          <Card.Body>
+              <Dropdown style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
+                <Dropdown.Toggle variant="dark" id="dropdown-basic" style={{width: '100%'}}>
+                  Sort
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                  <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                  <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+          </Card.Body>
+        </Card>
+        </div>
+
+        {/* <div className="sort">
           <Card className="card" id="sort"
             style={{backgroundColor: '#444'}}
           >
@@ -119,7 +127,7 @@ function ProductManager(props) {
           </UncontrolledDropdown>
           </div>
           </Card>
-        </div>
+        </div> */}
       </div>
     );
 };

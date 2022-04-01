@@ -5,20 +5,19 @@ import {
     CardBody,
     CardTitle,
     CardSubtitle,
-    Button,
-    CardLink
+    Button
 } from "reactstrap";
-import "./style.css"
-import 'bootstrap/dist/css/bootstrap.min.css';
 
-function ProductCard() {
+function ProductCard(props) {
+    const { product_name, price, product_image_name } = props
+    console.log(props)
 
     return (
         <div>
-            <Card className="card">
+            <Card style={{width: '275px', height: '420px', boxShadow: "0 6px 6px 0 rgb(0, 0, 0, 0.2)"}}>
                 <CardImg
                     alt="Card image cap"
-                    src="https://picsum.photos/256/186"
+                    src={product_image_name}
                     top
                     width="100%"
                     height="400px"
@@ -26,22 +25,22 @@ function ProductCard() {
                 />
                 <CardBody>
                     <CardTitle tag="h4">
-                        Product Name
+                        {product_name}
                     </CardTitle>
                     <CardSubtitle
                         className="my-2 text-muted"
                         tag="h5"
                     >
-                        Price
+                        Rp. {price}
                     </CardSubtitle>
-                    <CardLink className="details">
+                    <Button color="light" style={{width: '100%', marginTop: '10px'}}>
                         Details
-                    </CardLink>
-                    <div className="button">
-                        <Button className="buy">
+                    </Button>
+                    <div style={{width: '100%', marginTop: '50px', justifyContent: 'space-between', display: 'flex'}}>
+                        <Button color="dark">
                             Buy Now
                         </Button>
-                        <Button className="cart">
+                        <Button color="success">
                             Add to Cart
                         </Button>
                     </div>

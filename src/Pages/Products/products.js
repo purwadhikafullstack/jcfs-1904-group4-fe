@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "../../Config/axios";
 
 import "./style.css";
 import ListProduct from "./Components/ListProduct";
 import ProductManager from "./Components/ProductManager";
+import ProductCard from "../../Components/ProductCard/productCard";
 
 function Products() {
   const [products, setProducts] = useState([]); // 19
@@ -15,13 +16,19 @@ function Products() {
     itemsPerPage: 5,
   });
 
+  console.log(products)
+  console.log(sortedProducts)
+
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("/products/get");
-      const { data } = res;
+      const res = await axios.post("/products/get");
+      console.log(res)
+      const {data} = res
+      console.log({data})
       setProducts(data);
       setFilteredProducts(data);
-      setSortedProducts(data);
+      // data : { products }
+      setSortedProducts(data.products);
       setPaginationState({
         ...paginationState,
         lastPage: Math.ceil(data.length / paginationState.itemsPerPage),
@@ -50,7 +57,6 @@ function Products() {
       page: 1,
       lastPage: Math.ceil(resultFilter.length / paginationState.itemsPerPage),
     });
-
     setFilteredProducts(resultFilter);
     setSortedProducts(resultFilter);
   };
@@ -67,9 +73,6 @@ function Products() {
         break;
       case "az":
         rawData.sort((a, b) => {
-          // a : Kaos
-          // b : Celana
-          // b --> a
 
           if (a.productName < b.productName) {
             return -1;
@@ -106,9 +109,15 @@ function Products() {
           setPaginationState={setPaginationState}
         />
         <ListProduct
-          products={sortedProducts}
+          product={sortedProducts}
           paginationState={paginationState}
         />
+        {/* {products.map((product) => (
+          <ProductCard 
+            key={product.product_id}
+            product={product}/>
+          ))} */}
+          {/* <ProductCard products={products}/> */}
       </div>
     </div>
   );

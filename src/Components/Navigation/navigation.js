@@ -15,11 +15,15 @@ function Navigation() {
             <Nav className="me-auto">
               <Nav.Link href="#home">Home</Nav.Link>
               <NavDropdown title="Products" id="basic-nav-dropdown" style={{marginTop: '0px', marginInline: '0px'}}>
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+                <NavDropdown.Header>Product Category</NavDropdown.Header>
+                <NavDropdown.Item href="#action/3.1">Tables</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.2">Chairs</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.3">Mirrors</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.3">Beds/Mattresses</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.3">Shelves</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.3">Carpets</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.3">Benches</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.3">TV Brackets</NavDropdown.Item>
               </NavDropdown>
               <Nav.Link href="#link">About Us</Nav.Link>
               <Nav.Link href="#home">Login</Nav.Link>

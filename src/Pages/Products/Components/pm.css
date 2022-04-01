@@ -1,5 +1,8 @@
 .card {
   padding: 5px;
+  width: 200px;
+  height: 250px;
+  background-color: rgb(37, 37, 37);
 }
 
 .title {
@@ -47,14 +50,4 @@
 
 #sort {
   height: 127px;
-}
-
-.page {
-  margin-top: 30px;
-}
-
-.pagination {
-  height: 127px;
-
-  background-color: #444;
 }
