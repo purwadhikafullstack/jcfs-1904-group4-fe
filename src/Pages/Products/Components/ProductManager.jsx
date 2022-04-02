@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Card, Button, InputGroup, FormControl, Dropdown } from "react-bootstrap";
 
 function ProductManager(props) {
     const { paginationState, setPaginationState } = props;
