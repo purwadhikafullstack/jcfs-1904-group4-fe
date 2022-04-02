@@ -19,7 +19,7 @@ function ProductCard(props) {
                     </Button>
                     </div>
                     <div style={{display: 'flex', justifyContent: 'space-between', marginTop: '20px'}}>
-                        <Button variant="dark">Buy Now</Button>
+                        <Button style={{backgroundColor: 'rgb(33, 37, 41)', borderColor: 'rgb(33, 37, 41)'}}>Buy Now</Button>
                         <Button variant="success">Add to Cart</Button>
                     </div>
                 </Card.Body>

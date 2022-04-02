@@ -21,7 +21,7 @@ function ProductManager(props) {
     };
   
     const selectSortHandler = (e) => {
-      props.sortProducts(e);
+      props.sortProducts(e.target.value);
     };
   
     const btnPrevPageHandler = () => {
@@ -32,93 +32,81 @@ function ProductManager(props) {
     };
   
     return (
-      <div style={{marginInline: '30px'}}>
-        <div className="filter">
-        <Card style={{ maxWidth: '250px', height: '300px', backgroundColor: '#eaeaea', boxShadow: '0 4px 4px 0 rgb(0, 0, 0, 0.2)', padding: '0px' }}>
-          <Card.Header
-            style={{display: 'flex', justifyContent: 'center'}}>
-              Filter
-          </Card.Header>
-          <Card.Body>
-            <InputGroup className="mb-3">
-              <FormControl
-                placeholder="Product Name"
-                name="keyword"
-                onChange={handleChange}
+      <div style={{marginInline: '20px'}}>
+
+        <div className="card text-white bg-dark mb-3" style={{maxWidth: '250px', minWidth: '150px', boxShadow: '0 4px 4px 0 rgb(0, 0, 0, 0.2)'}}>
+          <div className="card-header" style={{ display: 'flex', justifyContent: 'center'}}>
+            Filter
+          </div>
+          <div className="card-body">
+          
+            {/* Input Filter */}
+            <div className="input-group mb-3">
+              <input type="text" className="form-control" placeholder="Product Name" aria-label="Username" aria-describedby="basic-addon1"
+                     onChange={handleChange} name="keyword"
               />
-            </InputGroup>
-              <Dropdown style={{display: 'flex', justifyContent: 'center'}}>
-                <Dropdown.Toggle variant="dark" id="dropdown-basic" style={{width: '100%'}}>
-                  Product Category
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <Dropdown.Item eventKey="Chair">Chair</Dropdown.Item>
-                  <Dropdown.Item eventKey="table">Table</Dropdown.Item>
-                  <Dropdown.Item eventKey="bed">Bed / Mattress</Dropdown.Item>
-                  <Dropdown.Item eventKey="carpet">Carpet</Dropdown.Item>
-                  <Dropdown.Item eventKey="shelf">Shelf</Dropdown.Item>
-                  <Dropdown.Item eventKey="tvbracket">TV Bracket</Dropdown.Item>
-                  <Dropdown.Item eventKey="lamp">Lamp</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-              <Dropdown style={{display: 'flex', justifyContent: 'center', marginTop: '10px'}}>
-                <Dropdown.Toggle variant="dark" id="dropdown-basic" style={{width: '100%'}}>
-                  Room Category
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <Dropdown.Item href="#/action-1">Kitchen</Dropdown.Item>
-                  <Dropdown.Item href="#/action-2">Outdoor</Dropdown.Item>
-                  <Dropdown.Item href="#/action-3">Bedroom</Dropdown.Item>
-                  <Dropdown.Item href="#/action-3">Office</Dropdown.Item>
-                  <Dropdown.Item href="#/action-3">Living Room</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-              <Button variant="success" size="md"
-                style={{display: 'flex', justifyContent: 'center', width: '100%', marginTop: '50px'}}
-                onClick={btnSearchHandler}
-              >
-                Search
-            </Button>
-          </Card.Body>
-        </Card>
+            </div>
+
+            {/* Product Dropdown Filter */}
+            <label style={{display: 'flex', justifyContent: 'center'}}>Product Category</label>
+            <select className="form-control" style={{display: 'flex', justifyContent: 'center', backgroundColor: 'white', border: '0px', color: 'rgb(33, 37, 41)'}} onChange={handleChange} name="category">
+              <option value="">Default</option>
+              <option value="Tables">Tables</option>
+              <option value="Chairs">Chairs</option>
+              <option value="Shelves">Shelves</option>
+              <option value="Carpets">Carpets</option>
+          </select>
+
+            {/* Room Dropdown Filter */}
+            <label style={{display: 'flex', justifyContent: 'center', marginTop: '15px'}}>Room Category</label>
+            <select className="form-control" style={{display: 'flex', justifyContent: 'center', backgroundColor: 'white', border: '0px', color: 'rgb(33, 37, 41)'}} onChange={handleChange} name="category">
+              <option value="">Default</option>
+              <option value="Kitchen">Kitchen</option>
+              <option value="Office">Office</option>
+              <option value="Bedroom">Bedroom</option>
+              <option value="LivingRoom">Living Room</option>
+          </select>
+            
+            {/* Search Button */}
+              <button type="button" class="btn btn-danger" style={{marginTop: '18px', width: '100%'}} onClick={btnSearchHandler}>Search</button>
+          
+          </div>
         </div>
 
-        <div className="sort" style={{marginTop: '20px'}}>
-        <Card style={{ maxwidth: '250px', height: '120px', backgroundColor: '#eaeaea', boxShadow: '0 4px 4px 0 rgb(0, 0, 0, 0.2)', padding: '0px' }}>
-          <Card.Header
-            style={{display: 'flex', justifyContent: 'center'}}>
-              Sort
-          </Card.Header>
-          <Card.Body>
-              <Dropdown style={{display: 'flex', justifyContent: 'center', marginTop: '5px'}} onSelect={selectSortHandler}>
-                <Dropdown.Toggle variant="dark" id="dropdown-basic" style={{width: '100%'}}>
-                  Sort by
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <Dropdown.Item eventKey="">Default</Dropdown.Item>
-                  <Dropdown.Header>Price</Dropdown.Header>
-                  <Dropdown.Item eventKey="highPrice">High - Low</Dropdown.Item>
-                  <Dropdown.Item eventKey="lowPrice">Low - High</Dropdown.Item>
-                  <Dropdown.Header>Alphabetical Order</Dropdown.Header>
-                  <Dropdown.Item eventKey="az">A - Z</Dropdown.Item>
-                  <Dropdown.Item eventKey="za">Z - A</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-          </Card.Body>
-        </Card>
+        {/* Sort */}
+        <div className="card text-white bg-dark mb-3" style={{maxWidth: '250px', minWidth: '150px', boxShadow: '0 4px 4px 0 rgb(0, 0, 0, 0.2)'}}>
+          <div className="card-header" style={{ display: 'flex', justifyContent: 'center'}}>
+            Sort
+          </div>
+          <div className="card-body">
+
+            <select className="form-control" style={{display: 'flex', justifyContent: 'center', backgroundColor: 'rgb(25, 135, 84)', border: '0px', color: 'white'}} onChange={selectSortHandler}>
+              <option value="">Default</option>
+              <option value="highPrice">High - Low</option>
+              <option value="lowPrice">Low - High</option>
+              <option value="az">A - Z</option>
+              <option value="za">Z - A</option>
+            </select>
+            
+          </div>
         </div>
 
-        <div className="page" style={{marginTop: '20px'}}>
-        <Card style={{ maxwidth: '250px', height: '120px', backgroundColor: '#eaeaea', boxShadow: '0 4px 4px 0 rgb(0, 0, 0, 0.2)', padding: '0px' }}>
-          <Card.Header
-            style={{display: 'flex', justifyContent: 'center'}}>
-              Page {page} of {lastPage}
-          </Card.Header>
-          <Card.Body style={{display: 'flex', justifyContent: 'space-around'}}>
-              <Button variant="success" onClick={btnPrevPageHandler} disabled={page === 1}>{"<<"}</Button>
-              <Button variant="success" onClick={btnNextPageHandler} disabled={page === lastPage}>{">>"}</Button>
-          </Card.Body>
-        </Card>
+        {/* Pagination */}
+        <div className="card text-white bg-dark mb-3" style={{maxWidth: '250px', minWidth: '150px', boxShadow: '0 4px 4px 0 rgb(0, 0, 0, 0.2)'}}>
+          <div className="card-header" style={{ display: 'flex', justifyContent: 'center'}}>
+            Page {page} of {lastPage}
+          </div>
+          <div className="card-body" style={{display: 'flex', justifyContent: 'center'}}>
+            <div class="btn">
+              <button type="button" class="btn btn-success" onClick={btnPrevPageHandler} disabled={page === 1} style={{width: '70px', marginInline: '20px'}}>
+                {"<<"}
+              </button>
+              <button type="button" class="btn btn-success" onClick={btnNextPageHandler} disabled={page === lastPage} style={{width: '70px', marginInline: '20px'}}>
+                {">>"}
+              </button>
+            </div>
+            
+          </div>
         </div>
       </div>
     );
