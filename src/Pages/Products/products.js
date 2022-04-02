@@ -13,25 +13,27 @@ function Products() {
   const [paginationState, setPaginationState] = useState({
     page: 1,
     lastPage: 0,
-    itemsPerPage: 5,
+    itemsPerPage: 8,
   });
 
   console.log(products)
   console.log(sortedProducts)
+  console.log(filteredProducts)
+  console.log(paginationState)
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.post("/products/get");
+      const res = await axios.get("/products/get");
       console.log(res)
-      const {data} = res
+      const { data } = res
       console.log({data})
-      setProducts(data);
-      setFilteredProducts(data);
+      setProducts(data.products);
+      setFilteredProducts(data.products);
       // data : { products }
       setSortedProducts(data.products);
       setPaginationState({
         ...paginationState,
-        lastPage: Math.ceil(data.length / paginationState.itemsPerPage),
+        lastPage: Math.ceil(data.products.length / paginationState.itemsPerPage),
       });
     } catch (error) {
       console.log(alert(error.message));
@@ -44,7 +46,7 @@ function Products() {
 
   const filterProducts = (formData) => {
     const resultFilter = products.filter((product) => {
-      const productName = product.productName.toLowerCase();
+      const productName = product.product_name.toLowerCase();
       const keyword = formData.keyword.toLowerCase();
       return (
         productName.includes(keyword) &&
@@ -62,6 +64,7 @@ function Products() {
   };
 
   const sortProducts = (sortValue) => {
+    console.log(sortValue)
     const rawData = [...filteredProducts];
 
     switch (sortValue) {
@@ -74,9 +77,9 @@ function Products() {
       case "az":
         rawData.sort((a, b) => {
 
-          if (a.productName < b.productName) {
+          if (a.product_name < b.product_name) {
             return -1;
-          } else if (a.productName > b.productName) {
+          } else if (a.product_name > b.product_name) {
             return 1;
           } else {
             return 0;
@@ -85,9 +88,9 @@ function Products() {
         break;
       case "za":
         rawData.sort((a, b) => {
-          if (a.productName < b.productName) {
+          if (a.product_name < b.product_name) {
             return 1;
-          } else if (a.productName > b.productName) {
+          } else if (a.product_name > b.product_name) {
             return -1;
           } else {
             return 0;
@@ -100,8 +103,8 @@ function Products() {
   };
 
   return (
-    <div className="container">
-      <div className="row">
+    <div style={{display: 'flex', justifyContent: 'center', marginTop: '50px', width: '100%'}}>
+      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
         <ProductManager
           filterProducts={filterProducts}
           sortProducts={sortProducts}
@@ -112,12 +115,6 @@ function Products() {
           product={sortedProducts}
           paginationState={paginationState}
         />
-        {/* {products.map((product) => (
-          <ProductCard 
-            key={product.product_id}
-            product={product}/>
-          ))} */}
-          {/* <ProductCard products={products}/> */}
       </div>
     </div>
   );
