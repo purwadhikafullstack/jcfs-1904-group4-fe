@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from '../../../Config/axios'
 
 function ProductManager(props) {
     const { paginationState, setPaginationState } = props;
@@ -8,8 +9,37 @@ function ProductManager(props) {
       keyword: "",
       category: "",
     });
-  
-    console.log(formState)
+    const [productCategories, setProductCategories] = useState([])
+    const [roomCategories, setRoomCategories] = useState([])
+
+    const fetchProductCategories = async () => {
+      try {
+        const res = await axios.get("/categories/getProduct");
+        console.log(res)
+        const { data } = res
+        console.log({ data })
+        setProductCategories(data.categories);
+      } catch (error) {
+        console.log(alert(error.message));
+      }
+    };
+
+    const fetchRoomCategories = async () => {
+      try {
+        const res = await axios.get("/categories/getRoom");
+        console.log(res)
+        const { data } = res
+        console.log({ data })
+        setRoomCategories(data.categories);
+      } catch (error) {
+        console.log(alert(error.message));
+      }
+    };
+
+    useEffect(() => {
+      fetchProductCategories()
+      fetchRoomCategories();
+    }, [])
 
     const handleChange = (e) => {
       setFormState({ ...formState, [e.target.name]: e.target.value });
@@ -49,22 +79,18 @@ function ProductManager(props) {
             {/* Product Dropdown Filter */}
             <label style={{display: 'flex', justifyContent: 'center'}}>Product Category</label>
             <select className="form-control" style={{display: 'flex', justifyContent: 'center', backgroundColor: 'white', border: '0px', color: 'rgb(33, 37, 41)'}} onChange={handleChange} name="category">
-              <option value="">Default</option>
-              <option value="Tables">Tables</option>
-              <option value="Chairs">Chairs</option>
-              <option value="Shelves">Shelves</option>
-              <option value="Carpets">Carpets</option>
-          </select>
+              {productCategories.map((category) => 
+                <option key={category.category_id} value={category.category_name}>{category.category_name}</option>
+              )}
+            </select>
 
             {/* Room Dropdown Filter */}
             <label style={{display: 'flex', justifyContent: 'center', marginTop: '15px'}}>Room Category</label>
             <select className="form-control" style={{display: 'flex', justifyContent: 'center', backgroundColor: 'white', border: '0px', color: 'rgb(33, 37, 41)'}} onChange={handleChange} name="category">
-              <option value="">Default</option>
-              <option value="Kitchen">Kitchen</option>
-              <option value="Office">Office</option>
-              <option value="Bedroom">Bedroom</option>
-              <option value="LivingRoom">Living Room</option>
-          </select>
+              {roomCategories.map((category) => 
+                <option key={category.category_id} value={category.category_name}>{category.category_name}</option>
+              )}
+            </select>
             
             {/* Search Button */}
               <button type="button" class="btn btn-danger" style={{marginTop: '18px', width: '100%'}} onClick={btnSearchHandler}>Search</button>
@@ -81,10 +107,10 @@ function ProductManager(props) {
 
             <select className="form-control" style={{display: 'flex', justifyContent: 'center', backgroundColor: 'rgb(25, 135, 84)', border: '0px', color: 'white'}} onChange={selectSortHandler}>
               <option value="">Default</option>
-              <option value="highPrice">High - Low</option>
-              <option value="lowPrice">Low - High</option>
-              <option value="az">A - Z</option>
-              <option value="za">Z - A</option>
+              <option value="highPrice">Price: High - Low</option>
+              <option value="lowPrice">Price: Low - High</option>
+              <option value="az">Name: A - Z</option>
+              <option value="za">Name: Z - A</option>
             </select>
             
           </div>

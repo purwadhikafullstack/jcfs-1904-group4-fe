@@ -16,14 +16,14 @@ function Products() {
     itemsPerPage: 8,
   });
 
-  console.log(products)
-  console.log(sortedProducts)
-  console.log(filteredProducts)
+  // console.log(products)
+  // console.log(sortedProducts)
+  // console.log(filteredProducts)
   console.log(paginationState)
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("/products/get");
+      const res = await axios.get("/products/get", { params: { page: paginationState.page, itemsPerPage: paginationState.itemsPerPage, OFFSET: (paginationState.page - 1) * paginationState.itemsPerPage } });
       console.log(res)
       const { data } = res
       console.log({data})
@@ -44,13 +44,48 @@ function Products() {
     fetchProducts();
   }, []);
 
+
+  // page : 1
+  // itemsPerPage: 10
+  // category : 'çhair'
+  // sort : 'price' or 'name' --> default ?
+
+  // page : 1 
+  // itemsPerPage : 10 --> LIMIT
+  // Skip sejumlah data --> OFFSET
+  // numbers : 1  - 10
+
+  // page : 2
+  // itemsPerPage : 10
+  // numbers : 11 - 20 --> OFFSET 10
+
+  // page : 5
+  // itemsPerPage : 10
+  // numbers : 51 - 60 --> OFFSET 50
+
+  // Page : 1
+  // itemsPerPage : 8 --> LIMIT
+  // OFFSET = 0
+  // products : 1 - 8
+
+  // Page : 2
+  // itemsPerPage : 8 --> LIMIT
+  // OFFSET = 8
+  // products : 9 - 16
+
+  // OFFSET = (Page - 1) * itemsPerPage
+
+
   const filterProducts = (formData) => {
     const resultFilter = products.filter((product) => {
       const productName = product.product_name.toLowerCase();
       const keyword = formData.keyword.toLowerCase();
       return (
         productName.includes(keyword) &&
-        product.category.includes(formData.category)
+        // formData.category_name = mon
+        // product.category_name = monday
+        // apakah pada kata monday mengandung mon ?
+        product.category_name.includes(formData.category_name)
       );
     });
 

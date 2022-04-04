@@ -6,22 +6,21 @@ import { useSelector } from "react-redux";
 import { Button, Card } from "react-bootstrap";
 
 function ProductDetail() {
-  // const params = useParams();
-  // const userId = useSelector((state) => state.auth.id);
-  // const [product, setProduct] = useState({});
-  // const [quantity, setQuantity] = useState(1);
-  // console.log(product)
+  const params = useParams();
+  const {product_id} = params
+  const userId = useSelector((state) => state.auth.id);
+  const [product, setProduct] = useState({});
+  const [quantity, setQuantity] = useState(1);
 
-  // const getProducts = async () => {
-  //   try {
-  //     const res = await axios.get("/products/product_id")
-  //     const { data } = res;
-  //     console.log(res)
-  //     setProduct(data.products)
-  //   } catch (error) {
-  //     console.log(alert(error.message))
-  //   }
-  // };
+  const getProducts = async () => {
+    try {
+      const res = await axios.get(`/products/${product_id}`)
+      const data = res.data.productsById[0];
+      setProduct(data)
+    } catch (error) {
+      console.log(alert(error.message))
+    }
+  };
 
   // // useEffect(() => {
   // //   axios
@@ -35,20 +34,20 @@ function ProductDetail() {
   // //     });
   // // }, []);
 
-  // useEffect(() => {
-  //   getProducts()
-  // }, [])
+  useEffect(() => {
+    getProducts()
+  }, [])
 
-  // const quantityBtnHandler = (type) => {
-  //   switch (type) {
-  //     case "increment":
-  //       setQuantity(quantity + 1);
-  //       break;
-  //     case "decrement":
-  //       setQuantity(quantity - 1);
-  //       break;
-  //   }
-  // };
+  const quantityBtnHandler = (type) => {
+    switch (type) {
+      case "increment":
+        setQuantity(quantity + 1);
+        break;
+      case "decrement":
+        setQuantity(quantity - 1);
+        break;
+    }
+  };
 
   // const addToCartHandler = () => {
   //   axios
@@ -82,26 +81,25 @@ function ProductDetail() {
   //     });
   // };
 
-  // const { product_image_name, product_name, price, product_desc } = product;
+  const { product_image_name, product_name, price, product_desc } = product;
 
   return (
 
     <>
     <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', marginTop: '75px', marginInline: '30px'}}>
       <div>
-        <Card style={{ width: '700px', height: '650px', marginInline: '30px', boxShadow: '3px 3px 3px 3px rgb(0, 0, 0, 0.1)' }}>
+        <Card style={{ width: '700px', height: '750px', marginInline: '30px', boxShadow: '3px 3px 3px 3px rgb(0, 0, 0, 0.1)' }}>
           <Card.Header style={{display: 'flex', justifyContent: 'center', fontSize: '22px', paddingTop: '10px', paddingBottom: '10px'}}>
-            product_name
+            {product_name}
           </Card.Header>
 
-            <Card.Img variant="top" src="https://id-test-11.slatic.net/p/169eccaa67e11508a5be80fa2b652a88.jpg" 
-                      style={{objectFit: 'cover', width: '700px', height: '350px'}}>
+            <Card.Img variant="top" src={product_image_name} 
+                      style={{objectFit: 'cover', width: '700px', height: '450px'}}>
             </Card.Img>
             <Card.Body>
               <Card.Title>Product Details</Card.Title>
-              <Card.Text style={{marginTop: '25px'}}>
-                Some quick example text to build on the card title and make up the bulk
-                of the card's content.
+              <Card.Text style={{marginTop: '18px'}}>
+                {product_desc}
               </Card.Text>
             </Card.Body>
         </Card>
@@ -110,20 +108,23 @@ function ProductDetail() {
       <div>
         <Card style={{padding: '20px', width: '400px', height: '225px', boxShadow: '3px 3px 3px 3px rgb(0, 0, 0, 0.1)'}}>
           
-            <Card.Title style={{fontSize: '30px'}}>Rp. 100.000</Card.Title>
+            <Card.Title style={{fontSize: '30px'}}>Rp. {price}</Card.Title>
             <div style={{display: 'flex', flexDirection: 'row', marginTop: '20px'}}>
-              <Card.Title style={{fontSize: '20px', marginTop: '10px'}}>Quantity: 1</Card.Title>
-              <Button variant="outline-dark" style={{paddingInline: '14px', paddingTop: '4px', marginInline: '20px', borderRadius: '50%'}}
-                //  onClick={() => {
-                //    quantityBtnHandler("decrement")
-                //  }}
+              <Card.Title style={{fontSize: '20px', marginTop: '8px'}}>
+                Quantity: {quantity}
+              </Card.Title>
+              <Button variant="outline-dark" style={{paddingInline: '14px', paddingTop: '4px', marginInline: '20px', borderRadius: '50%', borderWidth: '2px', fontWeight: 'bold'}}
+                 onClick={() => {
+                   quantityBtnHandler("decrement")
+                 }}
+                 disabled={quantity === 1}
               >
                   -
               </Button>
-              <Button variant="outline-dark" style={{borderRadius: '50%'}}
-                //  onClick={() => {
-                //   quantityBtnHandler("increment")
-                // }}
+              <Button variant="outline-dark" style={{borderRadius: '50%', borderWidth: '2px', fontWeight: 'bold', paddingTop: ' 3px'}}
+                 onClick={() => {
+                  quantityBtnHandler("increment")
+                }}
               >
                   +
               </Button>
@@ -135,7 +136,7 @@ function ProductDetail() {
         </Card>
 
         <Card style={{display: 'flex', justifyContent: 'center', width: '400px', height: '100px', marginTop: '30px', boxShadow: '3px 3px 3px 3px rgb(0, 0, 0, 0.1)'}}>
-            <Button variant="success" style={{paddingInline: '14px', marginInline: '20px'}}>
+            <Button variant="dark" style={{paddingInline: '14px', marginInline: '20px'}} href="/">
               Back to Products
             </Button>
         </Card>
