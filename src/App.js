@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import Login from './Pages/Login/Login';
+import Register from './Pages/Register/Register';
 import { keepLoginAction } from '../src/Store/Actions/action.js';
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </Router>
     </div>
