@@ -19,7 +19,7 @@ function Client() {
 
                         <Card border="success" style={{ width: '450px', height: '250px'}}>
                             <Card.Header>Profile Picture</Card.Header>
-                            <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
+                            <div style={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
                                 <Card.Img variant="top" src="http://cdn.onlinewebfonts.com/svg/img_24787.png" style={{objectFit: 'cover', width: '100px', heigh: '100px'}}></Card.Img>
                             </div>
                             <Card.Body style={{display: 'flex', justifyContent: 'center'}}>
