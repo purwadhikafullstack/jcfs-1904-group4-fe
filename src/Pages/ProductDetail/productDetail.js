@@ -8,7 +8,7 @@ import { Button, Card } from "react-bootstrap";
 function ProductDetail() {
   const params = useParams();
   const {product_id} = params
-  const userId = useSelector((state) => state.auth.id);
+  const user_id = useSelector((state) => state.auth.user_id);
   const [product, setProduct] = useState({});
   const [quantity, setQuantity] = useState(1);
 
@@ -94,7 +94,7 @@ function ProductDetail() {
           </Card.Header>
 
             <Card.Img variant="top" src={product_image_name} 
-                      style={{objectFit: 'cover', width: '700px', height: '450px'}}>
+                      style={{objectFit: 'cover', width: '698px', height: '450px'}}>
             </Card.Img>
             <Card.Body>
               <Card.Title>Product Details</Card.Title>

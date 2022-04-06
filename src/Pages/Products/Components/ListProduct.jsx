@@ -2,16 +2,12 @@ import React from "react";
 
 import ProductCard from "../../../Components/ProductCard/productCard";
 
+// props : product
 function ListProduct(props) {
     const products = props.product;
-    const { page, itemsPerPage } = props.paginationState;
     
     const renderProducts = () => {
-        const startIndex = (page - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-        const slicedProducts = products.slice(startIndex, endIndex);
-    
-        return slicedProducts.map((product) => (
+        products.map((product) => (
           <ProductCard key={product.id} product={product} />
         ));
       };
