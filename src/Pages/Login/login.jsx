@@ -77,7 +77,7 @@ function Login() {
       <div className="text-center pb-4">
         <Link to="/register">Register</Link>
         <span className="p-2">|</span>
-        <Link to="/forget-password">Forgot Password</Link>
+        <Link to="/forgot-password">Forgot Password</Link>
       </div>
     </Form>
   );

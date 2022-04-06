@@ -6,6 +6,8 @@ import { useDispatch } from 'react-redux';
 
 import Login from './Pages/Login/Login';
 import Register from './Pages/Register/Register';
+import ForgotPassword from './Pages/ForgotPassword/ForgotPassword';
+import ResetPassword from './Pages/ResetPassword/ResetPassword';
 import { keepLoginAction } from '../src/Store/Actions/action.js';
 
 function App() {
@@ -34,6 +36,8 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
         </Routes>
       </Router>
     </div>

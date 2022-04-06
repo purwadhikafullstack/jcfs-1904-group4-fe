@@ -33,13 +33,9 @@ function Register() {
         password,
       });
 
-      // res.data.token ke redux
-
-      console.log({ disini: res.data });
-
       const user = res.data.user;
       const postToken = res.data.token;
-      // console.log(user);
+
       const action = loginAction({ user, postToken });
       dispatch(action);
     } catch (error) {
