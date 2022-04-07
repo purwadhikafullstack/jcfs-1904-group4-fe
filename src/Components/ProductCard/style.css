@@ -1,0 +1,7 @@
+.kartu {
+    transition: all 200ms ease
+}
+
+.kartu:hover {
+    transform: scale(1.05)
+}
