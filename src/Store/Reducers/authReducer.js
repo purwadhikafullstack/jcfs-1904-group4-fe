@@ -1,28 +1,31 @@
 const init = {
-    id: 0,
-    username: "",
-    role: ""
+  user_id: 0,
+  username: '',
+  warehouse_id: 0,
+  role: '',
+  is_verified: true,
+  token: '',
 };
 
 const authReducer = (state = init, action) => {
+  switch (action.type) {
+    case 'LOGIN_SUCCESS':
+      return {
+        ...state,
+        user_id: action.payload.user.user_id,
+        username: action.payload.user.username,
+        warehouse_id: action.payload.user.warehoue_id,
+        role: action.payload.user.role,
+        is_verified: action.payload.user.is_verified,
+        token: action.payload.postToken,
+      };
 
-    switch (action.type) {
-        case "LOGIN_SUCCESS":
-          return {
-            ...state,
-            id: action.payload.id,
-            username: action.payload.username,
-            role: action.payload.role,
-          };
-    
-        case "LOGOUT_SUCCESS":
-          return init;
-    
-        default:
-          // Mulangin data
-          return state;
-      }
+    case 'LOGOUT_SUCCESS':
+      return init;
 
+    default:
+      return state;
+  }
 };
 
 export default authReducer;
