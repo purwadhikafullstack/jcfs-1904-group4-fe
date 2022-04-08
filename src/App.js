@@ -11,7 +11,7 @@ import ResetPassword from './Pages/ResetPassword/ResetPassword';
 import { keepLoginAction } from '../src/Store/Actions/action.js';
 
 function App() {
-  const [isLocalStorageChecked, setIsLocalStorageChecked] = useState(false);
+  const [isLocalStorageCheckedgit, setIsLocalStorageChecked] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -21,7 +21,6 @@ function App() {
       const userData = JSON.parse(userLocalStorage);
       const { user, postToken } = userData;
 
-      // const { user_id, username, role, warehouse_id } = user;
       const action = keepLoginAction({ user, postToken });
 
       dispatch(action);
