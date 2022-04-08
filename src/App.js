@@ -27,7 +27,7 @@ function App() {
       const userData = JSON.parse(userLocalStorage);
       const { user, postToken } = userData;
   
-      const { user_id, username, role, warehouse_id } = user;
+      // const { user_id, username, role, warehouse_id } = user;
       const action = keepLoginAction({ user, postToken });
   
       dispatch(action);
