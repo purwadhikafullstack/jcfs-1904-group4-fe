@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 
 import { keepLoginAction } from '../src/Store/Actions/action.js';
 
-// import Login from './Pages/Login/login';
+import Login from './Pages/Login/login';
 import Admin from './Pages/Admin/admin'
 import Client from './Pages/Client/client'
 import Address from './Pages/Client/address'
@@ -17,31 +17,34 @@ import ProductDetail from "./Pages/ProductDetail/productDetail";
 
 function App() {
 
-  // const [isLocalStorageChecked, setIsLocalStorageChecked] = useState(false);
-  // const dispatch = useDispatch();
+  const [isLocalStorageChecked, setIsLocalStorageChecked] = useState(false);
+  const dispatch = useDispatch();
   
-  // useEffect(() => {
-  //   const userLocalStorage = localStorage.getItem('userData');
+  useEffect(() => {
+    const userLocalStorage = localStorage.getItem('userData');
   
-  //   if (userLocalStorage) {
-  //     const userData = JSON.parse(userLocalStorage);
-  //     const { user, postToken } = userData;
+    if (userLocalStorage) {
+      const userData = JSON.parse(userLocalStorage);
+      const { user, postToken } = userData;
   
-      // const { user_id, username, role, warehouse_id } = user;
-  //     const action = keepLoginAction({ user, postToken });
+      const { user_id, username, role, warehouse_id } = user;
+      const action = keepLoginAction({ user, postToken });
   
-  //     dispatch(action);
-  //   }
+      dispatch(action);
+    }
   
-  //   setIsLocalStorageChecked(true);
-  // }, []);
+    setIsLocalStorageChecked(true);
+  }, []);
 
+  if(!isLocalStorageChecked) return (
+      <h1>Loading</h1>
+  )
     return (
         <Router>
             <Navigation />
             <Routes>
                 <Route path="/" element={<Products />} />
-                {/* <Route path="/login" element={<Login />} /> */}
+                <Route path="/login" element={<Login />} />
                 <Route path="/address" element={<Address />} />
                 <Route path="client" element={<Client />} />
                 <Route path="products/:product_id" element={<ProductDetail />} />

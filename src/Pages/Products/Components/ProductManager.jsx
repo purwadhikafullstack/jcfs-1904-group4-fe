@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from '../../../Config/axios'
+import axios from '../../../Config/axios';
 
 // props : paginationState, setPaginationState, setProducts
 function ProductManager(props) {
@@ -44,7 +44,6 @@ function ProductManager(props) {
     const fetchProductCategories = async () => {
       try {
         const res = await axios.get("/categories/get");
-        console.log(res)
         const { data } = res
         setProductCategories(data.categories);
       } catch (error) {
@@ -52,14 +51,14 @@ function ProductManager(props) {
       }
     };
 
-    useEffect(() => {
-      fetchProductCategories()
+    useEffect(async () => {
+      await fetchProductCategories()
     }, [])
 
     useEffect(() => {
       searchProducts()
     }, [sortOption.sortBy, sortOption.typeSort])
-    
+
     const handleChange = (e) => {
       setFormState({ ...formState, [e.target.name]: e.target.value });
     };
