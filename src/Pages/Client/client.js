@@ -7,7 +7,9 @@ import { Button } from "@mui/material";
 import axios from "../../Config/axios";
 
 function Client() {
-    const [address, setAddress] = useState()
+    const [address, setAddress] = useState();
+    const [image, setImage] = useState(null);
+    const [imagePreview, setImagePreview] = useState("");
     const user_id = useSelector((state) => state.auth.user_id);
 
     const getAddress = async () => {
@@ -18,6 +20,19 @@ function Client() {
         } catch (error) {
             console.log(alert(error.message))
         }
+    };
+
+    const postPhoto = async () => {
+        try {
+            const res = await axios.post(`/upload/${user_id}`)
+            const { data } = res;
+        }
+    }
+
+    const onImageChange = (e) => {
+        const image = e.target.files[0];
+        setImage(image);
+        setImagePreview(URL.createObjectURL(image));
     };
 
     useEffect(() => {
@@ -38,12 +53,11 @@ function Client() {
                         <Card border="secondary" style={{ width: '420px', height: '275px'}}>
                             <Card.Header>Profile Picture</Card.Header>
                             <div style={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
-                                <Card.Img variant="top" src="http://cdn.onlinewebfonts.com/svg/img_24787.png" style={{objectFit: 'cover', width: '100px', heigh: '100px'}}></Card.Img>
+                                <Card.Img variant="top" src={imagePreview} style={{objectFit: 'cover', width: '100px', heigh: '100px'}}></Card.Img>
                             </div>
-                            <Card.Body style={{display: 'flex', justifyContent: 'center'}}>
-                                <div>
-                                    <Button color="primary" style={{marginInline: '10px'}}>Add / Edit</Button>
-                                </div>
+                            <Card.Body style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
+                                    <input type="file" onChange={onImageChange} style={{paddingLeft: '60px'}}></input>
+                                    <Button>Save</Button>
                             </Card.Body>
                         </Card>
 
