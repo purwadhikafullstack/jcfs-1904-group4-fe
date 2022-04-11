@@ -17,12 +17,30 @@ function Client() {
         gender: ""
     });
 
-    
+    console.log(typeof(imagePreview));
+    console.log(imagePreview);
+    console.log(user_id)
+    console.log(image)
+
     const getAddress = async () => {
         try {
             const res = await axios.get(`/address/${user_id}`);
             const { data } = res;
             setAddress(data.address[0]);
+            
+        } catch (error) {
+            console.log(alert(error.message))
+        }
+    };
+
+    const getProfilePicture = async () => {
+        try {
+            const res = await axios.get(`/users/picture/${user_id}`);
+            const { data } = res;
+            const dataImage = data.result[0][0];
+            console.log(data)
+            console.log(data.result[0][0])
+            setImagePreview(dataImage);
             
         } catch (error) {
             console.log(alert(error.message))
@@ -45,15 +63,24 @@ function Client() {
         }
     };
 
-    // const postPhoto = async () => {
-    //     try {
-    //         const res = await axios.post(`/upload/${user_id}`)
-    //         const { data } = res;
-    //     }
-    // }
+    const postPhoto = async () => {
+        try {
+            const formData = new FormData();
+            formData.append("profile_image_name", image);
+
+            const res = await axios.post(`/users/upload/${user_id}`,
+            formData
+            );
+
+            alert("Update was successful")
+        } catch (error) {
+            console.log(alert(error.message))
+        }
+    }; 
 
     const onImageChange = (e) => {
         const image = e.target.files[0];
+        console.log(image)
         setImage(image);
         setImagePreview(URL.createObjectURL(image));
     };
@@ -64,7 +91,9 @@ function Client() {
 
     useEffect(() => {
         getAddress();
+        getProfilePicture();
     }, []);
+    
 
     return (
         <div style={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
@@ -78,13 +107,22 @@ function Client() {
                     <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around', marginInline: '30px'}}>
 
                         <Card border="secondary" style={{ width: '420px', height: '275px'}}>
+
                             <Card.Header>Profile Picture</Card.Header>
-                            <div style={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
-                                <Card.Img variant="top" src={imagePreview} style={{objectFit: 'cover', width: '100px', heigh: '100px'}}></Card.Img>
+
+                            <div style={{display: 'flex', justifyContent: 'center', marginTop: '15px'}}>
+                                <Card.Img 
+                                    variant="top" 
+                                    src={imagePreview} 
+                                    style={{objectFit: 'cover', width: '100px', height: '100px', borderRadius: '50%'}}
+                                >
+                                </Card.Img>
                             </div>
-                            <Card.Body style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
-                                    <input type="file" onChange={onImageChange} style={{paddingLeft: '60px'}}></input>
-                                    <Button>Save</Button>
+                            <Card.Body style={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', paddingTop: '8px'}}>
+                                <input type="file" alt="Profile Picture" onChange={onImageChange} style={{paddingLeft: '110px'}}></input>
+                                <Button className="mt-2" variant="outlined" color="primary" onClick={postPhoto}>
+                                    Save
+                                </Button>
                             </Card.Body>
                         </Card>
 
@@ -106,10 +144,13 @@ function Client() {
                                 </select>
                             </Card.Body>
                         </Card>
+
                     </div>
 
-                    <div style={{display: 'flex', justifyContent: 'center', marginTop: '35px', }}>
-                        <Button color="primary" style={{width: '850px'}} onClick={saveData}>Save Changes</Button>
+                    <div style={{display: 'flex', justifyContent: 'center', marginTop: '35px'}}>
+                        <Button color="primary" style={{width: '850px'}} onClick={saveData}>
+                            Save Changes
+                        </Button>
                     </div>
 
                     <div style={{display: 'flex', justifyContent: 'center', marginInline: '30px'}}>
@@ -134,7 +175,6 @@ function Client() {
                         </Card>
                     </div>
                 </div>
-
             </Card>
         </div>
     )
