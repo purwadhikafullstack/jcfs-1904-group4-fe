@@ -1,16 +1,16 @@
-import axios from '../../Config/axios';
+import axios from '../../Config/axios.js';
 import React, { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginAction } from '../../Store/Actions/action.js';
 import './login.css';
-import { Form, Button } from 'react-bootstrap';
+
+import { Button, Form } from 'react-bootstrap';
 import { GoogleLoginButton } from 'react-social-login-buttons';
 
 function Login() {
   const dispatch = useDispatch();
-  const username = useSelector((state) => state.auth.username);
-  const getToken = useSelector((state) => state.auth.token);
+  const { username, getToken } = useSelector((state) => state.auth);
 
   const [formState, setFormState] = useState({
     username: '',
