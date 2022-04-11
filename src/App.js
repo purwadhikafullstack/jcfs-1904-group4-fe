@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { keepLoginAction } from "../src/Store/Actions/action.js";
 
 import Login from "./Pages/Login/login";
-import Admin from "./Pages/Admin/admin";
+// import Admin from "./Pages/Admin/admin";
 import Client from "./Pages/Client/client";
 import Address from "./Pages/Client/address";
 import Products from "./Pages/Products/products";
