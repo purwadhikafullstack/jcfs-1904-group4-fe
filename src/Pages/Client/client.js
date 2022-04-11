@@ -22,12 +22,12 @@ function Client() {
         }
     };
 
-    const postPhoto = async () => {
-        try {
-            const res = await axios.post(`/upload/${user_id}`)
-            const { data } = res;
-        }
-    }
+    // const postPhoto = async () => {
+    //     try {
+    //         const res = await axios.post(`/upload/${user_id}`)
+    //         const { data } = res;
+    //     }
+    // }
 
     const onImageChange = (e) => {
         const image = e.target.files[0];
