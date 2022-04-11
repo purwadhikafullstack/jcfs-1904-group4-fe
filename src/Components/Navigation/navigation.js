@@ -8,6 +8,7 @@ function Navigation() {
   const { username, role } = useSelector((state) => state.auth);
 
   const onLogoutClick = () => {
+    localStorage.removeItem('userData');
     dispatch(logoutAction());
   };
 
@@ -52,7 +53,7 @@ function Navigation() {
                 <Nav.Link href="/cart" style={{ color: 'green' }}>
                   My Cart
                 </Nav.Link>
-                <Nav.Link href="/" style={{ color: 'green' }}>
+                <Nav.Link href="/" style={{ color: 'green' }} onClick={onLogoutClick}>
                   Logout
                 </Nav.Link>
               </Nav>
@@ -80,7 +81,7 @@ function Navigation() {
 
               <Nav style={{ marginRight: '20px' }}>
                 <Nav.Link style={{ color: 'green' }}>{username}</Nav.Link>
-                <Nav.Link href="/" style={{ color: 'green' }}>
+                <Nav.Link href="/" style={{ color: 'green' }} onClick={onLogoutClick}>
                   Logout
                 </Nav.Link>
               </Nav>
@@ -108,7 +109,7 @@ function Navigation() {
 
               <Nav style={{ marginRight: '20px' }}>
                 <Nav.Link style={{ color: 'green' }}>{username}</Nav.Link>
-                <Nav.Link href="/" style={{ color: 'green' }}>
+                <Nav.Link href="/" style={{ color: 'green' }} onClick={onLogoutClick}>
                   Logout
                 </Nav.Link>
               </Nav>
