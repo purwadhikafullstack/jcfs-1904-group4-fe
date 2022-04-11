@@ -6,16 +6,40 @@ import { Button } from "@mui/material";
 import axios from "../../Config/axios";
 
 function Client() {
-    const [address, setAddress] = useState();
     const [image, setImage] = useState(null);
     const [imagePreview, setImagePreview] = useState("");
     const user_id = useSelector((state) => state.auth.user_id);
+    const [address, setAddress] = useState([]);
+    const [profileData, setProfileData] = useState({
+        full_name: "",
+        email: "",
+        age: "",
+        gender: ""
+    });
 
+    
     const getAddress = async () => {
         try {
-            const res = await axios.get(`/address/${user_id}`)
+            const res = await axios.get(`/address/${user_id}`);
             const { data } = res;
-            setAddress(data.address)
+            setAddress(data.address[0]);
+            
+        } catch (error) {
+            console.log(alert(error.message))
+        }
+    };
+
+    const saveData = async () => {
+        try {
+            const res = await axios.put(`/users/${user_id}`,
+            {
+                full_name: profileData.full_name,
+                gender: profileData.gender,
+                email: profileData.email,
+                age: profileData.age,
+            });
+
+            alert("Update was successful")
         } catch (error) {
             console.log(alert(error.message))
         }
@@ -32,6 +56,10 @@ function Client() {
         const image = e.target.files[0];
         setImage(image);
         setImagePreview(URL.createObjectURL(image));
+    };
+
+    const handleChange = (e) => {
+        setProfileData({...profileData, [e.target.name]: e.target.value})
     };
 
     useEffect(() => {
