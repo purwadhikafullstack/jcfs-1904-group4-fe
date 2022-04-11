@@ -62,7 +62,7 @@ function Login() {
       </h1>
 
       <FormGroup>
-        <Label>Username</Label>
+        <Label>Username*</Label>
         <Input type="text" name="username" placeholder="Username" onChange={handleChange} onKeyPress={onInputPress}></Input>
       </FormGroup>
       <FormGroup>
