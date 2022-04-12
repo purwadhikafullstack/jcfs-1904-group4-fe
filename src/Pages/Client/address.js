@@ -8,16 +8,8 @@ import { ArrowBack } from "@mui/icons-material";
 
 function Address() {
     const [address, setAddress] = useState([])
+    const [editAddress, setEditAddress] = useState([]);
     const [formState, setFormState] = useState({
-        detail_address: '',
-        province: '',
-        city: '',
-        district: '',
-        village: '',
-        postal_code: '',
-        is_default: '1'
-    });
-    const [editFormState, setEditFormState] = useState({
         detail_address: '',
         province: '',
         city: '',
@@ -28,11 +20,38 @@ function Address() {
     });
     const user_id = useSelector((state) => state.auth.user_id);
 
+    console.log(address)
+    console.log(formState)
+    console.log(editAddress)
+
     const getAddress = async () => {
         try {
             const res = await axios.get(`/address/${user_id}`)
             const { data } = res;
+            console.log(res)
+            console.log(data)
+            console.log(data.address)
             setAddress(data.address)
+        } catch (error) {
+            console.log(alert(error.message))
+        }
+    };
+
+    const postNewAddress = async () => {
+        try {
+            const res = await axios.post(`/address/new/${user_id}`,
+            {
+                user_id: user_id,
+                detail_address: formState.detail_address,
+                province: formState.province,
+                city: formState.city,
+                district: formState.district,
+                village: formState.village,
+                postal_code: formState.postal_code,
+                is_default: formState.is_default
+            })
+
+            alert("Address Successfully Added")
         } catch (error) {
             console.log(alert(error.message))
         }
@@ -41,6 +60,10 @@ function Address() {
     const handleChange = (e) => {
         setFormState({...formState, [e.target.name]: e.target.value})
     };
+
+    const selectAddress = (e) => {
+        setEditAddress({...editAddress, [e.target.name]: e.target.value})
+    }
 
     useEffect(() => {
         getAddress();
@@ -60,49 +83,6 @@ function Address() {
                             <i class="bi bi-plus-lg" style={{marginRight: '15px'}}></i>
                             Add New Address</Card.Header>
                         <Card.Body>
-                            <input type="text" className="form-control mt-2" placeholder="Full Address" aria-label="Username" aria-describedby="basic-addon1"
-                                   onChange={handleChange} name="detail_address" value=""
-                            />
-                            <input type="text" className="form-control mt-2" placeholder="Province" aria-label="Username" aria-describedby="basic-addon1"
-                                   onChange={handleChange} name="province" value=""
-                            />
-                            <input type="text" className="form-control mt-2" placeholder="City" aria-label="Username" aria-describedby="basic-addon1"
-                                   onChange={handleChange} name="city" value=""
-                            />
-                            <input type="text" className="form-control mt-2" placeholder="District" aria-label="Username" aria-describedby="basic-addon1"
-                                   onChange={handleChange} name="district" value=""
-                            />
-                            <input type="text" className="form-control mt-2" placeholder="Village" aria-label="Username" aria-describedby="basic-addon1"
-                                   onChange={handleChange} name="village" value=""
-                            />
-                            <input type="text" className="form-control mt-2" placeholder="Postal Code" aria-label="Username" aria-describedby="basic-addon1"
-                                   onChange={handleChange} name="postal_code" value=""
-                            />
-
-                            <h5 className="ml-2 mt-4">Set as default address ?</h5>
-                            <select className="form-control mt-3" onChange={handleChange} name="is_default">
-                                <option value="1">Yes</option>
-                                <option value="0">No</option>
-                            </select>
-
-                            <Button variant="outlined" color="success" className="mt-4" style={{width: '200px'}}>
-                                Add Address
-                            </Button>
-                        </Card.Body>
-                    </Card>
-                    <Card style={{width: '1000px', height: '610px', marginTop: '40px'}}>
-                        <Card.Header>
-                            <i class="bi bi-pencil" style={{marginRight: '15px'}}></i>
-                            Edit Address
-                        </Card.Header>
-
-                        <Card.Body>
-                            <h5 className="ml-2">Which address to edit ?</h5>
-                            <select className="form-control mt-3">
-                            {/* {address.map((add) => 
-                                <option key={add.address_id} value={add.address_id}>{add.detail_address}</option>
-                            )} */}
-                            </select>
                             <input type="text" className="form-control mt-2" placeholder="Full Address" aria-label="Username" aria-describedby="basic-addon1"
                                    onChange={handleChange} name="detail_address"
                             />
@@ -124,6 +104,52 @@ function Address() {
 
                             <h5 className="ml-2 mt-4">Set as default address ?</h5>
                             <select className="form-control mt-3" onChange={handleChange} name="is_default">
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+
+                            <Button variant="outlined" color="success" className="mt-4" style={{width: '200px'}}
+                                    onClick={postNewAddress}
+                            >
+                                Add Address
+                            </Button>
+                        </Card.Body>
+                    </Card>
+
+                    <Card style={{width: '1000px', height: '610px', marginTop: '40px'}}>
+                        <Card.Header>
+                            <i class="bi bi-pencil" style={{marginRight: '15px'}}></i>
+                            Edit Address
+                        </Card.Header>
+
+                        <Card.Body>
+                            <h5 className="ml-2">Which address to edit ?</h5>
+                            <select className="form-control mt-3" onChange={selectAddress}>
+                                {address.map((add) => 
+                                    <option key={add.address_id} value={add.address_id}>{add.detail_address}</option>
+                                )}
+                            </select>
+                            <input type="text" className="form-control mt-2" placeholder="Full Address" aria-label="Username" aria-describedby="basic-addon1"
+                                    name="detail_address" value={address.detail_address}
+                            />
+                            <input type="text" className="form-control mt-2" placeholder="Province" aria-label="Username" aria-describedby="basic-addon1"
+                                    name="province" value={address.province}
+                            />
+                            <input type="text" className="form-control mt-2" placeholder="City" aria-label="Username" aria-describedby="basic-addon1"
+                                    name="city" value={address.city}
+                            />
+                            <input type="text" className="form-control mt-2" placeholder="District" aria-label="Username" aria-describedby="basic-addon1"
+                                    name="district" value={address.district}
+                            />
+                            <input type="text" className="form-control mt-2" placeholder="Village" aria-label="Username" aria-describedby="basic-addon1"
+                                    name="village" value={address.village}
+                            />
+                            <input type="text" className="form-control mt-2" placeholder="Postal Code" aria-label="Username" aria-describedby="basic-addon1"
+                                    name="postal_code" value={address.postal_code}
+                            />
+
+                            <h5 className="ml-2 mt-4">Set as default address ?</h5>
+                            <select className="form-control mt-3" name="is_default">
                                 <option value="1">Yes</option>
                                 <option value="0">No</option>
                             </select>

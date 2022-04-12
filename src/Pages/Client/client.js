@@ -19,12 +19,11 @@ function Client() {
 
     console.log(typeof(imagePreview));
     console.log(imagePreview);
-    console.log(user_id)
     console.log(image)
-
+    
     const getAddress = async () => {
         try {
-            const res = await axios.get(`/address/${user_id}`);
+            const res = await axios.get(`/address/default/${user_id}`);
             const { data } = res;
             setAddress(data.address[0]);
             
@@ -32,19 +31,28 @@ function Client() {
             console.log(alert(error.message))
         }
     };
-
-    const getProfilePicture = async () => {
-        try {
-            const res = await axios.get(`/users/picture/${user_id}`);
-            const { data } = res;
-            const dataImage = data.result[0][0];
-            console.log(data)
-            console.log(data.result[0][0])
-            setImagePreview(dataImage);
+    
+    // const getProfilePicture = async () => {
+    //     try {
+    //         const res = await axios.get(`/users/picture/${user_id}`);
+    //         const { data } = res;
+    //         const dataImage = data.result[0][0];
+    //         console.log(data)
+    //         console.log(data.result[0][0])
+    //         setImagePreview(dataImage);
             
-        } catch (error) {
-            console.log(alert(error.message))
-        }
+    //     } catch (error) {
+    //         console.log(alert(error.message))
+    //     }
+    // };
+
+    const imageURL = `http://localhost:2022/public/photos/${user_id}-photo.jpg`
+    const fetchProfilePicture = async () => {
+        const res = await fetch(imageURL);
+        const imageBlob = await res.blob();
+        const imageObjectURL = URL.createObjectURL(imageBlob);
+        console.log(imageObjectURL)
+        setImagePreview(imageObjectURL);
     };
 
     const saveData = async () => {
@@ -66,7 +74,7 @@ function Client() {
     const postPhoto = async () => {
         try {
             const formData = new FormData();
-            formData.append("profile_image_name", image);
+            formData.append("photo", image);
 
             const res = await axios.post(`/users/upload/${user_id}`,
             formData
@@ -80,7 +88,6 @@ function Client() {
 
     const onImageChange = (e) => {
         const image = e.target.files[0];
-        console.log(image)
         setImage(image);
         setImagePreview(URL.createObjectURL(image));
     };
@@ -91,7 +98,7 @@ function Client() {
 
     useEffect(() => {
         getAddress();
-        getProfilePicture();
+        fetchProfilePicture();
     }, []);
     
 
