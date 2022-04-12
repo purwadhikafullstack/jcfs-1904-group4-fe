@@ -8,10 +8,18 @@ import { ArrowBack } from "@mui/icons-material";
 
 function Address() {
     const [address, setAddress] = useState([])
+    const [editChosenAddress, setEditChosenAddress] = useState({
+        detail_address: '',
+        province: '',
+        city: '',
+        district: '',
+        village: '',
+        postal_code: '',
+        is_default: '1'
+    })
     const [chooseAddress, setChooseAddress] = useState({
-        address_id: ''
+        address_id: '1'
     });
-    const [editChosenAddress, setEditChosenAddress] = useState([])
     const [formState, setFormState] = useState({
         detail_address: '',
         province: '',
@@ -21,10 +29,11 @@ function Address() {
         postal_code: '',
         is_default: '1'
     });
+
     const user_id = useSelector((state) => state.auth.user_id);
 
     console.log(chooseAddress)
-    console.log(editChosenAddress)
+    console.log({editChosenAddress})
 
     const getAddress = async () => {
         try {
@@ -40,10 +49,28 @@ function Address() {
     const getChosenAddress = async () => {
         try {
             const res = await axios.get(`/address/chosen/${chooseAddress.address_id}`);
-            console.log(res)
             const { data } = res;
-            console.log(data)
-            setEditChosenAddress(data)
+        
+            setEditChosenAddress(data.address[0])
+        } catch (error) {
+            console.log(alert(error.message))
+        }
+    };
+
+    const patchAddress = async () => {
+        try {
+            const res = await axios.put(`/address/put/${chooseAddress.address_id}`,
+            {
+                detail_address: editChosenAddress.detail_address,
+                province: editChosenAddress.province,
+                city: editChosenAddress.city,
+                district: editChosenAddress.district,
+                village: editChosenAddress.village,
+                postal_code: editChosenAddress.postal_code,
+                is_default: editChosenAddress.is_default
+            });
+
+            alert("Update was successful")
         } catch (error) {
             console.log(alert(error.message))
         }
@@ -75,6 +102,10 @@ function Address() {
 
     const selectAddress = (e) => {
         setChooseAddress({...chooseAddress, [e.target.name]: e.target.value})
+    };
+
+    const editChange = (e) => {
+        setEditChosenAddress({...editChosenAddress, [e.target.name]: e.target.value})
     }
 
     useEffect(() => {
@@ -140,28 +171,28 @@ function Address() {
 
                         <Card.Body>
                             <h5 className="ml-2">Which address to edit ?</h5>
-                            <select className="form-control mt-3" onChange={selectAddress}>
+                            <select className="form-control mt-3" onChange={selectAddress} name="address_id">
                                 {address.map((add) => 
-                                    <option key={add.address_id} value={add.address_id} name="address_id">{add.detail_address}</option>
+                                    <option key={add.address_id} value={add.address_id}>{add.detail_address}</option>
                                 )}
                             </select>
                             <input type="text" className="form-control mt-2" placeholder="Full Address" aria-label="Username" aria-describedby="basic-addon1"
-                                    name="detail_address" value={address.detail_address}
+                                    onChange={editChange} name="detail_address" value={editChosenAddress.detail_address}
                             />
                             <input type="text" className="form-control mt-2" placeholder="Province" aria-label="Username" aria-describedby="basic-addon1"
-                                    name="province" value={address.province}
+                                    onChange={editChange} name="province" value={editChosenAddress.province}
                             />
                             <input type="text" className="form-control mt-2" placeholder="City" aria-label="Username" aria-describedby="basic-addon1"
-                                    name="city" value={address.city}
+                                    onChange={editChange} name="city" value={editChosenAddress.city}
                             />
                             <input type="text" className="form-control mt-2" placeholder="District" aria-label="Username" aria-describedby="basic-addon1"
-                                    name="district" value={address.district}
+                                    onChange={editChange} name="district" value={editChosenAddress.district}
                             />
                             <input type="text" className="form-control mt-2" placeholder="Village" aria-label="Username" aria-describedby="basic-addon1"
-                                    name="village" value={address.village}
+                                    onChange={editChange} name="village" value={editChosenAddress.village}
                             />
                             <input type="text" className="form-control mt-2" placeholder="Postal Code" aria-label="Username" aria-describedby="basic-addon1"
-                                    name="postal_code" value={address.postal_code}
+                                    onChange={editChange} name="postal_code" value={editChosenAddress.postal_code}
                             />
 
                             <h5 className="ml-2 mt-4">Set as default address ?</h5>
@@ -170,7 +201,9 @@ function Address() {
                                 <option value="0">No</option>
                             </select>
 
-                            <Button variant="outlined" color="success" className="mt-4" style={{width: '200px'}}>
+                            <Button variant="outlined" color="success" className="mt-4" style={{width: '200px'}}
+                                    onClick={patchAddress}
+                            >
                                 Save Changes
                             </Button>
                         </Card.Body>

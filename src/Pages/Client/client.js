@@ -16,7 +16,7 @@ function Client() {
         age: "",
         gender: ""
     });
-    
+
     const getAddress = async () => {
         try {
             const res = await axios.get(`/address/default/${user_id}`);
@@ -156,7 +156,7 @@ function Client() {
                                     <h6>Postal Code: {address.postal_code}</h6>
                                 </div>
                                 <div className="mt-2" style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
-                                    <Button variant="outlined" color="primary" style={{fontSize: '15px', height: '40px', marginLeft: '10px'}} href="/address">
+                                    <Button variant="outlined" color="primary" style={{fontSize: '15px', height: '40px', marginLeft: '10px'}} href='/address'>
                                         Add / Edit Address
                                     </Button>
                                 </div>
