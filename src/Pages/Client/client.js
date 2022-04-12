@@ -16,10 +16,6 @@ function Client() {
         age: "",
         gender: ""
     });
-
-    console.log(typeof(imagePreview));
-    console.log(imagePreview);
-    console.log(image)
     
     const getAddress = async () => {
         try {
@@ -31,22 +27,8 @@ function Client() {
             console.log(alert(error.message))
         }
     };
-    
-    // const getProfilePicture = async () => {
-    //     try {
-    //         const res = await axios.get(`/users/picture/${user_id}`);
-    //         const { data } = res;
-    //         const dataImage = data.result[0][0];
-    //         console.log(data)
-    //         console.log(data.result[0][0])
-    //         setImagePreview(dataImage);
-            
-    //     } catch (error) {
-    //         console.log(alert(error.message))
-    //     }
-    // };
 
-    const imageURL = `http://localhost:2022/public/photos/${user_id}-photo.jpg`
+    const imageURL = `http://localhost:2022/photos/${user_id}-photo.jpg`
     const fetchProfilePicture = async () => {
         const res = await fetch(imageURL);
         const imageBlob = await res.blob();

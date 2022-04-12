@@ -8,7 +8,10 @@ import { ArrowBack } from "@mui/icons-material";
 
 function Address() {
     const [address, setAddress] = useState([])
-    const [editAddress, setEditAddress] = useState([]);
+    const [chooseAddress, setChooseAddress] = useState({
+        address_id: ''
+    });
+    const [editChosenAddress, setEditChosenAddress] = useState([])
     const [formState, setFormState] = useState({
         detail_address: '',
         province: '',
@@ -20,18 +23,27 @@ function Address() {
     });
     const user_id = useSelector((state) => state.auth.user_id);
 
-    console.log(address)
-    console.log(formState)
-    console.log(editAddress)
+    console.log(chooseAddress)
+    console.log(editChosenAddress)
 
     const getAddress = async () => {
         try {
             const res = await axios.get(`/address/${user_id}`)
             const { data } = res;
-            console.log(res)
-            console.log(data)
-            console.log(data.address)
+
             setAddress(data.address)
+        } catch (error) {
+            console.log(alert(error.message))
+        }
+    };
+
+    const getChosenAddress = async () => {
+        try {
+            const res = await axios.get(`/address/chosen/${chooseAddress.address_id}`);
+            console.log(res)
+            const { data } = res;
+            console.log(data)
+            setEditChosenAddress(data)
         } catch (error) {
             console.log(alert(error.message))
         }
@@ -39,7 +51,7 @@ function Address() {
 
     const postNewAddress = async () => {
         try {
-            const res = await axios.post(`/address/new/${user_id}`,
+            const res = await axios.post(`/address/new`,
             {
                 user_id: user_id,
                 detail_address: formState.detail_address,
@@ -62,8 +74,12 @@ function Address() {
     };
 
     const selectAddress = (e) => {
-        setEditAddress({...editAddress, [e.target.name]: e.target.value})
+        setChooseAddress({...chooseAddress, [e.target.name]: e.target.value})
     }
+
+    useEffect(() => {
+        getChosenAddress();
+    }, [chooseAddress]);
 
     useEffect(() => {
         getAddress();
@@ -126,7 +142,7 @@ function Address() {
                             <h5 className="ml-2">Which address to edit ?</h5>
                             <select className="form-control mt-3" onChange={selectAddress}>
                                 {address.map((add) => 
-                                    <option key={add.address_id} value={add.address_id}>{add.detail_address}</option>
+                                    <option key={add.address_id} value={add.address_id} name="address_id">{add.detail_address}</option>
                                 )}
                             </select>
                             <input type="text" className="form-control mt-2" placeholder="Full Address" aria-label="Username" aria-describedby="basic-addon1"
