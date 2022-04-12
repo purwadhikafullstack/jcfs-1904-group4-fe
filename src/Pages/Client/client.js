@@ -19,10 +19,10 @@ function Client() {
 
     const getAddress = async () => {
         try {
-            const res = await axios.get(`/address/default/${user_id}`);
+            const res = await axios.get(`/address/${user_id}`);
             const { data } = res;
             setAddress(data.address[0]);
-            
+
         } catch (error) {
             console.log(alert(error.message))
         }

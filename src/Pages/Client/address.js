@@ -32,7 +32,6 @@ function Address() {
     
     const user_id = useSelector((state) => state.auth.user_id);
     
-    
     useEffect(() => {
         getAddress();
     }, []);
@@ -169,7 +168,6 @@ function Address() {
                             </Button>
                         </Card.Body>
                     </Card>
-
                     <Card style={{width: '1000px', height: '610px', marginTop: '40px'}}>
                         <Card.Header>
                             <i class="bi bi-pencil" style={{marginRight: '15px'}}></i>

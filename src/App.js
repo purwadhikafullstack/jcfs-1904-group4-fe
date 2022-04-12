@@ -43,8 +43,8 @@ function App() {
         <Route path="/" element={<Products />} />
         <Route path="/login" element={<Login />} />
         <Route path="/address" element={<Address />} />
-        <Route path="/client" element={<Client />} />
-        <Route path="/products/:product_id" element={<ProductDetail />} />
+        <Route path="client" element={<Client />} />
+        <Route path="products/:product_id" element={<ProductDetail />} />
       </Routes>
     </Router>
   );
