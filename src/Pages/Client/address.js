@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux"
+import axios from "../../Config/axios";
 
 import { Card } from "react-bootstrap";
 import { Button } from "@mui/material";
-import axios from "../../Config/axios";
 import { ArrowBack } from "@mui/icons-material";
 
 function Address() {
@@ -16,9 +16,9 @@ function Address() {
         village: '',
         postal_code: '',
         is_default: '1'
-    })
+    });
     const [chooseAddress, setChooseAddress] = useState({
-        address_id: '1'
+        address_id: ''
     });
     const [formState, setFormState] = useState({
         detail_address: '',
@@ -29,11 +29,25 @@ function Address() {
         postal_code: '',
         is_default: '1'
     });
-
+    
     const user_id = useSelector((state) => state.auth.user_id);
-
-    console.log(chooseAddress)
-    console.log({editChosenAddress})
+    
+    
+    useEffect(() => {
+        getAddress();
+    }, []);
+    
+    useEffect(() => {
+        if (address.length) {
+            setChooseAddress({ address_id: address[0].address_id })
+        }
+    }, [address])
+    
+    useEffect(() => {
+        if (chooseAddress.address_id) {
+            getChosenAddress()
+        };
+    }, [chooseAddress]);
 
     const getAddress = async () => {
         try {
@@ -108,13 +122,6 @@ function Address() {
         setEditChosenAddress({...editChosenAddress, [e.target.name]: e.target.value})
     }
 
-    useEffect(() => {
-        getChosenAddress();
-    }, [chooseAddress]);
-
-    useEffect(() => {
-        getAddress();
-    }, []);
 
     return (
         <div>
@@ -197,8 +204,8 @@ function Address() {
 
                             <h5 className="ml-2 mt-4">Set as default address ?</h5>
                             <select className="form-control mt-3" name="is_default">
-                                <option value="1">Yes</option>
                                 <option value="0">No</option>
+                                <option value="1">Yes</option>
                             </select>
 
                             <Button variant="outlined" color="success" className="mt-4" style={{width: '200px'}}
