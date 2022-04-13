@@ -22,18 +22,6 @@ function ProductDetail() {
     }
   };
 
-  // // useEffect(() => {
-  // //   axios
-  // //     .get("/products/:product_id", { params: { product_id: params.product_id } })
-  // //     .then((res) => {
-  // //       console.log(res)
-  // //       setProduct(res.data[0]);
-  // //     })
-  // //     .catch((err) => {
-  // //       console.log({ err });
-  // //     });
-  // // }, []);
-
   useEffect(() => {
     getProducts()
   }, [])
