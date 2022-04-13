@@ -74,8 +74,9 @@ function Navigation() {
               <Nav className="me-auto" navbarScroll>
                 <Nav.Link href="/manage-products">Manage Products</Nav.Link>
                 <Nav.Link href="/manage-transactions">Transactions</Nav.Link>
-                <Nav.Link href="/requests" style={{ marginRight: '7px' }}>
-                  Requests
+                <Nav.Link href="/requests">Requests</Nav.Link>
+                <Nav.Link href="/sales-report" style={{ marginRight: '7px' }}>
+                  Sales Report
                 </Nav.Link>
               </Nav>
 

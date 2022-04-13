@@ -9,6 +9,7 @@ import Login from './Pages/Login/Login';
 import Register from './Pages/Register/Register';
 import ForgotPassword from './Pages/ForgotPassword/ForgotPassword';
 import ResetPassword from './Pages/ResetPassword/ResetPassword';
+import SalesReport from './Pages/SalesReport/SalesReport';
 import Admin from './Pages/Admin/admin';
 import Client from './Pages/Client/client';
 import Address from './Pages/Client/address';
@@ -46,6 +47,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password/:token" element={<ResetPassword />} />
+            <Route path="/sales-report" element={<SalesReport />} />
             <Route path="/" element={<Products />} />
             <Route path="/address" element={<Address />} />
             <Route path="client" element={<Client />} />
