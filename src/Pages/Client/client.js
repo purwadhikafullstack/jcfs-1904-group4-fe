@@ -6,6 +6,10 @@ import { Button } from "@mui/material";
 import axios from "../../Config/axios";
 
 function Client() {
+    const [image, setImage] = useState(null);
+    const [imagePreview, setImagePreview] = useState("");
+    const user_id = useSelector((state) => state.auth.user_id);
+    const getToken = useSelector((state) => state.auth.token);
     const [address, setAddress] = useState([]);
     const [profileData, setProfileData] = useState({
         full_name: "",
@@ -13,11 +17,6 @@ function Client() {
         age: "",
         gender: ""
     });
-    const { user_id } = useSelector((state) => state.auth);
-
-    const handleChange = (e) => {
-        setProfileData({...profileData, [e.target.name]: e.target.value})
-    };
 
     const getAddress = async () => {
         try {
@@ -28,6 +27,15 @@ function Client() {
         } catch (error) {
             console.log(alert(error.message))
         }
+    };
+
+    const imageURL = `http://localhost:2022/photos/${user_id}-photo.jpg`
+    const fetchProfilePicture = async () => {
+        const res = await fetch(imageURL);
+        const imageBlob = await res.blob();
+        const imageObjectURL = URL.createObjectURL(imageBlob);
+        console.log(imageObjectURL)
+        setImagePreview(imageObjectURL);
     };
 
     const saveData = async () => {
@@ -46,9 +54,40 @@ function Client() {
         }
     };
 
+    const postPhoto = async () => {
+        try {
+            const formData = new FormData();
+            formData.append("photo", image);
+
+            const res = await axios.post(`/users/upload/${user_id}`,
+            formData,
+            {
+                headers: {
+                    Authorization: `Bearer ${getToken}`,
+                  }
+            });
+
+            alert("Update was successful")
+        } catch (error) {
+            console.log(alert(error.message))
+        }
+    }; 
+
+    const onImageChange = (e) => {
+        const image = e.target.files[0];
+        setImage(image);
+        setImagePreview(URL.createObjectURL(image));
+    };
+
+    const handleChange = (e) => {
+        setProfileData({...profileData, [e.target.name]: e.target.value})
+    };
+
     useEffect(() => {
         getAddress();
+        fetchProfilePicture();
     }, []);
+    
 
     return (
         <div style={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
@@ -62,14 +101,22 @@ function Client() {
                     <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around', marginInline: '30px'}}>
 
                         <Card border="secondary" style={{ width: '420px', height: '275px'}}>
+
                             <Card.Header>Profile Picture</Card.Header>
-                            <div style={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
-                                <Card.Img variant="top" src="http://cdn.onlinewebfonts.com/svg/img_24787.png" style={{objectFit: 'cover', width: '100px', heigh: '100px'}}></Card.Img>
+
+                            <div style={{display: 'flex', justifyContent: 'center', marginTop: '15px'}}>
+                                <Card.Img 
+                                    variant="top" 
+                                    src={imagePreview} 
+                                    style={{objectFit: 'cover', width: '100px', height: '100px', borderRadius: '50%'}}
+                                >
+                                </Card.Img>
                             </div>
-                            <Card.Body style={{display: 'flex', justifyContent: 'center'}}>
-                                <div>
-                                    <Button color="primary" style={{marginInline: '10px'}}>Add / Edit</Button>
-                                </div>
+                            <Card.Body style={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', paddingTop: '8px'}}>
+                                <input type="file" alt="Profile Picture" onChange={onImageChange} style={{paddingLeft: '110px'}}></input>
+                                <Button className="mt-2" variant="outlined" color="primary" onClick={postPhoto}>
+                                    Save
+                                </Button>
                             </Card.Body>
                         </Card>
 
@@ -91,10 +138,13 @@ function Client() {
                                 </select>
                             </Card.Body>
                         </Card>
+
                     </div>
 
-                    <div style={{display: 'flex', justifyContent: 'center', marginTop: '35px', }}>
-                        <Button color="primary" style={{width: '850px'}} onClick={saveData}>Save Changes</Button>
+                    <div style={{display: 'flex', justifyContent: 'center', marginTop: '35px'}}>
+                        <Button color="primary" style={{width: '850px'}} onClick={saveData}>
+                            Save Changes
+                        </Button>
                     </div>
 
                     <div style={{display: 'flex', justifyContent: 'center', marginInline: '30px'}}>
@@ -111,7 +161,7 @@ function Client() {
                                     <h6>Postal Code: {address.postal_code}</h6>
                                 </div>
                                 <div className="mt-2" style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
-                                    <Button variant="outlined" color="primary" style={{fontSize: '15px', height: '40px', marginLeft: '10px'}} href="/address">
+                                    <Button variant="outlined" color="primary" style={{fontSize: '15px', height: '40px', marginLeft: '10px'}} href='/address'>
                                         Add / Edit Address
                                     </Button>
                                 </div>
@@ -119,7 +169,6 @@ function Client() {
                         </Card>
                     </div>
                 </div>
-
             </Card>
         </div>
     )
