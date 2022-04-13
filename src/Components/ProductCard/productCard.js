@@ -11,7 +11,7 @@ function ProductCard(props) {
     const [cartState, setCartState] = useState([]);
     console.log(cartState)
 
-    const { product_id, product_name, price, product_image_name } = props.products;
+    const { product_id, product_name, price, product_image_name } = props.product;
     const user_id = useSelector((state) => state.auth.user_id);
 
     const  getCart = async () => {
@@ -24,39 +24,39 @@ function ProductCard(props) {
         }
     };
 
-    const addQuantity = async () => {
-        try {
-            const res = await axios.post(`/cart/add/${product_id}`,
-            {
-                user_id: user_id,
-                product_name: product_name,
-                product_image_name: product_image_name,
-                product_price: price,
-                quantity: '1'
-            });
+    // const addQuantity = async () => {
+    //     try {
+    //         const res = await axios.post(`/cart/add/${product_id}`,
+    //         {
+    //             user_id: user_id,
+    //             product_name: product_name,
+    //             product_image_name: product_image_name,
+    //             product_price: price,
+    //             quantity: '1'
+    //         });
 
-            alert("Product added to cart")
-            } catch (error) {
-                console.log(alert(error.message))
-            }
-    };
+    //         alert("Product added to cart")
+    //         } catch (error) {
+    //             console.log(alert(error.message))
+    //         }
+    // };
 
-    const addNewToCart = async () => {
-        try {
-            const res = await axios.post(`/cart/add/${product_id}`,
-            {
-                user_id: user_id,
-                product_name: product_name,
-                product_image_name: product_image_name,
-                product_price: price,
-                quantity: '1'
-            });
+    // const addNewToCart = async () => {
+    //     try {
+    //         const res = await axios.post(`/cart/add/${product_id}`,
+    //         {
+    //             user_id: user_id,
+    //             product_name: product_name,
+    //             product_image_name: product_image_name,
+    //             product_price: price,
+    //             quantity: '1'
+    //         });
 
-            alert("Product added to cart")
-            } catch (error) {
-                console.log(alert(error.message))
-            }
-    };
+    //         alert("Product added to cart")
+    //         } catch (error) {
+    //             console.log(alert(error.message))
+    //         }
+    // };
 
     return (
         <div>

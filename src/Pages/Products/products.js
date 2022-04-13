@@ -51,7 +51,7 @@ function Products() {
           {products.map((product) => (
             <ProductCard
               key={product.product_id}
-              products={product}
+              product={product}
             />
           ))}
         </div>
