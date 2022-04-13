@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
+import Cart from './Pages/Cart/cart'
 import Login from './Pages/Login/Login';
 import Register from './Pages/Register/Register';
 import ForgotPassword from './Pages/ForgotPassword/ForgotPassword';
@@ -42,14 +43,15 @@ function App() {
         <Router>
           <Navigation />
           <Routes>
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/" element={<Products />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/client" element={<Client />} />
+            <Route path="/address" element={<Address />} />
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password/:token" element={<ResetPassword />} />
-            <Route path="/" element={<Products />} />
-            <Route path="/address" element={<Address />} />
-            <Route path="client" element={<Client />} />
-            <Route path="products/:product_id" element={<ProductDetail />} />
+            <Route path="/products/:product_id" element={<ProductDetail />} />
           </Routes>
         </Router>
       </div>

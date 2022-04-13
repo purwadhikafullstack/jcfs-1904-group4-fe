@@ -7,6 +7,7 @@ import ProductCard from "../../Components/ProductCard/productCard";
 
 function Products() {
   const [products, setProducts] = useState([]);
+  console.log(products)
   const [paginationState, setPaginationState] = useState({
     page: 1,
     lastPage: 0,
@@ -50,7 +51,7 @@ function Products() {
           {products.map((product) => (
             <ProductCard
               key={product.product_id}
-              product={product}
+              products={product}
             />
           ))}
         </div>

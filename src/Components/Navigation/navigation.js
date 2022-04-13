@@ -47,7 +47,7 @@ function Navigation() {
               <Nav style={{ marginRight: '20px' }}>
                 <Nav.Link style={{ color: 'green' }}>{username}</Nav.Link>
                 <NavDropdown title="My Account" id="basic-nav-dropdown" style={{ marginTop: '0px', marginInline: '0px' }}>
-                  <NavDropdown.Item href="/edit-profile">Edit my Profile</NavDropdown.Item>
+                  <NavDropdown.Item href="/client">Edit my Profile</NavDropdown.Item>
                   <NavDropdown.Item href="/my-transactions">My Transactions</NavDropdown.Item>
                 </NavDropdown>
                 <Nav.Link href="/cart" style={{ color: 'green' }}>

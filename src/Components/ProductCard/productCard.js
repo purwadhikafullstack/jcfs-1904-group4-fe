@@ -1,15 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import axios from "../../Config/axios";
 import { useSelector } from "react-redux";
 
-import "./style.css"
-import {Card, Button} from "react-bootstrap";
+import "./style.css";
+import { Card } from 'react-bootstrap';
+import { Button } from '@mui/material';
 
 function ProductCard(props) {
-    const { product_id, product_name, price, product_image_name } = props.product;
+
+    const [cartState, setCartState] = useState([]);
+    console.log(cartState)
+
+    const { product_id, product_name, price, product_image_name } = props.products;
     const user_id = useSelector((state) => state.auth.user_id);
 
-    const addToCart = async () => {
+    const  getCart = async () => {
+        try {
+            const res = await axios.get(`/cart/${user_id}`)
+            const { data } = res;
+            setCartState(data)
+        } catch (error) {
+            console.log(alert(error.message))
+        }
+    };
+
+    const addQuantity = async () => {
         try {
             const res = await axios.post(`/cart/add/${product_id}`,
             {
@@ -21,9 +36,26 @@ function ProductCard(props) {
             });
 
             alert("Product added to cart")
-        } catch (error) {
-            console.log(alert(error.message))
-        }
+            } catch (error) {
+                console.log(alert(error.message))
+            }
+    };
+
+    const addNewToCart = async () => {
+        try {
+            const res = await axios.post(`/cart/add/${product_id}`,
+            {
+                user_id: user_id,
+                product_name: product_name,
+                product_image_name: product_image_name,
+                product_price: price,
+                quantity: '1'
+            });
+
+            alert("Product added to cart")
+            } catch (error) {
+                console.log(alert(error.message))
+            }
     };
 
     return (
@@ -34,12 +66,14 @@ function ProductCard(props) {
                     <Card.Title>{product_name}</Card.Title>
                     <Card.Subtitle style={{fontSize: '20px'}}>Rp. {price}</Card.Subtitle>
                     <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
-                    <Button variant="outline-danger" style={{width: '100%'}} href={`/products/${product_id}`}>
-                        Details
-                    </Button>
+                        <Button variant="outlined" color="error" style={{width: '100%'}} href={`/products/${product_id}`}>
+                            Details
+                        </Button>
                     </div>
                     <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
-                        <Button variant="success" style={{width: '100%'}} onClick={addToCart}>Add to Cart</Button>
+                        <Button variant="contained" color="success" style={{width: '100%'}} onClick={getCart}>
+                            Add to Cart
+                        </Button>
                     </div>
                 </Card.Body>
             </Card>
