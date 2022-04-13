@@ -9,6 +9,7 @@ function Client() {
     const [image, setImage] = useState(null);
     const [imagePreview, setImagePreview] = useState("");
     const user_id = useSelector((state) => state.auth.user_id);
+    const getToken = useSelector((state) => state.auth.token);
     const [address, setAddress] = useState([]);
     const [profileData, setProfileData] = useState({
         full_name: "",
@@ -59,8 +60,12 @@ function Client() {
             formData.append("photo", image);
 
             const res = await axios.post(`/users/upload/${user_id}`,
-            formData
-            );
+            formData,
+            {
+                headers: {
+                    Authorization: `Bearer ${getToken}`,
+                  }
+            });
 
             alert("Update was successful")
         } catch (error) {
