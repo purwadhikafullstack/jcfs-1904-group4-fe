@@ -7,6 +7,7 @@ import { Card } from "react-bootstrap";
 import { IconButton } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 function CartBox(props) {
 
@@ -23,6 +24,16 @@ function CartBox(props) {
                 product_id: product_id,
                 quantity: newQuantity
             });
+        } catch (error) {
+            console.log(alert(error.message))
+        }
+    };
+
+    const removeProduct = async () => {
+        try {
+            
+            const res = await axios.delete(`/cart/delete/${user_id}/${product_id}`)
+
         } catch (error) {
             console.log(alert(error.message))
         }
@@ -73,6 +84,9 @@ function CartBox(props) {
                         </IconButton>
                         <IconButton disabled={ newQuantity === 1 } onClick={() => {quantityBtnHandler("decrement")}}>
                             <RemoveIcon color="success"/>
+                        </IconButton>
+                        <IconButton onClick={removeProduct}>
+                            <DeleteOutlineIcon color="error" />
                         </IconButton>
                     </div>
                     <Card.Title>Total Price: Rp. {totalPrice}</Card.Title>
