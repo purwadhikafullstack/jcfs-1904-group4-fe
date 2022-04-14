@@ -1,23 +1,60 @@
+import axios from '../../Config/axios';
 import React, { useEffect, useState } from "react";
+import { useSelector } from 'react-redux';
 
 import './cartBox.css';
 import { Card } from "react-bootstrap";
-import RemoveIcon from '@mui/icons-material/Remove';
+import { IconButton } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
-import { Button, IconButton } from "@mui/material";
+import RemoveIcon from '@mui/icons-material/Remove';
 
 function CartBox(props) {
 
     const { product_id, product_name, product_price, product_image_name, quantity } = props.product
+    const user_id = useSelector((state) => state.auth.user_id);
     const [totalPrice, setTotalPrice] = useState([]);
+    const [qtty, setQtty] = useState(0)
+    const [newQuantity, setNewQuantity] = useState(quantity + qtty)
+
+    const addQuantity = async () => {
+        try {
+            const res = await axios.put(`/cart/quantity/${user_id}`,
+            {
+                product_id: product_id,
+                quantity: newQuantity
+            });
+        } catch (error) {
+            console.log(alert(error.message))
+        }
+    };
 
     const addTotalPrice = () => {
         setTotalPrice(product_price * quantity)
     };
 
+    const quantityBtnHandler = (type) => {
+        switch (type) {
+          case "increment":
+            setQtty(qtty + 1);
+            break;
+          case "decrement":
+            setQtty(qtty - 1);
+            break;
+        }
+    };
+
     useEffect(() => {
         addTotalPrice();
-    }, [])
+    }, [quantity])
+
+    useEffect(() => {
+        setNewQuantity(newQuantity + qtty);
+    }, [qtty])
+
+    useEffect( async () => {
+        await addQuantity();
+        setQtty(0)
+    }, [newQuantity])
 
     return (
         <div>
@@ -26,19 +63,19 @@ function CartBox(props) {
                 <div className="card-body">
                     <Card.Title>{product_name}</Card.Title>
                     <Card.Subtitle className="mt-1">Product ID: {product_id}</Card.Subtitle>
-                    <Card.Title className="mt-4">Price: {product_price}</Card.Title>
+                    <Card.Title className="mt-4">Price: Rp. {product_price}</Card.Title>
                 </div>
                 <div className="quantity">
-                    <Card.Title>Quantity: {quantity}</Card.Title>
+                    <Card.Title>Quantity: { quantity }</Card.Title>
                     <div className="button">
-                        <IconButton>
+                        <IconButton onClick={() => {quantityBtnHandler("increment")}}>
                             <AddIcon color="success"/>
                         </IconButton>
-                        <IconButton disabled={quantity === 1}>
+                        <IconButton disabled={ newQuantity === 1 } onClick={() => {quantityBtnHandler("decrement")}}>
                             <RemoveIcon color="success"/>
                         </IconButton>
                     </div>
-                    <Card.Title>Total Price: {totalPrice}</Card.Title>
+                    <Card.Title>Total Price: Rp. {totalPrice}</Card.Title>
                 </div>
             </Card>
         </div>

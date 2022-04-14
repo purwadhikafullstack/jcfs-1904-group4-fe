@@ -12,11 +12,9 @@ function Cart() {
         subTotal: 0,
         tax: 0,
         totalPrice: 0
-    })
+    });
     const user_id = useSelector((state) => state.auth.user_id);
-
-    console.log(totalState)
-
+    
     const getCart = async () => {
         try {
             const res = await axios.get(`/cart/${user_id}`)
@@ -36,7 +34,7 @@ function Cart() {
 
     useEffect(() => {
         getCart();
-    }, [])
+    }, [carts])
 
     if (carts.length) {
         return (
@@ -54,6 +52,7 @@ function Cart() {
                                     <CartBox
                                         key={cart.product_id}
                                         product={cart}
+                                        setCarts={setCarts}
                                     />
                                 ))}
                             </div>
