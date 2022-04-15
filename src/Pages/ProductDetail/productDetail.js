@@ -8,11 +8,13 @@ import { Button, Card } from "react-bootstrap";
 function ProductDetail() {
   const params = useParams();
   const { product_id } = params
-  const { product_image_name, product_name, price, product_desc } = product;
   const user_id = useSelector((state) => state.auth.user_id);
   
   const [product, setProduct] = useState({});
+  const [cartState, setCartState] = useState([]);
   const [quantity, setQuantity] = useState(1);
+
+  console.log(cartState)
 
   const getProducts = async () => {
     try {
@@ -39,37 +41,50 @@ function ProductDetail() {
     }
   };
 
-  // const addToCartHandler = () => {
-  //   axios
-  //     .get("/carts", { params: { productId: product.id, userId } })
-  //     .then((res) => {
-  //       if (res.data.length) {
-  //         // Update quantity
-  //         const cart = res.data[0];
-  //         axios
-  //           .patch(`/carts/${cart.id}`, { quantity: cart.quantity + quantity })
-  //           .then((res) => alert("Berhasil update cart"))
-  //           .catch((err) => alert("Gagal update cart"));
-  //       } else {
-  //         // Create new cart
-  //         const newCart = {
-  //           ...product,
-  //           id: new Date().getTime(),
-  //           productId: product.id,
-  //           quantity,
-  //           userId,
-  //         };
+  const addToCartHandler = async () => {
+    try {
+        const res = await axios.get(`/cart/${user_id}/${product_id}`)
+        const { data } = res;
+        setCartState(data.cart)
 
-  //         axios
-  //           .post("/carts", newCart)
-  //           .then((res) => alert("Berhasil membuat cart"))
-  //           .catch((err) => alert("Gagal membuat cart"));
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       alert("Gagal mengambil cart");
-  //     });
-  // };
+        if (res.data.length) {
+
+            try {
+                const res = await axios.put(`/cart/quantity/${user_id}`,
+                {
+                    product_id: product.product_id,
+                    quantity: cartState.quantity + quantity
+                })
+
+                alert("Successfully added to cart")
+            } catch (error) {
+                console.log(alert(error.message))
+            }
+
+        } else {
+
+            try {
+                const res = await axios.post(`/cart/add`,
+                {
+                    user_id: user_id,
+                    product_id: product.product_id,
+                    product_name: product.product_name,
+                    product_price: product.price,
+                    product_image_name: product.product_image_name,
+                    quantity: quantity
+                })
+
+                alert("Successfully added to cart")
+            } catch (error) {
+                console.log(alert(error.message))
+            }
+
+        }
+
+    } catch (error) {
+        console.log(alert(error.message))
+    }
+  };
 
   return (
 
@@ -78,16 +93,16 @@ function ProductDetail() {
       <div>
         <Card style={{ width: '700px', height: '750px', marginInline: '30px', boxShadow: '3px 3px 3px 3px rgb(0, 0, 0, 0.1)' }}>
           <Card.Header style={{display: 'flex', justifyContent: 'center', fontSize: '22px', paddingTop: '10px', paddingBottom: '10px'}}>
-            {product_name}
+            {product.product_name}
           </Card.Header>
 
-            <Card.Img variant="top" src={product_image_name} 
+            <Card.Img variant="top" src={product.product_image_name} 
                       style={{objectFit: 'cover', width: '698px', height: '450px'}}>
             </Card.Img>
             <Card.Body>
               <Card.Title>Product Details</Card.Title>
               <Card.Text style={{marginTop: '18px'}}>
-                {product_desc}
+                {product.product_desc}
               </Card.Text>
             </Card.Body>
         </Card>
@@ -96,7 +111,7 @@ function ProductDetail() {
       <div>
         <Card style={{padding: '20px', width: '400px', height: '225px', boxShadow: '3px 3px 3px 3px rgb(0, 0, 0, 0.1)'}}>
           
-            <Card.Title style={{fontSize: '30px'}}>Rp. {price}</Card.Title>
+            <Card.Title style={{fontSize: '30px'}}>Rp. {product.price}</Card.Title>
             <div style={{display: 'flex', flexDirection: 'row', marginTop: '20px'}}>
               <Card.Title style={{fontSize: '20px', marginTop: '8px'}}>
                 Quantity: {quantity}
@@ -118,8 +133,9 @@ function ProductDetail() {
               </Button>
             </div>
             <div style={{marginTop: '40px', display: 'flex', justifyContent: 'space-between', width: '100%'}}>
-              <Button variant="success" style={{width: '45%'}}>Add to Cart</Button>
-              <Button variant="danger" style={{width: '45%'}}>Buy Now</Button>
+              <Button variant="success" style={{width: '45%'}} onClick={addToCartHandler}>
+                Add to Cart
+              </Button>
             </div>
         </Card>
 

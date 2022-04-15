@@ -9,6 +9,7 @@ import { Button } from '@mui/material';
 function ProductCard(props) {
 
     const [cartState, setCartState] = useState([]);
+    console.log(cartState.quantity)
     console.log(cartState)
 
     const { product_id, product_name, price, product_image_name } = props.product;
@@ -18,15 +19,16 @@ function ProductCard(props) {
         try {
             const res = await axios.get(`/cart/${user_id}/${product_id}`)
             const { data } = res;
-            setCartState(data.cart)
+            console.log(data)
+            setCartState(data)
 
-            if (res.data.length) {
+            if (cartState.quantity) {
 
                 try {
                     const res = await axios.put(`/cart/quantity/${user_id}`,
                     {
                         product_id: props.product.product_id,
-                        quantity: cartState.quantity + 1
+                        quantity: cartState.quantity.quantity + 1
                     })
 
                     alert("Successfully added to cart")
