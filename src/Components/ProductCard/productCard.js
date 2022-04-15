@@ -14,15 +14,71 @@ function ProductCard(props) {
     const { product_id, product_name, price, product_image_name } = props.product;
     const user_id = useSelector((state) => state.auth.user_id);
 
-    const  getCart = async () => {
+    const addToCartHandler = async () => {
         try {
-            const res = await axios.get(`/cart/${user_id}`)
+            const res = await axios.get(`/cart/${user_id}/${product_id}`)
             const { data } = res;
-            setCartState(data)
+            setCartState(data.cart)
+
+            if (res.data.length) {
+
+                try {
+                    const res = await axios.put(`/cart/quantity/${user_id}`,
+                    {
+                        product_id: props.product.product_id,
+                        quantity: cartState.quantity + 1
+                    })
+
+                    alert("Successfully added to cart")
+                } catch (error) {
+                    console.log(alert(error.message))
+                }
+
+            } else {
+
+                try {
+                    const res = await axios.post(`/cart/add`,
+                    {
+                        user_id: user_id,
+                        product_id: props.product.product_id,
+                        product_name: props.product.product_name,
+                        product_price: props.product.price,
+                        product_image_name: props.product.product_image_name,
+                        quantity: 1
+                    })
+
+                    alert("Successfully added to cart")
+                } catch (error) {
+                    console.log(alert(error.message))
+                }
+
+            }
+
         } catch (error) {
             console.log(alert(error.message))
         }
     };
+
+    // const addToCartHandler = () => {
+    //     try {
+    //         const res = await axios.get(`/cart/${user_id}/${product_id}`)
+    //         const { data } = res;
+    //         console.log(data)
+    //         setCartState(data)
+
+            // if (res.data.length) {
+            //     const cart = res.data[0];
+
+            // } else {
+            //     const addToCart = {
+
+            //     }
+            // }
+
+    //     } catch (error) {
+    //         console.log(alert(error.message))
+    //     }
+    // };
 
     // const addQuantity = async () => {
     //     try {
@@ -71,7 +127,7 @@ function ProductCard(props) {
                         </Button>
                     </div>
                     <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
-                        <Button variant="contained" color="success" style={{width: '100%'}} onClick={getCart}>
+                        <Button variant="contained" color="success" style={{width: '100%'}} onClick={addToCartHandler}>
                             Add to Cart
                         </Button>
                     </div>

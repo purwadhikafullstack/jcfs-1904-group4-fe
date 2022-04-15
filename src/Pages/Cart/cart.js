@@ -41,7 +41,7 @@ function Cart() {
             <>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
                 <div className="d-flex justify-content-center mt-5">
-                    <Card style={{ width: '1000px', minHeight: '800px', borderRadius: '5px', marginBottom: '50px' }}>
+                    <Card style={{ width: '1000px', minHeight: '375px', borderRadius: '5px', marginBottom: '50px' }}>
                         <Card.Header style={{ fontSize: '30px', paddingLeft: '20px' }}>
                             <i class="bi bi-cart2" style={{ marginRight: '15px'}}></i>
                             My Cart

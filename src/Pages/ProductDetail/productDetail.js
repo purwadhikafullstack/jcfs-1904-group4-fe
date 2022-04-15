@@ -7,8 +7,10 @@ import { Button, Card } from "react-bootstrap";
 
 function ProductDetail() {
   const params = useParams();
-  const {product_id} = params
+  const { product_id } = params
+  const { product_image_name, product_name, price, product_desc } = product;
   const user_id = useSelector((state) => state.auth.user_id);
+  
   const [product, setProduct] = useState({});
   const [quantity, setQuantity] = useState(1);
 
@@ -68,8 +70,6 @@ function ProductDetail() {
   //       alert("Gagal mengambil cart");
   //     });
   // };
-
-  const { product_image_name, product_name, price, product_desc } = product;
 
   return (
 
