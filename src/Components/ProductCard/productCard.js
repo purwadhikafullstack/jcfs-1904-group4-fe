@@ -59,61 +59,6 @@ function ProductCard(props) {
         }
     };
 
-    // const addToCartHandler = () => {
-    //     try {
-    //         const res = await axios.get(`/cart/${user_id}/${product_id}`)
-    //         const { data } = res;
-    //         console.log(data)
-    //         setCartState(data)
-
-            // if (res.data.length) {
-            //     const cart = res.data[0];
-
-            // } else {
-            //     const addToCart = {
-
-            //     }
-            // }
-
-    //     } catch (error) {
-    //         console.log(alert(error.message))
-    //     }
-    // };
-
-    // const addQuantity = async () => {
-    //     try {
-    //         const res = await axios.post(`/cart/add/${product_id}`,
-    //         {
-    //             user_id: user_id,
-    //             product_name: product_name,
-    //             product_image_name: product_image_name,
-    //             product_price: price,
-    //             quantity: '1'
-    //         });
-
-    //         alert("Product added to cart")
-    //         } catch (error) {
-    //             console.log(alert(error.message))
-    //         }
-    // };
-
-    // const addNewToCart = async () => {
-    //     try {
-    //         const res = await axios.post(`/cart/add/${product_id}`,
-    //         {
-    //             user_id: user_id,
-    //             product_name: product_name,
-    //             product_image_name: product_image_name,
-    //             product_price: price,
-    //             quantity: '1'
-    //         });
-
-    //         alert("Product added to cart")
-    //         } catch (error) {
-    //             console.log(alert(error.message))
-    //         }
-    // };
-
     return (
         <div>
             <Card className="kartu" style={{ width: '250px', height: '450px', borderRadius: '5px', boxShadow: '0 4px 4px 0 rgb(0, 0, 0, 0.2)', backgroundColor: '#eaeaea', marginInline: '20px', marginBottom: '40px'}}>
