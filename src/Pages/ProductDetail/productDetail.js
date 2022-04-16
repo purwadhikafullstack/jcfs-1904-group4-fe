@@ -98,7 +98,7 @@ function ProductDetail() {
             <Card.Img variant="top" src={product.product_image_name} 
                       style={{objectFit: 'cover', width: '698px', height: '450px'}}>
             </Card.Img>
-            <Card.Body>
+            <Card.Body style={{display: 'flex', flexDirection: 'column'}}>
               <Card.Title>Product Details</Card.Title>
               <Card.Text style={{marginTop: '18px'}}>
                 {product.product_desc}
@@ -131,8 +131,8 @@ function ProductDetail() {
                   +
               </Button>
             </div>
-            <div style={{marginTop: '40px', display: 'flex', justifyContent: 'space-between', width: '100%'}}>
-              <Button variant="success" style={{width: '45%'}} onClick={addToCartHandler}>
+            <div style={{marginTop: '40px', display: 'flex', justifyContent: 'center', width: '100%'}}>
+              <Button variant="success" style={{width: '100%'}} onClick={addToCartHandler}>
                 Add to Cart
               </Button>
             </div>
@@ -147,41 +147,6 @@ function ProductDetail() {
     </div>
     </>
 
-
-    // <div className="container">
-    //   <div className="row mt-3">
-    //     <div className="col-6">
-    //       <img style={{ width: "100%" }} src={product_image_name} alt="" />
-    //     </div>
-    //     <div className="col-6 d-flex flex-column justify-content-center">
-    //       <h4>{product_name}</h4>
-    //       <h5>Rp {price}</h5>
-    //       <p>{product_desc}</p>
-    //       <div className="d-flex flex-row align-items-center">
-    //         <button
-    //           onClick={() => {
-    //             quantityBtnHandler("decrement");
-    //           }}
-    //           className="btn btn-primary "
-    //         >
-    //           -
-    //         </button>
-    //         <strong className="text-center mx-4">{quantity}</strong>
-    //         <button
-    //           onClick={() => {
-    //             quantityBtnHandler("increment");
-    //           }}
-    //           className="btn btn-primary "
-    //         >
-    //           +
-    //         </button>
-    //       </div>
-    //       <button onClick={addToCartHandler} className="btn btn-success mt-3">
-    //         Add to cart
-    //       </button>
-    //     </div>
-    //   </div>
-    // </div>
   );
 };
 
