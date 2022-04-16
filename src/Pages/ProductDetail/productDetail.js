@@ -12,9 +12,7 @@ function ProductDetail() {
   
   const [product, setProduct] = useState({});
   const [cartState, setCartState] = useState([]);
-  const [quantity, setQuantity] = useState(1);
-
-  console.log(cartState)
+  const [qtty, setQtty] = useState(1);
 
   const getProducts = async () => {
     try {
@@ -33,10 +31,10 @@ function ProductDetail() {
   const quantityBtnHandler = (type) => {
     switch (type) {
       case "increment":
-        setQuantity(quantity + 1);
+        setQtty(qtty + 1);
         break;
       case "decrement":
-        setQuantity(quantity - 1);
+        setQtty(qtty - 1);
         break;
     }
   };
@@ -44,16 +42,17 @@ function ProductDetail() {
   const addToCartHandler = async () => {
     try {
         const res = await axios.get(`/cart/${user_id}/${product_id}`)
-        const { data } = res;
-        setCartState(data.cart)
+        const { quantity } = res.data;
 
-        if (res.data.length) {
+        setCartState(quantity)
+
+        if (quantity) {
 
             try {
                 const res = await axios.put(`/cart/quantity/${user_id}`,
                 {
-                    product_id: product.product_id,
-                    quantity: cartState.quantity + quantity
+                  product_id: product.product_id,
+                  quantity: quantity.quantity + qtty
                 })
 
                 alert("Successfully added to cart")
@@ -71,7 +70,7 @@ function ProductDetail() {
                     product_name: product.product_name,
                     product_price: product.price,
                     product_image_name: product.product_image_name,
-                    quantity: quantity
+                    quantity: qtty
                 })
 
                 alert("Successfully added to cart")
@@ -114,13 +113,13 @@ function ProductDetail() {
             <Card.Title style={{fontSize: '30px'}}>Rp. {product.price}</Card.Title>
             <div style={{display: 'flex', flexDirection: 'row', marginTop: '20px'}}>
               <Card.Title style={{fontSize: '20px', marginTop: '8px'}}>
-                Quantity: {quantity}
+                Quantity: {qtty}
               </Card.Title>
               <Button variant="outline-dark" style={{paddingInline: '14px', paddingTop: '4px', marginInline: '20px', borderRadius: '50%', borderWidth: '2px', fontWeight: 'bold'}}
                  onClick={() => {
                    quantityBtnHandler("decrement")
                  }}
-                 disabled={quantity === 1}
+                 disabled={qtty === 1}
               >
                   -
               </Button>

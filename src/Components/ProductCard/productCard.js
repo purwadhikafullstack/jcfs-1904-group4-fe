@@ -10,7 +10,6 @@ function ProductCard(props) {
 
     const [cartState, setCartState] = useState([]);
 
-
     const { product_id, product_name, price, product_image_name } = props.product;
     const user_id = useSelector((state) => state.auth.user_id);
 
