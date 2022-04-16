@@ -9,9 +9,7 @@ import { Button } from '@mui/material';
 function ProductCard(props) {
 
     const [cartState, setCartState] = useState([]);
-    // const { quantity } = cartState;
-    console.log(cartState)
-    // console.log(quantity)
+
 
     const { product_id, product_name, price, product_image_name } = props.product;
     const user_id = useSelector((state) => state.auth.user_id);
@@ -20,7 +18,7 @@ function ProductCard(props) {
         try {
             const res = await axios.get(`/cart/${user_id}/${product_id}`)
             const { quantity } = res.data;
-            console.log(quantity)
+
             setCartState(quantity)
 
             if (quantity) {
