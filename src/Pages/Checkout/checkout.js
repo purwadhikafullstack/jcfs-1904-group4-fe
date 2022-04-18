@@ -10,6 +10,7 @@ function Checkout() {
 
     const [defaultAddress, setDefaultAddress] = useState([]);
     const [userCart, setUserCart] = useState([]);
+    const [address, setAddress] = useState([]);
     const [totalState, setTotalState] = useState({
         subTotal: 0,
         tax: 0,
@@ -18,11 +19,21 @@ function Checkout() {
     const [paymentMethod, setPaymentMethod] = useState({
         method: ''
     });
+    const [chooseAddress, setChooseAddress] = useState({
+        address_id: ''
+    });
 
     useEffect(() => {
         getDefaultAddress();
         getCart();
+        getAddress();
     }, []);
+
+    useEffect(() => {
+        if (chooseAddress.address_id) {
+            getChosenAddress()
+        }
+    }, [chooseAddress])
 
     console.log(totalState)
 
@@ -58,15 +69,41 @@ function Checkout() {
         }
     };
 
+    const getAddress = async () => {
+        try {
+            const res = await axios.get(`/address/${user_id}`)
+            const { data } = res;
+
+            setAddress(data.address)
+        } catch (error) {
+            console.log(alert(error.message))
+        }
+    };
+
+    const getChosenAddress = async () => {
+        try {
+            const res = await axios.get(`/address/chosen/${chooseAddress.address_id}`);
+            const { data } = res;
+        
+            setDefaultAddress(data.address[0])
+        } catch (error) {
+            console.log(alert(error.message))
+        }
+    };
+
     const handleMethod = (e) => {
         setPaymentMethod({...paymentMethod, [e.target.name]: e.target.value})
+    };
+
+    const selectAddress = (e) => {
+        setChooseAddress({...chooseAddress, [e.target.name]: e.target.value})
     };
 
     return (
         <div className="d-flex justify-content-center mt-5">
             <div className="d-flex">
 
-                <Card style={{ width: '750px', height: '750px' }}>
+                <Card style={{ width: '750px', minHeight: '750px' }}>
                     <Card.Header style={{ fontSize: '25px' }}>
                         Purchase Details
                     </Card.Header>
@@ -84,13 +121,23 @@ function Checkout() {
                             City : {defaultAddress.city}
                         </Card.Subtitle>
                         <Card.Subtitle className="mt-3">
+                            District : {defaultAddress.district}
+                        </Card.Subtitle>
+                        <Card.Subtitle className="mt-3">
                             Village : {defaultAddress.village}
                         </Card.Subtitle>
                         <Card.Subtitle className="mt-3">
                             Postal Code : {defaultAddress.postal_code}
                         </Card.Subtitle>
 
-                        <Card.Title className="mt-5 mb-3">
+                        <Card.Title className="mt-4">Choose a different address :</Card.Title>
+                        <select className="form-control mt-3" onChange={selectAddress} name="address_id">
+                            {address.map((add) => 
+                                <option key={add.address_id} value={add.address_id}>{add.detail_address}</option>
+                            )}
+                        </select>
+
+                        <Card.Title className="mt-3 mb-3">
                             Products :
                         </Card.Title>
                         <table>
