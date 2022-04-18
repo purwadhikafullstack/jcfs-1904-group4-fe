@@ -35,8 +35,6 @@ function Checkout() {
         }
     }, [chooseAddress])
 
-    console.log(totalState)
-
     const getDefaultAddress = async () => {
         try {
             const res = await axios.get(`/address/default/${user_id}`)
@@ -109,6 +107,7 @@ function Checkout() {
                     </Card.Header>
                     <Card.Body style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', padding: '20px' }}>
                         <Card.Title>
+                            <i class="bi bi-house-fill" style={{marginRight: '10px'}}></i>
                             Shipping Address :
                         </Card.Title>
                         <Card.Subtitle className="mt-3">
@@ -137,7 +136,8 @@ function Checkout() {
                             )}
                         </select>
 
-                        <Card.Title className="mt-3 mb-3">
+                        <Card.Title className="mt-4 mb-3">
+                            <i class="bi bi-cart4" style={{ marginRight: '10px' }}></i>
                             Products :
                         </Card.Title>
                         <table>
