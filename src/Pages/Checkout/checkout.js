@@ -18,23 +18,31 @@ function Checkout() {
         tax: 0,
         totalPrice: 0
     });
+
+    const [shipping, setShipping] = useState({
+        fee: 100000
+    });
+
+    const [grandTotal, setGrandTotal] = useState([]);
+
     const [paymentMethod, setPaymentMethod] = useState({
         method: 'bank_transfer'
     });
+
     const [chooseAddress, setChooseAddress] = useState({
         address_id: ''
     });
+
     const [chooseCourier, setChooseCourier] = useState({
         courier: 'jne'
     });
-
-    console.log(chooseCourier)
 
     useEffect(() => {
         getDefaultAddress();
         getCart();
         getAddress();
         getClient();
+        calculateTotal();
     }, []);
 
     useEffect(() => {
@@ -122,6 +130,10 @@ function Checkout() {
         }
     };
 
+    const calculateTotal = () => {
+        setGrandTotal(totalState.totalPrice + shipping.fee)
+    };
+
     const handleMethod = (e) => {
         setPaymentMethod({...paymentMethod, [e.target.name]: e.target.value})
     };
@@ -167,7 +179,7 @@ function Checkout() {
                         </Card.Subtitle>
 
                         <Card.Title className="mt-4">Choose a different address :</Card.Title>
-                        <select className="form-control mt-3" onChange={selectAddress} name="address_id">
+                        <select className="form-control mt-2" onChange={selectAddress} name="address_id">
                             {address.map((add) => 
                                 <option key={add.address_id} value={add.address_id}>{add.detail_address}</option>
                             )}
@@ -209,7 +221,8 @@ function Checkout() {
                         
                         <Card.Subtitle className="mt-4">Total Price : Rp. {totalState.subTotal}</Card.Subtitle>
                         <Card.Subtitle className="mt-2">Tax (5%) : Rp. {totalState.tax} </Card.Subtitle>
-                        <Card.Title className="mt-2 mb-4">Subtotal : Rp. {totalState.totalPrice}</Card.Title>
+                        <Card.Subtitle className="mt-2">Shipping Fee : Rp. {shipping.fee} </Card.Subtitle>
+                        <Card.Title className="mt-2 mb-4">Subtotal : Rp. {grandTotal}</Card.Title>
                     </Card.Body>
                 </Card>
 
@@ -236,16 +249,14 @@ function Checkout() {
                             Please choose a payment method :
                         </Card.Title>
 
-                        <select className="form-control mt-3" name="method" onChange={handleMethod}>
+                        <select className="form-control mt-2" name="method" onChange={handleMethod}>
                             <option value="bank_transfer">Bank Transfer</option>
                             <option value="credit_card">Credit Card</option>
                             <option value="debit_card">Debit Card</option>
-                            <option value="gopay">Gopay</option>
-                            <option value="ovo">OVO</option>
                         </select>
 
                         <Card.Title style={{ marginTop: '20px' }}>
-                            Total Payment : Rp. {totalState.totalPrice}
+                            Total Payment : Rp. {grandTotal}
                         </Card.Title>
                     </Card.Body>
 
