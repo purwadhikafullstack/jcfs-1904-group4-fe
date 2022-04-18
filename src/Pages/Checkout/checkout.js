@@ -24,8 +24,11 @@ function Checkout() {
     const [chooseAddress, setChooseAddress] = useState({
         address_id: ''
     });
+    const [chooseCourier, setChooseCourier] = useState({
+        courier: 'jne'
+    });
 
-    console.log(paymentMethod)
+    console.log(chooseCourier)
 
     useEffect(() => {
         getDefaultAddress();
@@ -105,6 +108,20 @@ function Checkout() {
         }
     };
 
+    const onPaymentClick = async () => {
+        try {
+            const res = await axios.post('/transactions/new',
+            {
+                user_id: user_id,
+                recipient: client.full_name,
+                courier: chooseCourier.courier,
+                amount_price: totalState.totalPrice,
+            });
+        } catch (error) {
+            console.log(alert(error.message))
+        }
+    };
+
     const handleMethod = (e) => {
         setPaymentMethod({...paymentMethod, [e.target.name]: e.target.value})
     };
@@ -113,11 +130,15 @@ function Checkout() {
         setChooseAddress({...chooseAddress, [e.target.name]: e.target.value})
     };
 
+    const selectCourier = (e) => {
+        setChooseCourier({...chooseCourier, [e.target.name]: e.target.value})
+    };
+
     return (
         <div className="d-flex justify-content-center mt-5">
             <div className="d-flex">
 
-                <Card style={{ width: '750px', minHeight: '750px' }}>
+                <Card style={{ width: '750px', minHeight: '750px', marginBottom: '50px' }}>
                     <Card.Header style={{ fontSize: '25px' }}>
                         Purchase Details
                     </Card.Header>
@@ -152,6 +173,19 @@ function Checkout() {
                             )}
                         </select>
 
+                        <Card.Title className="mt-3">
+                            <i class="bi bi-truck" style={{ marginInline: '12px' }}></i>
+                            Please select a courier :
+                        </Card.Title>
+                        <select className="form-control mt-1" onChange={selectCourier} name="courier">
+                            <option value="jne">JNE</option>
+                            <option value="j&t">J&T</option>
+                            <option value="tiki">Tiki</option>
+                            <option value="sicepat">SiCepat</option>
+                            <option value="anteraja">AnterAja</option>
+                            <option value="ninja">Ninja Express</option>
+                        </select>
+
                         <Card.Title className="mt-5 mb-3">
                             <i class="bi bi-cart4" style={{ marginRight: '10px' }}></i>
                             Products :
@@ -175,7 +209,7 @@ function Checkout() {
                         
                         <Card.Subtitle className="mt-4">Total Price : Rp. {totalState.subTotal}</Card.Subtitle>
                         <Card.Subtitle className="mt-2">Tax (5%) : Rp. {totalState.tax} </Card.Subtitle>
-                        <Card.Title className="mt-2">Subtotal : Rp. {totalState.totalPrice}</Card.Title>
+                        <Card.Title className="mt-2 mb-4">Subtotal : Rp. {totalState.totalPrice}</Card.Title>
                     </Card.Body>
                 </Card>
 
@@ -219,7 +253,8 @@ function Checkout() {
                         <Button style={{ width: '300px', marginBottom: '20px' }}
                                 variant="contained"
                                 color="error"
-                                // onClick={}
+                                href="/payment"
+                                onClick={onPaymentClick}
                         >
                             Confirm Order
                         </Button>

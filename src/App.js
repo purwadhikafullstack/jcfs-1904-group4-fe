@@ -13,6 +13,7 @@ import ResetPassword from './Pages/ResetPassword/ResetPassword';
 import Admin from './Pages/Admin/admin';
 import Client from './Pages/Client/client';
 import Address from './Pages/Client/address';
+import Payment from './Pages/Checkout/payment';
 import Products from './Pages/Products/products';
 import Checkout from './Pages/Checkout/checkout';
 import Navigation from './Components/Navigation/navigation';
@@ -49,6 +50,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/client" element={<Client />} />
             <Route path="/address" element={<Address />} />
+            <Route path="/payment" element={<Payment />} />
             <Route path="/register" element={<Register />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
