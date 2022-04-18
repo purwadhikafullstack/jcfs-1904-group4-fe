@@ -29,6 +29,7 @@ function CheckoutBox(props) {
                     <Button style={{ width: '100%', marginBottom: '15px'}}
                             variant="contained"
                             color="success"
+                            href="/checkout"
                     >
                         Checkout Now!
                     </Button>

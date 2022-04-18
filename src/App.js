@@ -14,6 +14,7 @@ import Admin from './Pages/Admin/admin';
 import Client from './Pages/Client/client';
 import Address from './Pages/Client/address';
 import Products from './Pages/Products/products';
+import Checkout from './Pages/Checkout/checkout';
 import Navigation from './Components/Navigation/navigation';
 import ProductDetail from './Pages/ProductDetail/productDetail';
 import { keepLoginAction } from '../src/Store/Actions/action.js';
@@ -49,6 +50,7 @@ function App() {
             <Route path="/client" element={<Client />} />
             <Route path="/address" element={<Address />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/checkout" element={<Checkout />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password/:token" element={<ResetPassword />} />
             <Route path="/products/:product_id" element={<ProductDetail />} />
