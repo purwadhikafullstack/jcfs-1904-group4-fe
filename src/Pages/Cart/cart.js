@@ -8,6 +8,7 @@ import CheckoutBox from "./checkoutBox";
 
 function Cart() {
     const [carts, setCarts] = useState([]);
+
     const [totalState, setTotalState] = useState({
         subTotal: 0,
         tax: 0,
@@ -21,7 +22,7 @@ function Cart() {
             const { data } = res;
 
             let subTotal = 0;
-            data.cart.forEach((cart) => (subTotal += cart.quantity * cart.product_price));
+            data.cart.forEach((cart) => (subTotal += cart.quantity * cart.price));
             const tax = subTotal * 0.05
             const totalPrice = subTotal + tax;
 

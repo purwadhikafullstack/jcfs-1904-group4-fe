@@ -12,6 +12,7 @@ function Checkout() {
 
     const [defaultAddress, setDefaultAddress] = useState([]);
     const [userCart, setUserCart] = useState([]);
+    console.log(userCart)
     const [address, setAddress] = useState([]);
     const [totalState, setTotalState] = useState({
         subTotal: 0,
@@ -25,10 +26,6 @@ function Checkout() {
 
     const [grandTotal, setGrandTotal] = useState([]);
 
-    const [paymentMethod, setPaymentMethod] = useState({
-        method: 'bank_transfer'
-    });
-
     const [chooseAddress, setChooseAddress] = useState({
         address_id: ''
     });
@@ -37,12 +34,17 @@ function Checkout() {
         courier: 'jne'
     });
 
+    const [warehouse, setWarehouse] = useState([]);
+    const [chooseWarehouse, setChooseWarehouse] = useState({
+        warehouse: 1
+    });
+
     useEffect(() => {
         getDefaultAddress();
         getCart();
         getAddress();
         getClient();
-        calculateTotal();
+        getWarehouse();
     }, []);
 
     useEffect(() => {
@@ -78,15 +80,15 @@ function Checkout() {
         try {
             const res = await axios.get(`/cart/${user_id}`)
             const { data } = res;
-            console.log(data)
-            console.log(data.cart)
 
             let subTotal = 0;
             data.cart.forEach((cart) => (subTotal += cart.quantity * cart.product_price));
             const tax = subTotal * 0.05
             const totalPrice = subTotal + tax;
+            const total = totalPrice + 100000
 
             setTotalState({ subTotal, tax, totalPrice });
+            setGrandTotal(total)
             setUserCart(data.cart)
 
         } catch (error) {
@@ -116,26 +118,42 @@ function Checkout() {
         }
     };
 
-    const onPaymentClick = async () => {
+    const getWarehouse = async () => {
         try {
-            const res = await axios.post('/transactions/new',
-            {
-                user_id: user_id,
-                recipient: client.full_name,
-                courier: chooseCourier.courier,
-                amount_price: totalState.totalPrice,
-            });
+            const res = await axios.get('/warehouses/get');
+            const { data } = res;
+
+            setWarehouse(data.warehouse)
         } catch (error) {
             console.log(alert(error.message))
         }
     };
 
-    const calculateTotal = () => {
-        setGrandTotal(totalState.totalPrice + shipping.fee)
-    };
+    const d = new Date();
+    const date = d.getDate();
+    const month = d.getMonth();
+    const year = d.getFullYear();
+    const hour = d.getHours();
 
-    const handleMethod = (e) => {
-        setPaymentMethod({...paymentMethod, [e.target.name]: e.target.value})
+    const onPaymentClick = async () => {
+        try {
+            const res = await axios.post('/transactions/new',
+            {
+                status: "unpaid",
+                user_id: user_id,
+                amount_price: grandTotal,
+                recipient: client.full_name,
+                courier: chooseCourier.courier,
+                warehouse_id: chooseWarehouse.warehouse,
+                invoice_number: `INV/${hour}${date}${month}${year}`
+            });
+
+            const resDelete = await axios.delete(`/cart/delete/${user_id}/${userCart.product_id}`)
+
+            alert("Your order was successful")
+        } catch (error) {
+            console.log(alert(error.message))
+        }
     };
 
     const selectAddress = (e) => {
@@ -144,6 +162,10 @@ function Checkout() {
 
     const selectCourier = (e) => {
         setChooseCourier({...chooseCourier, [e.target.name]: e.target.value})
+    };
+
+    const selectWarehouse = (e) => {
+        setChooseWarehouse({...chooseWarehouse, [e.target.name]: e.target.value})
     };
 
     return (
@@ -198,6 +220,16 @@ function Checkout() {
                             <option value="ninja">Ninja Express</option>
                         </select>
 
+                        <Card.Title className="mt-3">
+                            <i class="bi bi-shop" style={{ marginInline: '12px' }}></i>
+                            Warehouse :
+                        </Card.Title>
+                        <select className="form-control mt-1" onChange={selectWarehouse} name="warehouse">
+                            {warehouse.map((wh) => 
+                                <option key={wh.warehouse_id} value={wh.warehouse_id}>{wh.warehouse_name}, {wh.province}</option>
+                            )}
+                        </select>
+
                         <Card.Title className="mt-5 mb-3">
                             <i class="bi bi-cart4" style={{ marginRight: '10px' }}></i>
                             Products :
@@ -214,7 +246,7 @@ function Checkout() {
                                     <td>{cart.product_id}</td> 
                                     <td>{cart.product_name}</td>
                                     <td>{cart.quantity}</td>
-                                    <td>{cart.product_price}</td>
+                                    <td>Rp. {cart.product_price}</td>
                                 </tr>
                             )}
                         </table>
@@ -226,7 +258,7 @@ function Checkout() {
                     </Card.Body>
                 </Card>
 
-                <Card style={{ width: '750px', height: '425px', marginLeft: '30px' }}>
+                <Card style={{ width: '750px', height: '350px', marginLeft: '30px' }}>
                     <Card.Header style={{ fontSize: '25px' }}>
                         <i class="bi bi-credit-card" style={{ marginRight: '13px' }}></i>
                         Checkout
@@ -244,16 +276,6 @@ function Checkout() {
                             <Card.Subtitle className="mt-2">Ms. {client.full_name}</Card.Subtitle>
                         )}
                         <Card.Subtitle className="mt-2 mb-5">Email : {client.email}</Card.Subtitle>
-                            
-                        <Card.Title>
-                            Please choose a payment method :
-                        </Card.Title>
-
-                        <select className="form-control mt-2" name="method" onChange={handleMethod}>
-                            <option value="bank_transfer">Bank Transfer</option>
-                            <option value="credit_card">Credit Card</option>
-                            <option value="debit_card">Debit Card</option>
-                        </select>
 
                         <Card.Title style={{ marginTop: '20px' }}>
                             Total Payment : Rp. {grandTotal}
@@ -264,7 +286,6 @@ function Checkout() {
                         <Button style={{ width: '300px', marginBottom: '20px' }}
                                 variant="contained"
                                 color="error"
-                                href="/payment"
                                 onClick={onPaymentClick}
                         >
                             Confirm Order

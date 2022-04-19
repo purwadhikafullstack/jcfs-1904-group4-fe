@@ -24,7 +24,7 @@ function Payment() {
                         Your order was successful! Please complete the payment as soon as possible and upload the proof of payment for us to confirm and proceed with the shipping.
                     </Card.Subtitle>
 
-                    <Card.Title className="mt-4 ml-4">Bank Transfer (Account Number) :</Card.Title>
+                    <Card.Title className="mt-4 ml-4">Bank Transfer (Account Number) : PT. EZFURNITURE LTD</Card.Title>
                     <div className="ml-5">
                         <li>BCA : 1234567891</li>
                         <li>Mandiri : 1234567891</li>

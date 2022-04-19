@@ -11,7 +11,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 function CartBox(props) {
 
-    const { product_id, product_name, product_price, product_image_name, quantity } = props.product
+    const { cart_id, product_id, product_name, price, product_image_name, quantity } = props.product
     const user_id = useSelector((state) => state.auth.user_id);
     const [totalPrice, setTotalPrice] = useState([]);
     const [qtty, setQtty] = useState(0)
@@ -19,7 +19,7 @@ function CartBox(props) {
 
     const addQuantity = async () => {
         try {
-            const res = await axios.put(`/cart/quantity/${user_id}`,
+            const res = await axios.put(`/cart/quantity/${cart_id}`,
             {
                 product_id: product_id,
                 quantity: newQuantity
@@ -31,7 +31,6 @@ function CartBox(props) {
 
     const removeProduct = async () => {
         try {
-            
             const res = await axios.delete(`/cart/delete/${user_id}/${product_id}`)
 
         } catch (error) {
@@ -40,7 +39,7 @@ function CartBox(props) {
     };
 
     const addTotalPrice = () => {
-        setTotalPrice(product_price * quantity)
+        setTotalPrice(price * quantity)
     };
 
     const quantityBtnHandler = (type) => {
@@ -74,7 +73,7 @@ function CartBox(props) {
                 <div className="card-body">
                     <Card.Title>{product_name}</Card.Title>
                     <Card.Subtitle className="mt-1">Product ID: {product_id}</Card.Subtitle>
-                    <Card.Title className="mt-4">Price: Rp. {product_price}</Card.Title>
+                    <Card.Title className="mt-4">Price: Rp. {price}</Card.Title>
                 </div>
                 <div className="quantity">
                     <Card.Title>Quantity: { quantity }</Card.Title>
