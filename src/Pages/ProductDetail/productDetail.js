@@ -11,6 +11,7 @@ function ProductDetail() {
   const user_id = useSelector((state) => state.auth.user_id);
   
   const [product, setProduct] = useState({});
+  const [localPrice, setLocalPrice] = useState([]);
   const [cartState, setCartState] = useState([]);
   const [qtty, setQtty] = useState(1);
 
@@ -18,14 +19,16 @@ function ProductDetail() {
     try {
       const res = await axios.get(`/products/${product_id}`)
       const data = res.data.productsById[0];
+
       setProduct(data)
+      setLocalPrice(data.price.toLocaleString('id-ID'))
     } catch (error) {
       console.log(alert(error.message))
     }
   };
 
   useEffect(() => {
-    getProducts()
+    getProducts();
   }, [])
 
   const quantityBtnHandler = (type) => {
@@ -98,7 +101,7 @@ function ProductDetail() {
             <Card.Img variant="top" src={product.product_image_name} 
                       style={{objectFit: 'cover', width: '698px', height: '450px'}}>
             </Card.Img>
-            <Card.Body style={{display: 'flex', flexDirection: 'column'}}>
+            <Card.Body style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' }}>
               <Card.Title>Product Details</Card.Title>
               <Card.Text style={{marginTop: '18px'}}>
                 {product.product_desc}
@@ -110,7 +113,7 @@ function ProductDetail() {
       <div>
         <Card style={{ padding: '20px', width: '400px', height: '225px', boxShadow: '3px 3px 3px 3px rgb(0, 0, 0, 0.1)' }}>
           
-            <Card.Title style={{ fontSize: '30px' }}>Rp. {product.price.toLocaleString('id-ID')}</Card.Title>
+            <Card.Title style={{ fontSize: '30px' }}>Rp. {localPrice}</Card.Title>
             <div style={{display: 'flex', flexDirection: 'row', marginTop: '20px'}}>
               <Card.Title style={{ fontSize: '20px', marginTop: '8px' }}>
                 Quantity: {qtty}
