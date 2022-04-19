@@ -31,7 +31,7 @@ function CartBox(props) {
 
     const removeProduct = async () => {
         try {
-            const res = await axios.delete(`/cart/delete/${user_id}/${product_id}`)
+            const res = await axios.delete(`/cart/delete/${cart_id}/${product_id}`)
 
         } catch (error) {
             console.log(alert(error.message))
