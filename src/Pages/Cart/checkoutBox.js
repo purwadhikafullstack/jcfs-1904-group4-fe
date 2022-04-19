@@ -22,9 +22,9 @@ function CheckoutBox(props) {
         <Card style={{ width: '400px', height: '240px'}}>
             <Card.Header>Your Shopping Cart</Card.Header>
             <Card.Body>
-                <Card.Title style={{ fontSize: '17px'}}>Subtotal: Rp. {subTotal}</Card.Title>
-                <Card.Title style={{ fontSize: '17px'}}>Tax: Rp. {subTotal} x 5% = Rp. {tax}</Card.Title>
-                <Card.Title className="mt-3">Total Amount: Rp. {totalPrice}</Card.Title>
+                <Card.Title style={{ fontSize: '17px'}}>Subtotal: Rp. {subTotal.toLocaleString('id-ID')}</Card.Title>
+                <Card.Title style={{ fontSize: '17px'}}>Tax: Rp. {subTotal.toLocaleString('id-ID')} x 5% = Rp. {tax.toLocaleString('id-ID')}</Card.Title>
+                <Card.Title className="mt-3">Total Amount: Rp. {totalPrice.toLocaleString('id-ID')}</Card.Title>
                 <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
                     <Button style={{ width: '100%', marginBottom: '15px'}}
                             variant="contained"

@@ -65,7 +65,7 @@ function ProductCard(props) {
                 <Card.Img variant="top" src={product_image_name} style={{width: '248px', height: '248px', objectFit: 'cover'}}/>
                 <Card.Body>
                     <Card.Title>{product_name}</Card.Title>
-                    <Card.Subtitle style={{fontSize: '20px'}}>Rp. {price}</Card.Subtitle>
+                    <Card.Subtitle style={{fontSize: '20px'}}>Rp. {price.toLocaleString('id-ID')}</Card.Subtitle>
                     <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
                         <Button variant="outlined" color="error" style={{width: '100%'}} href={`/products/${product_id}`}>
                             Details

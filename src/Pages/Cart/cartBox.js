@@ -73,7 +73,7 @@ function CartBox(props) {
                 <div className="card-body">
                     <Card.Title>{product_name}</Card.Title>
                     <Card.Subtitle className="mt-1">Product ID: {product_id}</Card.Subtitle>
-                    <Card.Title className="mt-4">Price: Rp. {price}</Card.Title>
+                    <Card.Title className="mt-4">Price: Rp. {price.toLocaleString('id-ID')}</Card.Title>
                 </div>
                 <div className="quantity">
                     <Card.Title>Quantity: { quantity }</Card.Title>
@@ -88,7 +88,7 @@ function CartBox(props) {
                             <DeleteOutlineIcon color="error" />
                         </IconButton>
                     </div>
-                    <Card.Title>Total Price: Rp. {totalPrice}</Card.Title>
+                    <Card.Title>Total Price: Rp. {totalPrice.toLocaleString('id-ID')}</Card.Title>
                 </div>
             </Card>
         </div>

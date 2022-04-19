@@ -108,14 +108,14 @@ function ProductDetail() {
       </div>
 
       <div>
-        <Card style={{padding: '20px', width: '400px', height: '225px', boxShadow: '3px 3px 3px 3px rgb(0, 0, 0, 0.1)'}}>
+        <Card style={{ padding: '20px', width: '400px', height: '225px', boxShadow: '3px 3px 3px 3px rgb(0, 0, 0, 0.1)' }}>
           
-            <Card.Title style={{fontSize: '30px'}}>Rp. {product.price}</Card.Title>
+            <Card.Title style={{ fontSize: '30px' }}>Rp. {product.price.toLocaleString('id-ID')}</Card.Title>
             <div style={{display: 'flex', flexDirection: 'row', marginTop: '20px'}}>
-              <Card.Title style={{fontSize: '20px', marginTop: '8px'}}>
+              <Card.Title style={{ fontSize: '20px', marginTop: '8px' }}>
                 Quantity: {qtty}
               </Card.Title>
-              <Button variant="outline-dark" style={{paddingInline: '14px', paddingTop: '4px', marginInline: '20px', borderRadius: '50%', borderWidth: '2px', fontWeight: 'bold'}}
+              <Button variant="outline-dark" style={{ paddingInline: '14px', paddingTop: '4px', marginInline: '20px', borderRadius: '50%', borderWidth: '2px', fontWeight: 'bold' }}
                  onClick={() => {
                    quantityBtnHandler("decrement")
                  }}

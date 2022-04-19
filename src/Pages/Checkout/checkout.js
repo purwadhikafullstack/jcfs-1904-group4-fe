@@ -8,12 +8,11 @@ import { Button } from "@mui/material";
 
 function Checkout() {
     const user_id = useSelector((state) => state.auth.user_id);
-    const [client, setClient] = useState([]);
 
     const [defaultAddress, setDefaultAddress] = useState([]);
     const [userCart, setUserCart] = useState([]);
-    console.log(userCart)
     const [address, setAddress] = useState([]);
+    const [client, setClient] = useState([]);
     const [totalState, setTotalState] = useState({
         subTotal: 0,
         tax: 0,
@@ -82,7 +81,7 @@ function Checkout() {
             const { data } = res;
 
             let subTotal = 0;
-            data.cart.forEach((cart) => (subTotal += cart.quantity * cart.product_price));
+            data.cart.forEach((cart) => (subTotal += cart.quantity * cart.price));
             const tax = subTotal * 0.05
             const totalPrice = subTotal + tax;
             const total = totalPrice + 100000
@@ -246,15 +245,15 @@ function Checkout() {
                                     <td>{cart.product_id}</td> 
                                     <td>{cart.product_name}</td>
                                     <td>{cart.quantity}</td>
-                                    <td>Rp. {cart.product_price}</td>
+                                    <td>Rp. {cart.price.toLocaleString('id-ID')}</td>
                                 </tr>
                             )}
                         </table>
                         
-                        <Card.Subtitle className="mt-4">Total Price : Rp. {totalState.subTotal}</Card.Subtitle>
-                        <Card.Subtitle className="mt-2">Tax (5%) : Rp. {totalState.tax} </Card.Subtitle>
-                        <Card.Subtitle className="mt-2">Shipping Fee : Rp. {shipping.fee} </Card.Subtitle>
-                        <Card.Title className="mt-2 mb-4">Subtotal : Rp. {grandTotal}</Card.Title>
+                        <Card.Subtitle className="mt-4">Total Price : Rp. {totalState.subTotal.toLocaleString('id-ID')}</Card.Subtitle>
+                        <Card.Subtitle className="mt-2">Tax (5%) : Rp. {totalState.tax.toLocaleString('id-ID')} </Card.Subtitle>
+                        <Card.Subtitle className="mt-2">Shipping Fee : Rp. {shipping.fee.toLocaleString('id-ID')} </Card.Subtitle>
+                        <Card.Title className="mt-2 mb-4">Subtotal : Rp. {grandTotal.toLocaleString('id-ID')}</Card.Title>
                     </Card.Body>
                 </Card>
 
@@ -277,8 +276,8 @@ function Checkout() {
                         )}
                         <Card.Subtitle className="mt-2 mb-5">Email : {client.email}</Card.Subtitle>
 
-                        <Card.Title style={{ marginTop: '20px' }}>
-                            Total Payment : Rp. {grandTotal}
+                        <Card.Title style={{ marginTop: '20px', fontSize: '25px' }}>
+                            Total Payment : Rp. {grandTotal.toLocaleString('id-ID')}
                         </Card.Title>
                     </Card.Body>
 
