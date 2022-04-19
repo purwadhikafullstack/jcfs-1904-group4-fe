@@ -46,10 +46,13 @@ function ProductDetail() {
 
         setCartState(quantity)
 
+        const resCart = await axios.get(`/cart/id/${user_id}`)
+        const { cart_id } = resCart.data;
+
         if (quantity) {
 
             try {
-                const res = await axios.put(`/cart/quantity/${user_id}`,
+                const res = await axios.put(`/cart/quantity/${cart_id}`,
                 {
                   product_id: product.product_id,
                   quantity: quantity.quantity + qtty
@@ -65,12 +68,9 @@ function ProductDetail() {
             try {
                 const res = await axios.post(`/cart/add`,
                 {
-                    user_id: user_id,
-                    product_id: product.product_id,
-                    product_name: product.product_name,
-                    product_price: product.price,
-                    product_image_name: product.product_image_name,
-                    quantity: qtty
+                  cart_id: cart_id.cart_id,
+                  product_id: product.product_id,
+                  quantity: qtty
                 })
 
                 alert("Successfully added to cart")

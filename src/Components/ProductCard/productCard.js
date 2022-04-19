@@ -15,15 +15,18 @@ function ProductCard(props) {
 
     const addToCartHandler = async () => {
         try {
-            const res = await axios.get(`/cart/${user_id}/${product_id}`)
+            const res = await axios.get(`/cart/${user_id}`)
             const { quantity } = res.data;
 
             setCartState(quantity)
 
+            const resCart = await axios.get(`/cart/id/${user_id}`)
+            const { cart_id } = resCart.data;
+
             if (quantity) {
 
                 try {
-                    const res = await axios.put(`/cart/quantity/${user_id}`,
+                    const res = await axios.put(`/cart/quantity/${cart_id}`,
                     {
                         product_id: props.product.product_id,
                         quantity: quantity.quantity + 1
@@ -39,11 +42,8 @@ function ProductCard(props) {
                 try {
                     const res = await axios.post(`/cart/add`,
                     {
-                        user_id: user_id,
+                        cart_id: cart_id.cart_id,
                         product_id: props.product.product_id,
-                        product_name: props.product.product_name,
-                        product_price: props.product.price,
-                        product_image_name: props.product.product_image_name,
                         quantity: 1
                     })
 
