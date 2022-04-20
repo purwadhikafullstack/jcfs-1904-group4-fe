@@ -19,6 +19,16 @@ function Checkout() {
         totalPrice: 0
     });
 
+    const carts = userCart.map((cart) => {
+        const container = {};
+
+        container.product_id = cart.product_id;
+        container.quantity = cart.quantity;
+        container.price = cart.price;
+
+        return container;
+    });
+
     const [shipping, setShipping] = useState({
         fee: 100000
     });
@@ -133,21 +143,30 @@ function Checkout() {
     const month = d.getMonth();
     const year = d.getFullYear();
     const hour = d.getHours();
+    const second = d.getSeconds()
 
     const onPaymentClick = async () => {
         try {
-            const res = await axios.post('/transactions/new',
+            const res = await axios.post('/orders/new',
             {
                 status: "unpaid",
                 user_id: user_id,
-                amount_price: grandTotal,
+                total_price: grandTotal,
+                invoice_number: `INV/${second}${hour}${date}${month}${year}${user_id}${userCart[0].cart_id}`,
                 recipient: client.full_name,
                 courier: chooseCourier.courier,
-                warehouse_id: chooseWarehouse.warehouse,
-                invoice_number: `INV/${hour}${date}${month}${year}`
+                warehouse_id: chooseWarehouse.warehouse
             });
 
-            const resDelete = await axios.delete(`/cart/delete/${user_id}/${userCart.product_id}`)
+            const { data } = res;
+
+            const resDetails = await axios.post(`/orders/details`,
+            {
+                order_id: data.insertId,
+                carts
+            });
+
+            const resDelete = await axios.delete(`/cart/delete/${userCart[0].cart_id}`)
 
             alert("Your order was successful")
         } catch (error) {
