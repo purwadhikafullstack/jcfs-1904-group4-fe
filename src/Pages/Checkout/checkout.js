@@ -28,6 +28,7 @@ function Checkout() {
 
         return container;
     });
+    console.log(carts)
 
     const [shipping, setShipping] = useState({
         fee: 100000
@@ -147,11 +148,11 @@ function Checkout() {
 
     const onPaymentClick = async () => {
         try {
-            const res = await axios.post('/orders/new',
+            const res = await axios.post('/transactions/new',
             {
-                status: "unpaid",
+                status: "waiting_payment",
                 user_id: user_id,
-                total_price: grandTotal,
+                amount_price: grandTotal,
                 invoice_number: `INV/${second}${hour}${date}${month}${year}${user_id}${userCart[0].cart_id}`,
                 recipient: client.full_name,
                 courier: chooseCourier.courier,
@@ -160,9 +161,9 @@ function Checkout() {
 
             const { data } = res;
 
-            const resDetails = await axios.post(`/orders/details`,
+            const resDetails = await axios.post(`/transactions/details`,
             {
-                order_id: data.insertId,
+                transaction_id: data.insertId,
                 carts
             });
 
@@ -232,10 +233,7 @@ function Checkout() {
                         <select className="form-control mt-1" onChange={selectCourier} name="courier">
                             <option value="jne">JNE</option>
                             <option value="j&t">J&T</option>
-                            <option value="tiki">Tiki</option>
                             <option value="sicepat">SiCepat</option>
-                            <option value="anteraja">AnterAja</option>
-                            <option value="ninja">Ninja Express</option>
                         </select>
 
                         <Card.Title className="mt-3">
