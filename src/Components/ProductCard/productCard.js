@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import axios from "../../Config/axios";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import axios from "../../Config/axios";
 
 import "./style.css";
 import { Card } from 'react-bootstrap';
@@ -10,7 +10,7 @@ function ProductCard(props) {
 
     const [cartState, setCartState] = useState([]);
 
-    const { product_id, product_name, price, product_image_name } = props.product;
+    const { product_id, product_name, price, product_image_name } = props.products;
     const user_id = useSelector((state) => state.auth.user_id);
 
     const addToCartHandler = async () => {

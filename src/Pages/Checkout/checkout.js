@@ -28,7 +28,6 @@ function Checkout() {
 
         return container;
     });
-    console.log(carts)
 
     const [shipping, setShipping] = useState({
         fee: 100000
