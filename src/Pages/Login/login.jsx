@@ -10,7 +10,7 @@ import { GoogleLoginButton } from 'react-social-login-buttons';
 
 function Login() {
   const dispatch = useDispatch();
-  const { username, getToken } = useSelector((state) => state.auth);
+  const { username, token } = useSelector((state) => state.auth);
 
   const [formState, setFormState] = useState({
     username: '',
@@ -27,7 +27,7 @@ function Login() {
         username: formState.username,
         password: formState.password,
         headers: {
-          Authorization: `Bearer ${getToken}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 

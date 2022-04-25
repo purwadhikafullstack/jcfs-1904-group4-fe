@@ -1,12 +1,22 @@
 import './featuredInfo.css';
+import React, { useSEffect } from 'react';
+import { useSelector } from 'react-redux';
+import axios from '../../../../Config/axios';
 
 export default function FeaturedInfo() {
+  const { warehouse_id, token } = useSelector((state) => state.auth);
+
+  const getTotalSales = async () => {
+    try {
+    } catch (error) {}
+  };
+
   return (
     <div className="featured">
       <div className="featuredItem">
         <span className="featuredTitle">Total Sales</span>
         <div className="featuredMoneyContainer">
-          <span className="featuredMoney">Rp 324.324.344</span>
+          <span className="featuredMoney">Rp {getTotalSales}</span>
         </div>
         <span className="featuredSub">Most categories: Chair</span>
       </div>
