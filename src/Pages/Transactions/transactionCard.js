@@ -34,6 +34,7 @@ function TransactionCard(props) {
             formData.append("photo", image);
 
             const res = await axios.post(`/transactions/photo/${user_id}/${transaction_id}`, formData);
+            const resPutStatus = await axios.put(`/transactions/status/${user_id}/${transaction_id}`)
 
             alert("Upload was successful")
         } catch (error) {

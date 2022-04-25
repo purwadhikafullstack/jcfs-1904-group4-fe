@@ -11,38 +11,51 @@ function Transaction() {
     const user_id = useSelector((state) => state.auth.user_id);
 
     const [transactions, setTransactions] = useState([]);
+    const [sortTransactions, setSortTransactions] = useState({
+        sortBy: "all"
+    });
 
     useEffect(() => {
-        getAllTransactions();
-    }, []);
+        getTransactions();
+    }, [sortTransactions]);
 
-    const getAllTransactions = async () => {
-        try {
-            const res = await axios.get(`/transactions/get/${user_id}`)
-            const { data } = res;
+    const getTransactions = async () => { 
 
-            setTransactions(data.transactions)
-        } catch (error) {
-            console.log(alert(error.message))
-        }
+    if (sortTransactions.sortBy === "all") {
+        
+            try {
+                const res = await axios.get(`/transactions/get/${user_id}`)
+                const { data } = res;
+
+                setTransactions(data.transactions)
+            } catch (error) {
+                console.log(alert(error.message))
+            }
+
+    } else if (sortTransactions.sortBy === "ongoing") {
+
+            try {
+                const res = await axios.get(`/transactions`)
+
+            } catch (error) {
+                console.log(alert(error.message))
+            }
+
+    } else if (sortTransactions.sortBy === "arrived") {   
+
+            try {
+                const res = await axios.get(`/transactions`)
+
+            } catch (error) {
+                console.log(alert(error.message))
+            }
+
+        };
     };
 
-    const getOngoingTransactions = async () => {
-        try {
-            const res = await axios.get(`/transactions`)
-        } catch (error) {
-            console.log(alert(error.message))
-        }
-    };
-
-    const getPastTransactions = async () => {
-        try {
-            const res = await axios.get(`/transactions`)
-        } catch (error) {
-            console.log(alert(error.message))
-        }
-    };
-
+    const onSelectHandler = (e) => {
+        setSortTransactions({ sortBy: e.target.value });
+      };
 
     return (
         <div className="d-flex justify-content-center mt-5">
@@ -63,12 +76,10 @@ function Transaction() {
                 <Card style={{ width: '350px', height: '125px' }}>
                     <Card.Header style={{ fontSize: '20px' }}>Filter Transactions</Card.Header>
                     <Card.Body style={{ padding: '20px' }}>
-                        <select className="form-control" style={{ display: 'flex', justifyContent: 'center' }}>
-                            <option value="az">Default</option>
-                            <option value="highPrice">Price: High - Low</option>
-                            <option value="lowPrice">Price: Low - High</option>
-                            <option value="az">Name: A - Z</option>
-                            <option value="za">Name: Z - A</option>
+                        <select className="form-control" style={{ display: 'flex', justifyContent: 'center' }} onChange={onSelectHandler}>
+                            <option value="all">All</option>
+                            <option value="ongoing">Ongoing Transactions</option>
+                            <option value="arrived">Past Transactions</option>
                         </select>
                     </Card.Body>
                 </Card>
