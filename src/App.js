@@ -18,6 +18,7 @@ import Products from './Pages/Products/products';
 import Checkout from './Pages/Checkout/checkout';
 import Register from './Pages/Register/Register';
 import Transaction from './Pages/Transactions/transactions';
+import Instructions from './Pages/Transactions/instructions';
 import ResetPassword from './Pages/ResetPassword/ResetPassword';
 import ProductDetail from './Pages/ProductDetail/productDetail';
 import ForgotPassword from './Pages/ForgotPassword/ForgotPassword';
@@ -56,6 +57,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/transaction" element={<Transaction />} />
+            <Route path="/instruction" element={<Instructions />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password/:token" element={<ResetPassword />} />
             <Route path="/products/:product_id" element={<ProductDetail />} />

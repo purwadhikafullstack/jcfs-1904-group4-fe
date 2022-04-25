@@ -20,7 +20,7 @@ function TransactionCard(props) {
         setImagePreview(URL.createObjectURL(image));
     };
 
-    const imageURL = `http://localhost:2022/transactions/${user_id}-transaction-${transaction_id}.jpg`
+    const imageURL = `http://localhost:2022/transaction/${user_id}-transaction-${transaction_id}.jpg`
     const fetchTransactionPhoto = async () => {
         const res = await fetch(imageURL);
         const imageBlob = await res.blob();
@@ -82,7 +82,7 @@ function TransactionCard(props) {
                                     </Card.Img>
                                 </div>
                                 <input type="file" alt="Profile Picture" onChange={onImageChange} style={{ width: '250px', marginBottom: '20px', marginTop: '20px' }}></input>
-                                <Button variant="outlined" color="primary" onClick={postPhoto} style={{ width: '100%' }}>
+                                <Button variant="outlined" color="success" onClick={postPhoto} style={{ width: '100%' }}>
                                     Upload Image
                                 </Button>
                             </div>
