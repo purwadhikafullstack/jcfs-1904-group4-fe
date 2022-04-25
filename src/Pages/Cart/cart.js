@@ -71,7 +71,9 @@ function Cart() {
         return (
             <div className="d-flex justify-content-center mt-5">
                 <h1>Your cart is still empty</h1>
-                <i class="bi bi-emoji-frown"></i>
+                <div className="ml-3 align-self-center">
+                    <i class="bi bi-emoji-frown" style={{ fontSize: '30px' }}></i>
+                </div>
             </div>
         )
     }

@@ -35,19 +35,23 @@ function Transaction() {
     } else if (sortTransactions.sortBy === "ongoing") {
 
             try {
-                const res = await axios.get(`/transactions`)
+                const res = await axios.get(`/transactions/get/ongoing/${user_id}`)
+                const { data } = res;
 
+                setTransactions(data.transactions)
             } catch (error) {
-                console.log(alert(error.message))
+                alert("You do not have any ongoing transactions")
             }
 
     } else if (sortTransactions.sortBy === "arrived") {   
 
             try {
-                const res = await axios.get(`/transactions`)
+                const res = await axios.get(`/transactions/past/${user_id}`)
+                const { data } = res;
 
+                setTransactions(data.transactions)
             } catch (error) {
-                console.log(alert(error.message))
+                alert("You do not have any past transactions")
             }
 
         };
