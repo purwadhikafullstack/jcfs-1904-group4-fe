@@ -29,7 +29,7 @@ function Transaction() {
 
                 setTransactions(data.transactions)
             } catch (error) {
-                console.log(alert(error.message))
+                alert("You do not have any transaction record")
             }
 
     } else if (sortTransactions.sortBy === "ongoing") {

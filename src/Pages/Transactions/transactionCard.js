@@ -5,14 +5,42 @@ import axios from "../../Config/axios";
 import './style.css';    
 import { Card } from "react-bootstrap";
 import { Button } from "@mui/material";
+import Collapse from '@mui/material/Collapse';
+import { styled } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import CardContent from '@mui/material/CardContent';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
+const ExpandMore = styled((props) => {
+    const { expand, ...other } = props;
+    return <IconButton {...other} />;
+  })(({ theme, expand }) => ({
+    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  }));
 
 function TransactionCard(props) {
+    const [expanded, setExpanded] = React.useState(false);
+
+    const handleExpandClick = () => {
+        setExpanded(!expanded);
+    };
+
     const user_id = useSelector((state) => state.auth.user_id);
 
     const { transaction_id, recipient, invoice_number, amount_price, status, created_at } = props.data
 
     const [image, setImage] = useState(null);
     const [imagePreview, setImagePreview] = useState("");
+    const [transactionDetails, setTransactionDetails] = useState([]);
+
+    useEffect(() => {
+        getTransactionDetails();
+    }, [])
 
     const onImageChange = (e) => {
         const image = e.target.files[0];
@@ -42,6 +70,17 @@ function TransactionCard(props) {
         }
     };
 
+    const getTransactionDetails = async () => {
+        try {
+            const res = await axios.get(`/transactions/get/details/${transaction_id}`)
+            const { data } = res;
+
+            setTransactionDetails(data.transactions)
+        } catch (error) {
+            alert("You do not have any transaction record")
+        }
+    };
+
     useEffect(() => {
         fetchTransactionPhoto();
     }, []);
@@ -52,7 +91,7 @@ function TransactionCard(props) {
                 <Card.Body>
                     <div className="d-flex flex-row">
                         <div style={{ marginRight: '70px' }}>
-                            <Card.Title className="mb-3">Invoice number:</Card.Title>
+                            <Card.Title className="mb-3" style={{ fontSize: '25px' }}>Invoice number:</Card.Title>
                             <Card.Subtitle className="mb-5">{invoice_number}</Card.Subtitle>
                             <Card.Subtitle className="mb-3">Recipient: {recipient}</Card.Subtitle>
                             <Card.Subtitle className="mb-3">Total Price: Rp. {amount_price.toLocaleString('id-ID')}</Card.Subtitle>
@@ -89,6 +128,39 @@ function TransactionCard(props) {
                             </div>
                         </div>
                     </div>
+
+                    <ExpandMore
+                        expand={expanded}
+                        onClick={handleExpandClick}
+                        aria-expanded={expanded}
+                        aria-label="show more"
+                        >
+                        <ExpandMoreIcon />
+                    </ExpandMore>
+
+                    <Collapse in={expanded} timeout="auto" unmountOnExit>
+                        <CardContent>
+                            <Typography style={{ fontSize: '25px' }}>Purchase Details:</Typography>
+                            <table className="mt-3" style={{ width: '100%' }}>
+                                <tbody>
+                                <tr>
+                                    <th>Product ID</th>
+                                    <th>Product Name</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                </tr>
+                                    {transactionDetails.map((detail) =>
+                                        <tr key={detail.product_id}d>
+                                            <td>{detail.product_id}</td> 
+                                            <td>{detail.product_name}</td>
+                                            <td>{detail.quantity}</td>
+                                            <td>Rp. {detail.price.toLocaleString('id-ID')}</td>
+                                        </tr>
+                                    )}
+                                </tbody> 
+                        </table>
+                        </CardContent>
+                    </Collapse>
                 </Card.Body>
             </Card>
         </div>
