@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "../../Config/axios";
 
@@ -7,6 +7,8 @@ import { Card } from 'react-bootstrap';
 import { Button } from '@mui/material';
 
 function ProductCard(props) {
+    const [cartId, setCartId] = useState([]);
+
     const { product_id, product_name, price, product_image_name } = props.products;
     const user_id = useSelector((state) => state.auth.user_id);
 
@@ -14,13 +16,21 @@ function ProductCard(props) {
         try {
             const res = await axios.get(`/cart/${user_id}/${product_id}`)
             const { cart } = res.data;
-    
-            const resCart = await axios.get(`/cart/id/${user_id}`)
-            const { cart_id } = resCart.data;
+
+                if (cart) {
+                    setCartId(cart.cart_id);
+                } else {
+                    const res = await axios.post(`/cart/add/${user_id}`)
+                    const { insertId } = res.data;
+                    setCartId(insertId)
+                }
     
             if (cart) {
     
                 try {
+                    const resGet = await axios.get(`/cart/id/${user_id}`)
+                    const { cart_id } = resGet.data;
+
                     const res = await axios.put(`/cart/quantity/${cart_id.cart_id}`,
                     {
                       product_id: product_id,
@@ -35,6 +45,9 @@ function ProductCard(props) {
             } else {
     
                 try {
+                    const resGet = await axios.get(`/cart/id/${user_id}`)
+                    const { cart_id } = resGet.data;
+
                     const res = await axios.post(`/cart/details`,
                     {
                       cart_id: cart_id.cart_id,
@@ -46,9 +59,7 @@ function ProductCard(props) {
                 } catch (error) {
                     console.log(alert(error.message))
                 }
-    
             }
-    
         } catch (error) {
             console.log(alert(error.message))
         }

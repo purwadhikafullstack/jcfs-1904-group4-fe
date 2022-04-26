@@ -13,6 +13,7 @@ function ProductDetail() {
   const [product, setProduct] = useState({});
   const [localPrice, setLocalPrice] = useState([]);
   const [qtty, setQtty] = useState(1);
+  const [cartId, setCartId] = useState([]);
 
   const getProducts = async () => {
     try {
@@ -43,45 +44,54 @@ function ProductDetail() {
 
   const addToCartHandler = async () => {
     try {
-        const res = await axios.get(`/cart/${user_id}/${product_id}`)
-        const { cart } = res.data;
+      const res = await axios.get(`/cart/${user_id}/${product_id}`)
+      const { cart } = res.data;
 
-        const resCart = await axios.get(`/cart/id/${user_id}`)
-        const { cart_id } = resCart.data;
+          if (cart) {
+              setCartId(cart.cart_id);
+          } else {
+              const res = await axios.post(`/cart/add/${user_id}`)
+              const { insertId } = res.data;
+              setCartId(insertId)
+          }
 
-        if (cart) {
+      if (cart) {
 
-            try {
-                const res = await axios.put(`/cart/quantity/${cart_id.cart_id}`,
-                {
-                  product_id: product_id,
-                  quantity: cart.quantity + qtty
-                })
+          try {
+              const resGet = await axios.get(`/cart/id/${user_id}`)
+              const { cart_id } = resGet.data;
 
-                alert("Successfully updated cart")
-            } catch (error) {
-                console.log(alert(error.message))
-            }
+              const res = await axios.put(`/cart/quantity/${cart_id.cart_id}`,
+              {
+                product_id: product_id,
+                quantity: cart.quantity + qtty
+              })
 
-        } else {
+              alert("Successfully updated cart")
+          } catch (error) {
+              console.log(alert(error.message))
+          }
 
-            try {
-                const res = await axios.post(`/cart/details`,
-                {
-                  cart_id: cart_id.cart_id,
-                  product_id: product_id,
-                  quantity: qtty
-                })
+      } else {
 
-                alert("Successfully added to cart")
-            } catch (error) {
-                console.log(alert(error.message))
-            }
+          try {
+              const resGet = await axios.get(`/cart/id/${user_id}`)
+              const { cart_id } = resGet.data;
 
+              const res = await axios.post(`/cart/details`,
+              {
+                cart_id: cart_id.cart_id,
+                product_id: product_id,
+                quantity: qtty
+              })
+
+              alert("Successfully added to cart")
+          } catch (error) {
+              console.log(alert(error.message))
+          }
         }
-
     } catch (error) {
-        console.log(alert(error.message))
+      console.log(alert(error.message))
     }
   };
 
