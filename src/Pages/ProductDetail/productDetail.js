@@ -12,7 +12,6 @@ function ProductDetail() {
   
   const [product, setProduct] = useState({});
   const [localPrice, setLocalPrice] = useState([]);
-  const [cartState, setCartState] = useState([]);
   const [qtty, setQtty] = useState(1);
 
   const getProducts = async () => {
@@ -45,23 +44,21 @@ function ProductDetail() {
   const addToCartHandler = async () => {
     try {
         const res = await axios.get(`/cart/${user_id}/${product_id}`)
-        const { quantity } = res.data;
-
-        setCartState(quantity)
+        const { cart } = res.data;
 
         const resCart = await axios.get(`/cart/id/${user_id}`)
         const { cart_id } = resCart.data;
 
-        if (quantity) {
+        if (cart) {
 
             try {
-                const res = await axios.put(`/cart/quantity/${cart_id}`,
+                const res = await axios.put(`/cart/quantity/${cart_id.cart_id}`,
                 {
-                  product_id: product.product_id,
-                  quantity: quantity.quantity + qtty
+                  product_id: product_id,
+                  quantity: cart.quantity + qtty
                 })
 
-                alert("Successfully added to cart")
+                alert("Successfully updated cart")
             } catch (error) {
                 console.log(alert(error.message))
             }
@@ -69,10 +66,10 @@ function ProductDetail() {
         } else {
 
             try {
-                const res = await axios.post(`/cart/add`,
+                const res = await axios.post(`/cart/details`,
                 {
                   cart_id: cart_id.cart_id,
-                  product_id: product.product_id,
+                  product_id: product_id,
                   quantity: qtty
                 })
 
