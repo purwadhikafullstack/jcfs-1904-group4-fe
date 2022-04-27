@@ -9,12 +9,30 @@ function ManageProducts() {
     const [paginationState, setPaginationState] = useState({
         page: 1,
         lastPage: 0,
-        itemsPerPage: 10,
+        itemsPerPage: 5,
     });
 
     useEffect(() => {
-      fetchProducts();
+      totalProducts();
     }, []);
+
+    useEffect(() => {
+      fetchProducts();
+    }, [paginationState])
+
+    const totalProducts = async () => {
+      try {
+        const res = await axios.get("/products/all");
+  
+        const { products } = res.data;
+        setPaginationState({
+          ...paginationState,
+        lastPage: Math.ceil(products.length / paginationState.itemsPerPage),
+        });
+      } catch (error) {
+        console.log(alert(error.message));
+      }
+    };
 
     const fetchProducts = async () => {
         try {
@@ -26,12 +44,7 @@ function ManageProducts() {
               }},
           );
           const { data } = res
-          setProducts(data.products);
-          setPaginationState({
-            ...paginationState,
-            lastPage: Math.ceil(data.products.length / paginationState.itemsPerPage),
-          });
-    
+          setProducts(data.products);    
         } catch (error) {
           console.log(alert(error.message));
         }
@@ -45,7 +58,7 @@ function ManageProducts() {
                     paginationState={paginationState}
                     setPaginationState={setPaginationState}
                 />
-                <div className="d-flex flex-wrap col-9">
+                <div className="d-flex flex-wrap flex-column">
                 {products.map((product) => (
                     <ProductCard
                       key={product.product_id}

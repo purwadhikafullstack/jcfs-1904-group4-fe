@@ -16,6 +16,30 @@ function CatalogueManager(props) {
       typeSort: "ASC",
     });
 
+    const countSearchProducts = async () => {
+      try {
+        const res = await axios.get('/products/get',
+        { params: { 
+            category_name: formState.category,
+            product_name: formState.keyword,
+            sortBy: sortOption.sortBy,
+            typeSort: sortOption.typeSort,
+            page: paginationState.page, 
+            itemsPerPage: paginationState.itemsPerPage, 
+            OFFSET: (paginationState.page - 1) * paginationState.itemsPerPage 
+        }});
+
+        const { products } = res.data;
+        setPaginationState({
+          ...paginationState,
+          lastPage: Math.ceil(products.length / paginationState.itemsPerPage),
+        });
+
+      } catch (error) {
+        console.log(alert(error.message));
+      }
+    };
+
     const searchProducts = async () => {
       try {
         const res = await axios.get('/products/get',
@@ -31,11 +55,6 @@ function CatalogueManager(props) {
 
         const { data } = res;
         setProducts(data.products)
-        setPaginationState({
-          ...paginationState,
-          lastPage: Math.ceil(data.products.length / paginationState.itemsPerPage),
-        });
-
       } catch (error) {
         console.log(alert(error.message));
       }
@@ -56,8 +75,10 @@ function CatalogueManager(props) {
     }, [])
 
     useEffect(() => {
+      countSearchProducts();
       searchProducts()
     }, [sortOption.sortBy, sortOption.typeSort])
+
     const handleChange = (e) => {
       setFormState({ ...formState, [e.target.name]: e.target.value });
     };
