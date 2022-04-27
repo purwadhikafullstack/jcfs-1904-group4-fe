@@ -4,7 +4,9 @@ function ProductCard() {
 
     return (
         <div>
-            
+            <Card>
+
+            </Card>
         </div>
     )
 }
