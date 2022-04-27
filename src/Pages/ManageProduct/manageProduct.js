@@ -12,6 +12,8 @@ function ManageProducts() {
         itemsPerPage: 10,
     });
 
+    console.log(products)
+
     useEffect(() => {
       fetchProducts();
     }, []);

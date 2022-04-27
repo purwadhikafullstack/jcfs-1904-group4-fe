@@ -133,7 +133,7 @@ function ProductManager(props) {
           </div>
           <div className="card-body">
 
-            <select className="form-control d-flex justify-content-center" style={{ backgroundColor: 'rgb(25, 135, 84)', border: '0px', color: 'white' }} 
+            <select className="form-control d-flex justify-content-center" style={{ backgroundColor: 'white', borderStyle: 'grey', color: 'black' }} 
                     onChange={selectSortHandler}
             >
               <option value="az">Default</option>
@@ -153,10 +153,10 @@ function ProductManager(props) {
           </div>
           <div className="card-body d-flex justify-content-center">
             <div class="btn">
-              <button type="button" class="btn btn-success" onClick={btnPrevPageHandler} disabled={page === 1} style={{ width: '70px', marginRight: '20px' }}>
+              <button type="button" class="btn btn-danger" onClick={btnPrevPageHandler} disabled={page === 1} style={{ width: '70px', marginRight: '20px' }}>
                 {"<<"}
               </button>
-              <button type="button" class="btn btn-success" onClick={btnNextPageHandler} disabled={page === lastPage} style={{ width: '70px', marginLeft: '20px' }}>
+              <button type="button" class="btn btn-danger" onClick={btnNextPageHandler} disabled={page === lastPage} style={{ width: '70px', marginLeft: '20px' }}>
                 {">>"}
               </button>
             </div>
