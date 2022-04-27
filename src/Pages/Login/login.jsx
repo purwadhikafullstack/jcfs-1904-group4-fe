@@ -10,7 +10,7 @@ import { GoogleLoginButton } from 'react-social-login-buttons';
 
 function Login() {
   const dispatch = useDispatch();
-  const { username, getToken } = useSelector((state) => state.auth);
+  const { username, getToken, role } = useSelector((state) => state.auth);
 
   const [formState, setFormState] = useState({
     username: '',
@@ -50,9 +50,13 @@ function Login() {
     if (e.code === 'Enter') onLogin();
   };
 
-  if (username) {
-    return <Navigate to="/" replace />;
-  }
+  if (username && role) {
+    if (role === "client") {
+      return <Navigate to="/" replace />;
+    } else {
+      return <Navigate to="/admin" replace />;
+    }
+  };
 
   return (
     <Form className="login-form column-container justify-between">
