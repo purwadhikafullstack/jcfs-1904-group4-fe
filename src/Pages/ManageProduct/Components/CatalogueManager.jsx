@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from '../../../Config/axios';
 
 // props : paginationState, setPaginationState, setProducts
-function CatalogueManager(props) {
+function ProductManager(props) {
     const { paginationState, setPaginationState, setProducts } = props;
     const { page, lastPage } = paginationState;
 
@@ -97,8 +97,8 @@ function CatalogueManager(props) {
     return (
       <div style={{marginInline: '20px'}}>
 
-        <div className="card text-white bg-dark mb-3" style={{maxWidth: '250px', minWidth: '150px', boxShadow: '0 4px 4px 0 rgb(0, 0, 0, 0.2)'}}>
-          <div className="card-header" style={{ display: 'flex', justifyContent: 'center'}}>
+        <div className="card text-white bg-light mb-3" style={{ maxWidth: '250px', minWidth: '150px', boxShadow: '0 4px 4px 0 rgb(0, 0, 0, 0.2)' }}>
+          <div className="card-header d-flex justify-content-center" style={{ color: 'black' }}>
             Filter
           </div>
           <div className="card-body">
@@ -111,10 +111,12 @@ function CatalogueManager(props) {
             </div>
 
             {/* Product Dropdown Filter */}
-            <label style={{display: 'flex', justifyContent: 'center'}}>Product Category</label>
-            <select className="form-control" style={{display: 'flex', justifyContent: 'center', backgroundColor: 'white', border: '0px', color: 'rgb(33, 37, 41)'}} onChange={handleChange} name="category">
+            <label className="d-flex justify-content-center" style={{ color: 'black' }}>Product Category</label>
+            <select className="form-control d-flex justify-content-center" style={{ backgroundColor: 'white', borderStyle: 'grey', color: 'black' }} onChange={handleChange} name="category">
               {productCategories.map((category) => 
-                <option key={category.category_id} value={category.category_name}>{category.category_name}</option>
+                <option key={category.category_id} value={category.category_name}>
+                    {category.category_name}
+                </option>
               )}
             </select>
             
@@ -125,13 +127,13 @@ function CatalogueManager(props) {
         </div>
 
         {/* Sort */}
-        <div className="card text-white bg-dark mb-3" style={{maxWidth: '250px', minWidth: '150px', boxShadow: '0 4px 4px 0 rgb(0, 0, 0, 0.2)'}}>
-          <div className="card-header" style={{ display: 'flex', justifyContent: 'center'}}>
+        <div className="card text-white bg-light mb-3" style={{ maxWidth: '250px', minWidth: '150px', boxShadow: '0 4px 4px 0 rgb(0, 0, 0, 0.2)' }}>
+          <div className="card-header d-flex justify-content-center" style={{ color: 'black' }}>
             Sort
           </div>
           <div className="card-body">
 
-            <select className="form-control" style={{display: 'flex', justifyContent: 'center', backgroundColor: 'rgb(25, 135, 84)', border: '0px', color: 'white'}} 
+            <select className="form-control d-flex justify-content-center" style={{ backgroundColor: 'rgb(25, 135, 84)', border: '0px', color: 'white' }} 
                     onChange={selectSortHandler}
             >
               <option value="az">Default</option>
@@ -145,11 +147,11 @@ function CatalogueManager(props) {
         </div>
 
         {/* Pagination */}
-        <div className="card text-white bg-dark mb-3" style={{maxWidth: '250px', minWidth: '150px', boxShadow: '0 4px 4px 0 rgb(0, 0, 0, 0.2)'}}>
-          <div className="card-header" style={{ display: 'flex', justifyContent: 'center'}}>
+        <div className="card text-white bg-light mb-3" style={{ maxWidth: '250px', minWidth: '150px', boxShadow: '0 4px 4px 0 rgb(0, 0, 0, 0.2)'}}>
+          <div className="card-header d-flex justify-content-center" style={{ color: 'black' }}>
             Page {page} of {lastPage}
           </div>
-          <div className="card-body" style={{ display: 'flex', justifyContent: 'center' }}>
+          <div className="card-body d-flex justify-content-center">
             <div class="btn">
               <button type="button" class="btn btn-success" onClick={btnPrevPageHandler} disabled={page === 1} style={{ width: '70px', marginRight: '20px' }}>
                 {"<<"}
@@ -165,5 +167,4 @@ function CatalogueManager(props) {
     );
 };
 
-export default CatalogueManager;
-
+export default ProductManager;

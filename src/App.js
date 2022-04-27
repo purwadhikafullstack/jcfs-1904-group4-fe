@@ -20,6 +20,7 @@ import Transaction from './Pages/Transactions/transactions';
 import Instructions from './Pages/Transactions/instructions';
 import ResetPassword from './Pages/ResetPassword/ResetPassword';
 import ProductDetail from './Pages/ProductDetail/productDetail';
+import ManageProducts from './Pages/ManageProduct/ManageProduct';
 import ForgotPassword from './Pages/ForgotPassword/ForgotPassword';
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
             <Route path="/transaction" element={<Transaction />} />
             <Route path="/instruction" element={<Instructions />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/manage-products" element={<ManageProducts />} />
             <Route path="/reset-password/:token" element={<ResetPassword />} />
             <Route path="/products/:product_id" element={<ProductDetail />} />
           </Routes>
