@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from '../../../Config/axios';
 
+import { Button } from 'react-bootstrap';
+
 // props : paginationState, setPaginationState, setProducts
 function ProductManager(props) {
   const { paginationState, setPaginationState, sqlPagination, setSqlPagination, setProducts } = props;
@@ -98,7 +100,7 @@ function ProductManager(props) {
     };
   
     return (
-      <div style={{marginInline: '20px'}}>
+      <div style={{ marginInline: '20px' }}>
 
         <div className="card text-white bg-light mb-3" style={{ maxWidth: '250px', minWidth: '150px', boxShadow: '0 4px 4px 0 rgb(0, 0, 0, 0.2)' }}>
           <div className="card-header d-flex justify-content-center" style={{ color: 'black' }}>
@@ -136,7 +138,8 @@ function ProductManager(props) {
             
             {/* Search Button */}
             <button type="button" class="btn btn-danger" style={{marginTop: '18px', width: '100%'}} onClick={onSearchClick}>Search</button>
-          
+              
+            <Button style={{ width: '100%', marginTop: '50px' }} href="/add-products">Add Products</Button>
           </div>
         </div>
 
@@ -157,6 +160,7 @@ function ProductManager(props) {
             
           </div>
         </div>
+
       </div>
     );
 };

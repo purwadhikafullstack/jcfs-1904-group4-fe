@@ -64,7 +64,10 @@ function Navigation() {
             <Navbar.Toggle aria-controls="navbarScroll" style={{ marginRight: '25px' }} />
             <Navbar.Collapse id="navbarScroll" style={{ marginLeft: '25px', maxHeight: '300px' }}>
               <Nav className="me-auto" navbarScroll>
-                <Nav.Link href="/manage-products">Manage Products</Nav.Link>
+                <NavDropdown title="Products">
+                  <NavDropdown.Item href="/manage-products">Edit Products</NavDropdown.Item>
+                  <NavDropdown.Item href="/add-products">Add Products</NavDropdown.Item>
+                </NavDropdown>
                 <Nav.Link href="/manage-transactions">Transactions</Nav.Link>
                 <Nav.Link href="/requests" style={{ marginRight: '7px' }}>
                   Requests

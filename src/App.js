@@ -16,6 +16,7 @@ import Address from './Pages/Client/address';
 import Products from './Pages/Products/products';
 import Checkout from './Pages/Checkout/checkout';
 import Register from './Pages/Register/Register';
+import AddProducts from './Pages/ManageProduct/AddProducts';
 import Transaction from './Pages/Transactions/transactions';
 import Instructions from './Pages/Transactions/instructions';
 import ResetPassword from './Pages/ResetPassword/ResetPassword';
@@ -58,6 +59,7 @@ function App() {
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/transaction" element={<Transaction />} />
             <Route path="/instruction" element={<Instructions />} />
+            <Route path="/add-products" element={<AddProducts />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/manage-products" element={<ManageProducts />} />
             <Route path="/reset-password/:token" element={<ResetPassword />} />
