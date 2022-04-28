@@ -18,15 +18,14 @@ function CatalogueManager(props) {
 
     const countSearchProducts = async () => {
       try {
-        const res = await axios.get('/products/get',
+        const res = await axios.get('/products/search',
         { params: { 
             category_name: formState.category,
             product_name: formState.keyword,
             sortBy: sortOption.sortBy,
             typeSort: sortOption.typeSort,
             page: paginationState.page, 
-            itemsPerPage: paginationState.itemsPerPage, 
-            OFFSET: (paginationState.page - 1) * paginationState.itemsPerPage 
+            itemsPerPage: paginationState.itemsPerPage
         }});
 
         const { products } = res.data;
@@ -76,8 +75,8 @@ function CatalogueManager(props) {
 
     useEffect(() => {
       countSearchProducts();
-      searchProducts()
-    }, [sortOption.sortBy, sortOption.typeSort])
+      searchProducts();
+    }, [sortOption.sortBy, sortOption.typeSort, formState.keyword, formState.category])
 
     const handleChange = (e) => {
       setFormState({ ...formState, [e.target.name]: e.target.value });

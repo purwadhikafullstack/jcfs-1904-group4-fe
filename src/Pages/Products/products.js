@@ -7,6 +7,7 @@ import ProductCard from "../../Components/ProductCard/productCard";
 
 function Products() {
   const [products, setProducts] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
   const [paginationState, setPaginationState] = useState({
     page: 1,
     lastPage: 0,
@@ -19,13 +20,15 @@ function Products() {
 
   useEffect(() => {
     fetchProducts();
-  }, [paginationState])
+  }, [allProducts, paginationState])
 
   const totalProducts = async () => {
     try {
       const res = await axios.get("/products/all");
 
       const { products } = res.data;
+
+      setAllProducts(products.length);
       setPaginationState({
         ...paginationState,
       lastPage: Math.ceil(products.length / paginationState.itemsPerPage),
@@ -42,7 +45,7 @@ function Products() {
             page: paginationState.page, 
             itemsPerPage: paginationState.itemsPerPage, 
             OFFSET: (paginationState.page - 1) * paginationState.itemsPerPage,
-          }},
+        }},
       );
       const { data } = res
       setProducts(data.products);
