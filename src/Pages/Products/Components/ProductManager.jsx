@@ -6,7 +6,7 @@ function CatalogueManager(props) {
     const { paginationState, setPaginationState, sqlPagination, setSqlPagination, setProducts } = props;
     const { page, lastPage } = paginationState;
 
-    const [productCategories, setProductCategories] = useState([])
+    const [productCategories, setProductCategories] = useState([]);
     const [formState, setFormState] = useState({
       keyword: "",
       category: ""
@@ -24,9 +24,9 @@ function CatalogueManager(props) {
             product_name: formState.keyword,
             sortBy: sortOption.sortBy,
             typeSort: sortOption.typeSort,
-            page: paginationState.page, 
+            page: sqlPagination.page, 
             itemsPerPage: paginationState.itemsPerPage, 
-            OFFSET: (paginationState.page - 1) * paginationState.itemsPerPage 
+            OFFSET: (sqlPagination.page - 1) * sqlPagination.itemsPerPage 
         }});
 
         const { result, count } = res.data;
@@ -55,6 +55,10 @@ function CatalogueManager(props) {
       await fetchProductCategories()
     }, [])
 
+    useEffect(() => {
+      searchProducts();
+    }, [sqlPagination])
+
     const handleChange = (e) => {
       setFormState({ ...formState, [e.target.name]: e.target.value });
     };
@@ -64,11 +68,11 @@ function CatalogueManager(props) {
     };
   
     const btnPrevPageHandler = () => {
-      setSqlPagination({ ...paginationState, page: page - 1 });
+      setSqlPagination({ ...sqlPagination, page: page - 1 });
       setPaginationState({ ...paginationState, page: page - 1 });
     };
     const btnNextPageHandler = () => {
-      setSqlPagination({ ...paginationState, page: page + 1 });
+      setSqlPagination({ ...sqlPagination, page: page + 1 });
       setPaginationState({ ...paginationState, page: page + 1 });
     };
 

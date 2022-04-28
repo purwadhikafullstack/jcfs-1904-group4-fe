@@ -3,39 +3,38 @@ import axios from '../../../Config/axios';
 
 // props : paginationState, setPaginationState, setProducts
 function ProductManager(props) {
-    const { paginationState, setPaginationState, setProducts } = props;
+  const { paginationState, setPaginationState, sqlPagination, setSqlPagination, setProducts } = props;
     const { page, lastPage } = paginationState;
 
-    const [productCategories, setProductCategories] = useState([])
+    const [productCategories, setProductCategories] = useState([]);
     const [formState, setFormState] = useState({
       keyword: "",
       category: ""
     });
     const [sortOption, setSortOption] = useState({
       sortBy: "product_name",
-      typeSort: "ASC",
+      typeSort: "ASC"
     });
 
     const searchProducts = async () => {
       try {
         const res = await axios.get('/products/get',
         { params: { 
-            category_name: formState.category,
+            category_id: formState.category,
             product_name: formState.keyword,
             sortBy: sortOption.sortBy,
             typeSort: sortOption.typeSort,
-            page: paginationState.page, 
+            page: sqlPagination.page, 
             itemsPerPage: paginationState.itemsPerPage, 
-            OFFSET: (paginationState.page - 1) * paginationState.itemsPerPage 
+            OFFSET: (sqlPagination.page - 1) * sqlPagination.itemsPerPage 
         }});
 
-        const { data } = res;
-        setProducts(data.products)
+        const { result, count } = res.data;
+        setProducts(result)
         setPaginationState({
-          ...paginationState,
-          lastPage: Math.ceil(data.products.length / paginationState.itemsPerPage),
+          ...sqlPagination,
+          lastPage: Math.ceil(count[0].count / sqlPagination.itemsPerPage)
         });
-
       } catch (error) {
         console.log(alert(error.message));
       }
@@ -45,6 +44,7 @@ function ProductManager(props) {
       try {
         const res = await axios.get("/categories/get");
         const { data } = res
+
         setProductCategories(data.categories);
       } catch (error) {
         console.log(alert(error.message));
@@ -56,9 +56,9 @@ function ProductManager(props) {
     }, [])
 
     useEffect(() => {
-      searchProducts()
-    }, [sortOption.sortBy, sortOption.typeSort])
-    
+      searchProducts();
+    }, [sqlPagination])
+
     const handleChange = (e) => {
       setFormState({ ...formState, [e.target.name]: e.target.value });
     };
@@ -68,9 +68,11 @@ function ProductManager(props) {
     };
   
     const btnPrevPageHandler = () => {
+      setSqlPagination({ ...paginationState, page: page - 1 });
       setPaginationState({ ...paginationState, page: page - 1 });
     };
     const btnNextPageHandler = () => {
+      setSqlPagination({ ...paginationState, page: page + 1 });
       setPaginationState({ ...paginationState, page: page + 1 });
     };
 
@@ -120,20 +122,8 @@ function ProductManager(props) {
                 </option>
               )}
             </select>
-            
-            {/* Search Button */}
-            <button type="button" class="btn btn-danger" style={{marginTop: '18px', width: '100%'}} onClick={onSearchClick}>Search</button>
-          
-          </div>
-        </div>
 
-        {/* Sort */}
-        <div className="card text-white bg-light mb-3" style={{ maxWidth: '250px', minWidth: '150px', boxShadow: '0 4px 4px 0 rgb(0, 0, 0, 0.2)' }}>
-          <div className="card-header d-flex justify-content-center" style={{ color: 'black' }}>
-            Sort
-          </div>
-          <div className="card-body">
-
+            <label className="d-flex justify-content-center mt-3" style={{ color: 'black' }}>Sort By</label>
             <select className="form-control d-flex justify-content-center" style={{ backgroundColor: 'white', borderStyle: 'grey', color: 'black' }} 
                     onChange={selectSortHandler}
             >
@@ -144,6 +134,9 @@ function ProductManager(props) {
               <option value="za">Name: Z - A</option>
             </select>
             
+            {/* Search Button */}
+            <button type="button" class="btn btn-danger" style={{marginTop: '18px', width: '100%'}} onClick={onSearchClick}>Search</button>
+          
           </div>
         </div>
 
