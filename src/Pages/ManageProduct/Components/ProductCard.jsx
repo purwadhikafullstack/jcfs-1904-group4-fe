@@ -1,21 +1,78 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Button } from "@mui/material";
 import { Card } from 'react-bootstrap'
+import axios from "../../../Config/axios";
 
 function ProductCard(props) {
-    const { product_id, product_name, price, product_image_name, product_desc } = props.products;
+    const { product_id, product_name, product_desc, product_image_name, price, category_id } = props.products
 
     const [formState, setFormState] = useState({
-        productName: "",
-        price: 0,
-        stock: 0,
-        category: "",
-        description: ""
+        edit_product_name: product_name,
+        edit_product_desc: product_desc,
+        edit_price: price
     });
+
+    const { edit_product_name, edit_product_desc, edit_price } = formState;
+
+    const [category, setCategory] = useState({
+        category_id: category_id
+    });
+
+    const deleteProduct = async () => {
+        try {
+            const res = await axios.delete(`/products/delete/${product_id}`)
+
+            alert("Product has been deleted from the database")
+        } catch (error) {
+            console.log(alert(error.message));
+        }
+    };
+
+    const removeProduct = async () => {
+        try {
+            const res = await axios.put(`/products/remove/${product_id}`)
+
+            alert("Product has been removed from the website")
+        } catch (error) {
+            console.log(alert(error.message));
+        }
+    };
+
+    const updateProduct = async () => {
+        try {
+            const res = await axios.put(`/products/update/${product_id}`,
+            {
+                product_name: edit_product_name,
+                product_desc: edit_product_desc,
+                category_id: category.category_id,
+                price: edit_price
+            });
+
+            alert("Update was successful")
+        } catch (error) {
+            console.log(alert(error.message))
+        }
+    };
 
     const handleChange = (e) => {
         setFormState({ ...formState, [e.target.name]: e.target.value })
+    };
+
+    const categoryChange = (e) => {
+        setCategory({ ...category, category_id: e.tagret.value })
+    };
+
+    const deleteProductButton = () => {
+        deleteProduct();
+    };
+
+    const removeProductButton = () => {
+        removeProduct();
+    };
+
+    const updateProductButton = () => {
+        updateProduct();
     };
 
     return (
@@ -30,25 +87,25 @@ function ProductCard(props) {
                         <Card.Title>Product Name</Card.Title>
                             <input 
                                 className="mb-3 form-control"
-                                name="productName"
+                                name="edit_product_name"
                                 type="text"
                                 onChange={handleChange}
-                                value={product_name}
+                                value={edit_product_name}
                             ></input>
                         <Card.Title>Product Price (Rp.)</Card.Title>
                             <input 
                                 className="mb-3 form-control"
-                                name="price"
+                                name="edit_price"
                                 onChange={handleChange}
-                                value={price}
+                                value={edit_price}
                             ></input>
                         <Card.Title>Product Description</Card.Title>
                             <input 
                                 className="mb-3 form-control"
-                                name="description"
+                                name="edit_product_desc"
                                 type="text"
                                 onChange={handleChange}
-                                value={product_desc}
+                                value={edit_product_desc}
                             ></input>
                         <Card.Title>Stock</Card.Title>
                             <input 
@@ -57,7 +114,7 @@ function ProductCard(props) {
                                 onChange={handleChange}
                             ></input>
                         <Card.Title className="mb-2">Category</Card.Title>
-                            <select className="form-control">
+                            <select className="form-control" onChange={categoryChange}>
                                 <option value="1">Table</option>
                                 <option value="2">Chair</option>
                                 <option value="3">Shelf</option>
@@ -73,9 +130,9 @@ function ProductCard(props) {
                     </Card.Body>
                 </div>
                 <div className="d-flex flex-row mt-3 justify-content-end mr-3">
-                    <Button variant="contained" color="success">Save Changes</Button>
-                    <Button variant="contained" color="primary" className="mx-5">Remove from website</Button>
-                    <Button variant="contained" color="error" style={{ height: '37px', marginRight: '4px' }}>Delete from database</Button>
+                    <Button variant="contained" color="success" onClick={updateProductButton}>Save Changes</Button>
+                    <Button variant="contained" color="primary" className="mx-5" onClick={removeProductButton}>Remove from website</Button>
+                    <Button variant="contained" color="error" style={{ height: '37px', marginRight: '4px' }} onClick={deleteProductButton}>Delete from database</Button>
                 </div>
             </Card>
         </div>
