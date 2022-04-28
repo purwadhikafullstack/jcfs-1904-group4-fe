@@ -7,36 +7,20 @@ import ProductCard from "../../Components/ProductCard/productCard";
 
 function Products() {
   const [products, setProducts] = useState([]);
-  const [allProducts, setAllProducts] = useState([]);
   const [paginationState, setPaginationState] = useState({
+    page: 1,
+    lastPage: 0,
+    itemsPerPage: 8,
+  });
+  const [sqlPagination, setSqlPagination] = useState({
     page: 1,
     lastPage: 0,
     itemsPerPage: 8,
   });
 
   useEffect(() => {
-    totalProducts();
-  }, []);
-
-  useEffect(() => {
     fetchProducts();
-  }, [allProducts, paginationState])
-
-  const totalProducts = async () => {
-    try {
-      const res = await axios.get("/products/all");
-
-      const { products } = res.data;
-
-      setAllProducts(products.length);
-      setPaginationState({
-        ...paginationState,
-      lastPage: Math.ceil(products.length / paginationState.itemsPerPage),
-      });
-    } catch (error) {
-      console.log(alert(error.message));
-    }
-  };
+  }, [sqlPagination])
 
   const fetchProducts = async () => {
     try {
@@ -44,11 +28,16 @@ function Products() {
         { params: { 
             page: paginationState.page, 
             itemsPerPage: paginationState.itemsPerPage, 
-            OFFSET: (paginationState.page - 1) * paginationState.itemsPerPage,
+            OFFSET: (sqlPagination.page - 1) * sqlPagination.itemsPerPage
         }},
       );
-      const { data } = res
-      setProducts(data.products);
+      const { result, count } = res.data;
+
+      setProducts(result);
+      setPaginationState({
+        ...sqlPagination,
+        lastPage: Math.ceil(count[0].count / sqlPagination.itemsPerPage)
+      });
     } catch (error) {
       console.log(alert(error.message));
     }
@@ -59,7 +48,9 @@ function Products() {
       <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
         <ProductManager
           setProducts={setProducts}
+          sqlPagination={sqlPagination}
           paginationState={paginationState}
+          setSqlPagination={setSqlPagination}
           setPaginationState={setPaginationState}
         />
         <div className="d-flex flex-wrap col-9">

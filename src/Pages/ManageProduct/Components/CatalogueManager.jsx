@@ -58,6 +58,7 @@ function ProductManager(props) {
     useEffect(() => {
       searchProducts()
     }, [sortOption.sortBy, sortOption.typeSort])
+    
     const handleChange = (e) => {
       setFormState({ ...formState, [e.target.name]: e.target.value });
     };
