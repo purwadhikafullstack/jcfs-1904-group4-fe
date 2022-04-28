@@ -149,12 +149,12 @@ function ProductManager(props) {
           <div className="card-header" style={{ display: 'flex', justifyContent: 'center'}}>
             Page {page} of {lastPage}
           </div>
-          <div className="card-body" style={{display: 'flex', justifyContent: 'center'}}>
+          <div className="card-body" style={{ display: 'flex', justifyContent: 'center' }}>
             <div class="btn">
-              <button type="button" class="btn btn-success" onClick={btnPrevPageHandler} disabled={page === 1} style={{width: '70px', marginInline: '20px'}}>
+              <button type="button" class="btn btn-success" onClick={btnPrevPageHandler} disabled={page === 1} style={{ width: '70px', marginRight: '20px' }}>
                 {"<<"}
               </button>
-              <button type="button" class="btn btn-success" onClick={btnNextPageHandler} disabled={page === lastPage} style={{width: '70px', marginInline: '20px'}}>
+              <button type="button" class="btn btn-success" onClick={btnNextPageHandler} disabled={page === lastPage} style={{ width: '70px', marginLeft: '20px' }}>
                 {">>"}
               </button>
             </div>

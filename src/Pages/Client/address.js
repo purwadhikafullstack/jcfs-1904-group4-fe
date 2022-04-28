@@ -134,7 +134,8 @@ function Address() {
                     <Card style={{width: '1000px', height: '530px'}}>
                         <Card.Header>
                             <i class="bi bi-plus-lg" style={{marginRight: '15px'}}></i>
-                            Add New Address</Card.Header>
+                            Add New Address
+                        </Card.Header>
                         <Card.Body>
                             <input type="text" className="form-control mt-2" placeholder="Full Address" aria-label="Username" aria-describedby="basic-addon1"
                                    onChange={handleChange} name="detail_address"
@@ -168,6 +169,7 @@ function Address() {
                             </Button>
                         </Card.Body>
                     </Card>
+                    
                     <Card style={{width: '1000px', height: '610px', marginTop: '40px'}}>
                         <Card.Header>
                             <i class="bi bi-pencil" style={{marginRight: '15px'}}></i>

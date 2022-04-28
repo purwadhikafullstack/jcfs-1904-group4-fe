@@ -28,14 +28,6 @@ function Navigation() {
                 <NavDropdown title="Products" id="basic-nav-dropdown" style={{ marginTop: '0px', marginInline: '0px' }}>
                   <NavDropdown.Header>Product Category</NavDropdown.Header>
                   <NavDropdown.Item href="/">All Products</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.1">Tables</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.2">Chairs</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.3">Mirrors</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.3">Beds/Mattresses</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.3">Shelves</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.3">Carpets</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.3">Benches</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.3">TV Brackets</NavDropdown.Item>
                 </NavDropdown>
                 <Nav.Link href="#link" style={{ marginRight: '7px' }}>
                   About Us
@@ -47,8 +39,8 @@ function Navigation() {
               <Nav style={{ marginRight: '20px' }}>
                 <Nav.Link style={{ color: 'green' }}>{username}</Nav.Link>
                 <NavDropdown title="My Account" id="basic-nav-dropdown" style={{ marginTop: '0px', marginInline: '0px' }}>
-                  <NavDropdown.Item href="/edit-profile">Edit my Profile</NavDropdown.Item>
-                  <NavDropdown.Item href="/my-transactions">My Transactions</NavDropdown.Item>
+                  <NavDropdown.Item href="/client">Edit my Profile</NavDropdown.Item>
+                  <NavDropdown.Item href="/transaction">My Transactions</NavDropdown.Item>
                 </NavDropdown>
                 <Nav.Link href="/cart" style={{ color: 'green' }}>
                   My Cart

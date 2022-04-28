@@ -34,7 +34,6 @@ function Client() {
         const res = await fetch(imageURL);
         const imageBlob = await res.blob();
         const imageObjectURL = URL.createObjectURL(imageBlob);
-        console.log(imageObjectURL)
         setImagePreview(imageObjectURL);
     };
 
