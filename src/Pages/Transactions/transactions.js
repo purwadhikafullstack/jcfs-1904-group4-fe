@@ -63,10 +63,10 @@ function Transaction() {
 
     return (
         <div className="d-flex justify-content-center mt-5">
-            <Card style={{ width: '900px', minHeight: '400px', marginInline: '20px', backgroundColor: 'white', boxShadow: '0 6px 6px 0 rgb(0, 0, 0, 0.2)' }}>
+            <Card style={{ minHeight: '400px', marginInline: '20px', marginBottom: '50px', backgroundColor: 'white', boxShadow: '0 6px 6px 0 rgb(0, 0, 0, 0.2)' }}>
                 <Card.Header style={{ fontSize: '30px' }}>My Transactions</Card.Header>
-                <Card.Body>
-                    <div  className="d-flex justify-content-center">
+                <Card.Body className="d-flex justify-content-center">
+                    <div className="d-flex flex-column">
                         {transactions.map((trans) => (
                             <TransactionCard 
                                 key={trans.transaction_id}

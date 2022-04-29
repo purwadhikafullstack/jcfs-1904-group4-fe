@@ -1,6 +1,5 @@
 import axios from '../../Config/axios';
 import React, { useEffect, useState } from "react";
-import { useSelector } from 'react-redux';
 
 import './cartBox.css';
 import { Card } from "react-bootstrap";
@@ -10,9 +9,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 function CartBox(props) {
-
     const { cart_id, product_id, product_name, price, product_image_name, quantity } = props.product
-    const user_id = useSelector((state) => state.auth.user_id);
 
     const [qtty, setQtty] = useState(0)
     const [totalPrice, setTotalPrice] = useState([]);
