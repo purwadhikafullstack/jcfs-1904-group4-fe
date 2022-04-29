@@ -4,7 +4,7 @@ import './style.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { keepLoginAction } from '../src/Store/Actions/action.js';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Navigation from './Components/Navigation/navigation';
 
@@ -26,6 +26,7 @@ import ForgotPassword from './Pages/ForgotPassword/ForgotPassword';
 
 function App() {
   const [isLocalStorageChecked, setIsLocalStorageChecked] = useState(false);
+  const { role } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -51,8 +52,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Products />} />
             <Route path="/cart" element={<Cart />} />
-            <Route path="/admin" element={<Admin />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/admin" element={<Admin />} />
             <Route path="/client" element={<Client />} />
             <Route path="/address" element={<Address />} />
             <Route path="/register" element={<Register />} />

@@ -40,6 +40,7 @@ function TransactionCard(props) {
 
     useEffect(() => {
         getTransactionDetails();
+        fetchTransactionPhoto();
     }, [])
 
     const onImageChange = (e) => {
@@ -80,10 +81,6 @@ function TransactionCard(props) {
             alert("You do not have any transaction record")
         }
     };
-
-    useEffect(() => {
-        fetchTransactionPhoto();
-    }, []);
 
     return (
         <div>
