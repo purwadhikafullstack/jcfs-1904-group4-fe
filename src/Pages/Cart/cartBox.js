@@ -13,9 +13,23 @@ function CartBox(props) {
 
     const { cart_id, product_id, product_name, price, product_image_name, quantity } = props.product
     const user_id = useSelector((state) => state.auth.user_id);
-    const [totalPrice, setTotalPrice] = useState([]);
+
     const [qtty, setQtty] = useState(0)
-    const [newQuantity, setNewQuantity] = useState(quantity + qtty)
+    const [totalPrice, setTotalPrice] = useState([]);
+    const [imagePreview, setImagePreview] = useState("");
+    const [newQuantity, setNewQuantity] = useState(quantity + qtty);
+
+    useEffect(() => {
+        fetchProductPicture();
+    }, []);
+
+    const imageURL = `http://localhost:2022/products/${product_image_name}`
+    const fetchProductPicture = async () => {
+        const res = await fetch(imageURL);
+        const imageBlob = await res.blob();
+        const imageObjectURL = URL.createObjectURL(imageBlob);
+        setImagePreview(imageObjectURL);
+    };
 
     const addQuantity = async () => {
         try {
@@ -69,7 +83,7 @@ function CartBox(props) {
     return (
         <div>
             <Card className="cart-box">
-                <Card.Img src={product_image_name} className="image"></Card.Img>
+                <Card.Img src={imagePreview} className="image"></Card.Img>
                 <div className="card-body">
                     <Card.Title>{product_name}</Card.Title>
                     <Card.Subtitle className="mt-1">Product ID: {product_id}</Card.Subtitle>
