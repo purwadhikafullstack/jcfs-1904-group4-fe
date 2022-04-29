@@ -19,7 +19,7 @@ function ManageProducts() {
 
   useEffect(() => {
     fetchProducts();
-  }, [sqlPagination]);
+  }, [paginationState]);
 
   const fetchProducts = async () => {
     try {
@@ -41,6 +41,8 @@ function ManageProducts() {
       console.log(alert(error.message));
     }
   };
+
+  
 
     return (
         <div className="d-flex justify-content-center mt-5">

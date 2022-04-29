@@ -7,17 +7,34 @@ import axios from "../../../Config/axios";
 function ProductCard(props) {
     const { product_id, product_name, product_desc, product_image_name, price, category_id } = props.products
 
+    const [image, setImage] = useState(null);
+    const [imagePreview, setImagePreview] = useState("");
     const [formState, setFormState] = useState({
         edit_product_name: product_name,
         edit_product_desc: product_desc,
-        edit_price: price
+        edit_price: price,
+        edit_category_id: category_id
     });
 
-    const { edit_product_name, edit_product_desc, edit_price } = formState;
+    const { edit_product_name, edit_product_desc, edit_price, edit_category_id } = formState;
 
-    const [category, setCategory] = useState({
-        category_id: category_id
-    });
+    const [productCategories, setProductCategories] = useState([]);
+
+    useEffect(() => {
+        fetchProductCategories();
+        fetchProductPicture();
+    }, [])
+
+    const fetchProductCategories = async () => {
+        try {
+          const res = await axios.get("/categories/get");
+          const { data } = res
+  
+          setProductCategories(data.categories);
+        } catch (error) {
+          console.log(alert(error.message));
+        }
+      };
 
     const deleteProduct = async () => {
         try {
@@ -45,7 +62,7 @@ function ProductCard(props) {
             {
                 product_name: edit_product_name,
                 product_desc: edit_product_desc,
-                category_id: category.category_id,
+                category_id: edit_category_id,
                 price: edit_price
             });
 
@@ -55,12 +72,35 @@ function ProductCard(props) {
         }
     };
 
-    const handleChange = (e) => {
-        setFormState({ ...formState, [e.target.name]: e.target.value })
+    const postPhoto = async () => {
+        try {
+            const formData = new FormData();
+            formData.append("photo", image);
+
+            const res = await axios.post(`/products/photo/${product_id}`, formData);
+
+            alert("Photo successfully uploaded")
+        } catch (error) {
+            console.log(alert(error.message))
+        }
     };
 
-    const categoryChange = (e) => {
-        setCategory({ ...category, category_id: e.tagret.value })
+    const imageURL = `http://localhost:2022/products/${product_image_name}`
+    const fetchProductPicture = async () => {
+        const res = await fetch(imageURL);
+        const imageBlob = await res.blob();
+        const imageObjectURL = URL.createObjectURL(imageBlob);
+        setImagePreview(imageObjectURL);
+    };
+
+    const onImageChange = (e) => {
+        const image = e.target.files[0];
+        setImage(image);
+        setImagePreview(URL.createObjectURL(image));
+    };
+
+    const handleChange = (e) => {
+        setFormState({ ...formState, [e.target.name]: e.target.value })
     };
 
     const deleteProductButton = () => {
@@ -75,15 +115,21 @@ function ProductCard(props) {
         updateProduct();
     };
 
+    const postPhotoButton = () => {
+        postPhoto();
+    };
+
     return (
         <div className="mb-4">
             <Card className="mb-3 ml-3" style={{ width: '1000px', height: '600px' }}>
                 <div className="d-flex flex-row">
                     <div className="d-flex flex-column justify-content-start p-4">
-                        <Card.Img variant="top" src={product_image_name} style={{ width: '250px', height: '250px', objectFit: 'cover' }}></Card.Img>
-                        <Card.Title className="mt-3 ml-2">Product ID : {product_id}</Card.Title>
+                        <Card.Title className="mt-1 mb-3 ml-2">Product ID : {product_id}</Card.Title>
+                        <Card.Img variant="top" src={imagePreview} style={{ width: '250px', height: '250px', objectFit: 'cover' }}></Card.Img>
+                        <input type="file" alt="Product Image" onChange={onImageChange} className="mt-4"></input>
+                        <Button onClick={postPhotoButton} className="mt-3" style={{ width: '250px' }} variant="outlined">Save Image</Button>
                     </div>
-                    <Card.Body>
+                    <Card.Body className="mt-3">
                         <Card.Title>Product Name</Card.Title>
                             <input 
                                 className="mb-3 form-control"
@@ -114,19 +160,11 @@ function ProductCard(props) {
                                 onChange={handleChange}
                             ></input>
                         <Card.Title className="mb-2">Category</Card.Title>
-                            <select className="form-control" onChange={categoryChange}>
-                                <option value="1">Table</option>
-                                <option value="2">Chair</option>
-                                <option value="3">Shelf</option>
-                                <option value="4">Office Chair</option>
-                                <option value="5">Gaming Chair</option>
-                                <option value="6">Standing Lamp</option>
-                                <option value="7">Children's Mattress</option>
-                                <option value="17">Bed</option>
-                                <option value="16">Carpet</option>
-                                <option value="8">Bench</option>
-                                <option value="9">Mirror</option>
-                            </select>
+                        <select className="form-control d-flex justify-content-center" onChange={handleChange} name="edit_category_id">
+                            {productCategories.map((category) => 
+                                <option key={category.category_id} value={category.category_id}>{category.category_name}</option>
+                            )}
+                        </select>
                     </Card.Body>
                 </div>
                 <div className="d-flex flex-row mt-3 justify-content-end mr-3">

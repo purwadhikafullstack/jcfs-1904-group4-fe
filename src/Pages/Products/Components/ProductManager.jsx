@@ -24,16 +24,16 @@ function CatalogueManager(props) {
             product_name: formState.keyword,
             sortBy: sortOption.sortBy,
             typeSort: sortOption.typeSort,
-            page: sqlPagination.page, 
+            page: paginationState.page, 
             itemsPerPage: paginationState.itemsPerPage, 
-            OFFSET: (sqlPagination.page - 1) * sqlPagination.itemsPerPage 
+            OFFSET: (paginationState.page - 1) * paginationState.itemsPerPage 
         }});
 
         const { result, count } = res.data;
         setProducts(result)
         setPaginationState({
-          ...sqlPagination,
-          lastPage: Math.ceil(count[0].count / sqlPagination.itemsPerPage)
+          ...paginationState,
+          lastPage: Math.ceil(count[0].count / paginationState.itemsPerPage)
         });
       } catch (error) {
         console.log(alert(error.message));

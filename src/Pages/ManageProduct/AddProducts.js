@@ -88,11 +88,11 @@ function AddProducts() {
 
     const addProductButton = () => {
         postProduct();
+        postNewProductCategory();
     };
 
     const postPhotoButton = () => {
         postPhoto();
-        postNewProductCategory();
     };
 
     return (
