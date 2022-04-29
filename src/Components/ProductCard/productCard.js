@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "../../Config/axios";
 
@@ -8,9 +8,22 @@ import { Button } from '@mui/material';
 
 function ProductCard(props) {
     const [cartId, setCartId] = useState([]);
+    const [imagePreview, setImagePreview] = useState("");
 
     const { product_id, product_name, price, product_image_name } = props.products;
     const user_id = useSelector((state) => state.auth.user_id);
+
+    useEffect(() => {
+        fetchProductPicture();
+    }, []);
+
+    const imageURL = `http://localhost:2022/products/${product_image_name}`
+    const fetchProductPicture = async () => {
+        const res = await fetch(imageURL);
+        const imageBlob = await res.blob();
+        const imageObjectURL = URL.createObjectURL(imageBlob);
+        setImagePreview(imageObjectURL);
+    };
 
     const addToCartHandler = async () => {
         try {
@@ -68,7 +81,7 @@ function ProductCard(props) {
     return (
         <div>
             <Card className="kartu" style={{ width: '250px', height: '450px', borderRadius: '5px', boxShadow: '0 4px 4px 0 rgb(0, 0, 0, 0.2)', backgroundColor: '#eaeaea', marginInline: '20px', marginBottom: '40px'}}>
-                <Card.Img variant="top" src={product_image_name} style={{width: '248px', height: '248px', objectFit: 'cover'}}/>
+                <Card.Img variant="top" src={imagePreview} style={{width: '248px', height: '248px', objectFit: 'cover'}}/>
                 <Card.Body>
                     <Card.Title>{product_name}</Card.Title>
                     <Card.Subtitle style={{fontSize: '20px'}}>Rp. {price.toLocaleString('id-ID')}</Card.Subtitle>

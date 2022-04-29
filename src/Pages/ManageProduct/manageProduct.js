@@ -42,9 +42,7 @@ function ManageProducts() {
     }
   };
 
-  
-
-    return (
+  return (
         <div className="d-flex justify-content-center mt-5">
             <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
                 <CatalogueManager
@@ -64,7 +62,7 @@ function ManageProducts() {
                 </div>
             </div>
         </div>
-    )
+  )
 }
 
 export default ManageProducts;
