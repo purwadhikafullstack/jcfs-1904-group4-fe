@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "../../Config/axios";
 
 import { Card, Button } from "react-bootstrap";
@@ -10,13 +10,27 @@ function AddProducts() {
         product_name: "",
         product_desc: "",
         price: 0,
-        is_deleted: 0
-    });
-    const [category, setCategory] = useState({
+        is_deleted: 0,
         category_id: 1
     });
+
     const [productId, setProductId] = useState([]);
-    console.log(productId)
+    const [productCategories, setProductCategories] = useState([]);
+
+    useEffect(() => {
+        fetchProductCategories();
+    }, []);
+
+    const fetchProductCategories = async () => {
+        try {
+          const res = await axios.get("/categories/get");
+          const { data } = res
+  
+          setProductCategories(data.categories);
+        } catch (error) {
+          console.log(alert(error.message));
+        }
+    };
 
     const postProduct = async () => {
         try {
@@ -31,14 +45,21 @@ function AddProducts() {
             const { insertId } = res.data;
             setProductId(insertId);
 
-            const resCat = await axios.post(`/products/category/${insertId}`,
-            {
-                category_id: category.category_id
-            });
-
             alert("Product succesfully added")
         } catch (error) {
             console.log(alert(error.message));
+        }
+    };
+
+    const postNewProductCategory = async () => {
+        try {
+            const res = await axios.post(`/products/category/${productId}`,
+            {
+                category_id: formState.category_id
+            });
+
+        } catch (error) {
+            console.log(alert(error.message))
         }
     };
 
@@ -65,16 +86,13 @@ function AddProducts() {
         setFormState({ ...formState, [e.target.name]: e.target.value })
     };
 
-    const categoryChange = (e) => {
-        setCategory({ ...category, [e.target.name]: e.tagret.value })
-    };
-
     const addProductButton = () => {
         postProduct();
     };
 
     const postPhotoButton = () => {
         postPhoto();
+        postNewProductCategory();
     };
 
     return (
@@ -117,28 +135,20 @@ function AddProducts() {
                                 name="stock"
                                 onChange={handleChange}
                             ></input>
-                        <Card.Title className="mb-2">Category</Card.Title>
-                            <select className="form-control" onChange={categoryChange} name="category_id">
-                                <option value="1">Table</option>
-                                <option value="2">Chair</option>
-                                <option value="3">Shelf</option>
-                                <option value="4">Office Chair</option>
-                                <option value="5">Gaming Chair</option>
-                                <option value="6">Standing Lamp</option>
-                                <option value="7">Children's Mattress</option>
-                                <option value="17">Bed</option>
-                                <option value="16">Carpet</option>
-                                <option value="8">Bench</option>
-                                <option value="9">Mirror</option>
+                        <Card.Title className="mb-3">Category</Card.Title>
+                            <select className="form-control d-flex justify-content-center" onChange={handleChange} name="category_id">
+                                {productCategories.map((category) => 
+                                    <option key={category.category_id} value={category.category_id}>{category.category_name}</option>
+                                )}
                             </select>
-                        <Card.Title className="mt-4">Add to website?</Card.Title>
+                        <Card.Title className="mt-4 mb-2">Add to website?</Card.Title>
                             <select className="form-control" onChange={handleChange} name="is_deleted">
                                 <option value="0">Yes</option>
                                 <option value="1">No</option>
                             </select>
                     </Card.Body>
                 </div>
-                <div className="d-flex flex-row mt-5 justify-content-end mr-3">
+                <div className="d-flex flex-row mt-4 justify-content-end mr-3">
                     <Button variant="success" onClick={addProductButton} style={{ width: '100%', marginLeft: '20px' }}>Add</Button>
                 </div>
             </Card>
