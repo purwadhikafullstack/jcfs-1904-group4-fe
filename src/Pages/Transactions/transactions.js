@@ -11,17 +11,17 @@ function Transaction() {
     const user_id = useSelector((state) => state.auth.user_id);
 
     const [transactions, setTransactions] = useState([]);
-    const [sortTransactions, setSortTransactions] = useState({
-        sortBy: "all"
+    const [filterTransactions, setFilterTransactions] = useState({
+        filterBy: "all"
     });
 
     useEffect(() => {
         getTransactions();
-    }, [sortTransactions]);
+    }, [filterTransactions]);
 
     const getTransactions = async () => { 
 
-    if (sortTransactions.sortBy === "all") {
+    if (filterTransactions.sortBy === "all") {
         
             try {
                 const res = await axios.get(`/transactions/get/${user_id}`)
@@ -32,7 +32,7 @@ function Transaction() {
                 alert("You do not have any transaction record")
             }
 
-    } else if (sortTransactions.sortBy === "ongoing") {
+    } else if (filterTransactions.sortBy === "ongoing") {
 
             try {
                 const res = await axios.get(`/transactions/get/ongoing/${user_id}`)
@@ -43,7 +43,7 @@ function Transaction() {
                 alert("You do not have any ongoing transactions")
             }
 
-    } else if (sortTransactions.sortBy === "arrived") {   
+    } else if (filterTransactions.sortBy === "arrived") {   
 
             try {
                 const res = await axios.get(`/transactions/past/${user_id}`)
@@ -58,7 +58,7 @@ function Transaction() {
     };
 
     const onSelectHandler = (e) => {
-        setSortTransactions({ sortBy: e.target.value });
+        setFilterTransactions({ filterBy: e.target.value });
       };
 
     return (

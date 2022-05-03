@@ -57,30 +57,6 @@ function HistoryCard(props) {
         }
     };
 
-    const onConfirmClick = () => {
-        confirmPhoto();
-    };
-
-    const onRejectClick = () => {
-        rejectPhoto();
-    };
-
-    const confirmPhoto = async () => {
-        try {
-            const res = await axios.put(`/transactions/confirm/${transaction_id}`)
-        } catch (error) {
-            alert("An error occured")
-        }
-    };
-
-    const rejectPhoto = async () => {
-        try {
-            const res = await axios.put(`/transactions/reject/${transaction_id}`)
-        } catch (error) {
-            alert("An error occured")
-        }
-    };
-
     return (
         <div>
             <Card className='kartu' style={{ width: '750px', marginBottom: '20px', boxShadow: '0 4px 4px 0 rgb(0, 0, 0, 0.2)' }}>
@@ -116,8 +92,6 @@ function HistoryCard(props) {
                                         style={{ objectFit: 'cover', width: '200px', height: '200px', borderRadius: '3px' }}
                                     >
                                     </Card.Img>
-                                    <Button className="mt-3" color="success" onClick={onConfirmClick}>Confirm Payment</Button>
-                                    <Button className="mt-2" color="error" onClick={onRejectClick}>Reject Payment</Button>
                                 </div>
                             </div>
                         </div>
