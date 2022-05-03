@@ -14,7 +14,7 @@ function HistoryTransaction() {
         keyword: ""
     });
     const [transactions, setTransactions] = useState([]);
-    console.log(transactions)
+    const [warehouse, setWarehouse] = useState([]);
     const [sortTransactions, setSortTransactions] = useState({
         sortBy: "all"
     });
@@ -70,12 +70,11 @@ function HistoryTransaction() {
             const resId = await axios.get(`/users/wh_id/${wh_admin_id}`)
             const { warehouse_id } = resId.data;
 
-            const res = await axios.get(`/transactions/get/wh/${warehouse_id[0].warehouse_id}`)
+            setWarehouse(warehouse_id[0]);
+            const res = await axios.get(`/transactions/get/wh/${warehouse.warehouse_id}`)
             const { transactions } = res.data;
-            console.log(transactions)
 
             setTransactions(transactions);
-
         } catch (error) {
             console.log(alert(error.message));
         }
@@ -83,22 +82,17 @@ function HistoryTransaction() {
     
     const getClientTransactions = async () => {
         try {
-            // Get warehouse ID
-            const resId = await axios.get(`/users/wh_id/${wh_admin_id}`)
-            const { id } = resId.data;
-
-            // Get client (user) ID
-            const resClient = await axios.get(`/users/id`,
-            { params: {
-                full_name: clientName.keyword
-            }})
-            const { user_id } = resClient.data;
-
             // Get transactions from user... and warehouse... 
-            const res = await axios.get(`/transactions/get/${user_id}/${id}`)
+            const res = await axios.get(`/transactions/search`,
+            {
+                params: {
+                    warehouse_id: warehouse.warehouse_id,
+                    recipient_name: clientName.keyword
+                }
+            })
             const { transactions } = res.data;
-            setTransactions(transactions);
 
+            setTransactions(transactions);
         } catch (error) {
             console.log(alert(error.message));
         }

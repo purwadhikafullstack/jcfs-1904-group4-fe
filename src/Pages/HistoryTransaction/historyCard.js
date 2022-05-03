@@ -36,7 +36,6 @@ function HistoryCard(props) {
     useEffect(() => {
         getTransactionDetails();
         fetchTransactionPhoto();
-
     }, [])
 
     const imageURL = `http://localhost:2022/transaction/${proof_image}`
@@ -51,6 +50,7 @@ function HistoryCard(props) {
         try {
             const res = await axios.get(`/transactions/get/details/${transaction_id}`)
             const { data } = res;
+            console.log(data.transactions)
 
             setTransactionDetails(data.transactions)
         } catch (error) {
@@ -85,7 +85,7 @@ function HistoryCard(props) {
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'center', width: '400px', marginTop: '10px', marginBottom: '20px' }}>
                             <div className="d-flex flex-column">
-                                <div className="d-flex justify-content-center">
+                                <div className="d-flex justify-content-center flex-column">
                                     <Card.Img
                                         variant="top"
                                         alt="No file uploaded yet" 
@@ -93,6 +93,7 @@ function HistoryCard(props) {
                                         style={{ objectFit: 'cover', width: '200px', height: '200px', borderRadius: '3px' }}
                                     >
                                     </Card.Img>
+                                    <Button className="mt-3" color="success">Confirm Payment</Button>
                                 </div>
                             </div>
                         </div>
