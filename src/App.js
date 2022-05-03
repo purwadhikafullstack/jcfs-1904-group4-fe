@@ -23,10 +23,10 @@ import ResetPassword from './Pages/ResetPassword/ResetPassword';
 import ProductDetail from './Pages/ProductDetail/productDetail';
 import ManageProducts from './Pages/ManageProduct/ManageProduct';
 import ForgotPassword from './Pages/ForgotPassword/ForgotPassword';
+import HistoryTransaction from './Pages/HistoryTransaction/historyTransaction';
 
 function App() {
   const [isLocalStorageChecked, setIsLocalStorageChecked] = useState(false);
-  const { role } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -63,8 +63,9 @@ function App() {
             <Route path="/add-products" element={<AddProducts />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/manage-products" element={<ManageProducts />} />
-            <Route path="/reset-password/:token" element={<ResetPassword />} />
             <Route path="/products/:product_id" element={<ProductDetail />} />
+            <Route path="/reset-password/:token" element={<ResetPassword />} />
+            <Route path="/history-transaction" element={<HistoryTransaction />} />
           </Routes>
         </Router>
       </div>

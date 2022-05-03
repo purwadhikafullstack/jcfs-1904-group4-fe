@@ -7,7 +7,6 @@ import ProductCard from "../../Components/ProductCard/productCard";
 
 function Products() {
   const [products, setProducts] = useState([]);
-
   const [paginationState, setPaginationState] = useState({
     page: 1,
     lastPage: 0,
