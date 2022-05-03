@@ -68,7 +68,7 @@ function Navigation() {
                   <NavDropdown.Item href="/manage-products">Edit Products</NavDropdown.Item>
                   <NavDropdown.Item href="/add-products">Add Products</NavDropdown.Item>
                 </NavDropdown>
-                <Nav.Link href="/manage-transactions">Transactions</Nav.Link>
+                <Nav.Link href="/history-transaction">Transactions</Nav.Link>
                 <Nav.Link href="/requests" style={{ marginRight: '7px' }}>
                   Requests
                 </Nav.Link>

@@ -8,62 +8,83 @@ import { Card } from "react-bootstrap";
 import { Button } from "@mui/material";
 
 function HistoryTransaction() {
-    const wh_id = useSelector((state) => state.auth.user_id);
+    const wh_admin_id = useSelector((state) => state.auth.user_id);
 
     const [clientName, setClientName] = useState({
         keyword: ""
     });
     const [transactions, setTransactions] = useState([]);
+    console.log(transactions)
     const [sortTransactions, setSortTransactions] = useState({
         sortBy: "all"
     });
 
+    // useEffect(() => {
+    //     getTransactions();
+    // }, [sortTransactions]);
+
+    // const getTransactions = async () => { 
+
+    // if (sortTransactions.sortBy === "all") {
+        
+    //         try {
+    //             const res = await axios.get(`/transactions/get/${user_id}`)
+    //             const { data } = res;
+
+    //             setTransactions(data.transactions)
+    //         } catch (error) {
+    //             alert("You do not have any transaction record")
+    //         }
+
+    // } else if (sortTransactions.sortBy === "ongoing") {
+
+    //         try {
+    //             const res = await axios.get(`/transactions/get/ongoing/${user_id}`)
+    //             const { data } = res;
+
+    //             setTransactions(data.transactions)
+    //         } catch (error) {
+    //             alert("You do not have any ongoing transactions")
+    //         }
+
+    // } else if (sortTransactions.sortBy === "arrived") {   
+
+    //         try {
+    //             const res = await axios.get(`/transactions/past/${user_id}`)
+    //             const { data } = res;
+
+    //             setTransactions(data.transactions)
+    //         } catch (error) {
+    //             alert("You do not have any past transactions")
+    //         }
+
+    //     };
+    // };
+
     useEffect(() => {
         getTransactions();
-    }, [sortTransactions]);
+    }, []);
 
-    const getTransactions = async () => { 
+    const getTransactions = async () => {
+        try {
+            const resId = await axios.get(`/users/wh_id/${wh_admin_id}`)
+            const { warehouse_id } = resId.data;
 
-    if (sortTransactions.sortBy === "all") {
-        
-            try {
-                const res = await axios.get(`/transactions/get/${user_id}`)
-                const { data } = res;
+            const res = await axios.get(`/transactions/get/wh/${warehouse_id[0].warehouse_id}`)
+            const { transactions } = res.data;
+            console.log(transactions)
 
-                setTransactions(data.transactions)
-            } catch (error) {
-                alert("You do not have any transaction record")
-            }
+            setTransactions(transactions);
 
-    } else if (sortTransactions.sortBy === "ongoing") {
-
-            try {
-                const res = await axios.get(`/transactions/get/ongoing/${user_id}`)
-                const { data } = res;
-
-                setTransactions(data.transactions)
-            } catch (error) {
-                alert("You do not have any ongoing transactions")
-            }
-
-    } else if (sortTransactions.sortBy === "arrived") {   
-
-            try {
-                const res = await axios.get(`/transactions/past/${user_id}`)
-                const { data } = res;
-
-                setTransactions(data.transactions)
-            } catch (error) {
-                alert("You do not have any past transactions")
-            }
-
-        };
+        } catch (error) {
+            console.log(alert(error.message));
+        }
     };
-
+    
     const getClientTransactions = async () => {
         try {
             // Get warehouse ID
-            const resId = await axios.get(`/users/wh_id/${wh_id}`)
+            const resId = await axios.get(`/users/wh_id/${wh_admin_id}`)
             const { id } = resId.data;
 
             // Get client (user) ID
@@ -111,7 +132,7 @@ function HistoryTransaction() {
                 </Card.Body>
             </Card>
             <div className="d-flex flex-column">
-                <Card style={{ width: '350px', height: '125px' }}>
+                <Card style={{ width: '350px' }}>
                     <Card.Header style={{ fontSize: '20px' }}>Filter Transactions</Card.Header>
                     <Card.Body style={{ padding: '20px' }}>
                         <select className="form-control" style={{ display: 'flex', justifyContent: 'center' }} onChange={onSelectHandler}>
@@ -119,10 +140,11 @@ function HistoryTransaction() {
                             <option value="ongoing">Ongoing Transactions</option>
                             <option value="arrived">Past Transactions</option>
                         </select>
-                        <input type="text" className="form-control" placeholder="Recipient Name" aria-label="Username" aria-describedby="basic-addon1"
+                        <Card.Subtitle className="mt-3">Search by Recipient's Name</Card.Subtitle>
+                        <input type="text" className="form-control mt-2" placeholder="Recipient Name" aria-label="Username" aria-describedby="basic-addon1"
                                onChange={handleChange} name="keyword">
                         </input>
-                        <Button onClick={onSearchButton}>Search</Button>
+                        <Button onClick={onSearchButton} className="mt-3" variant="contained">Search</Button>
                     </Card.Body>
                 </Card>
                 <Button color="error" style={{ marginTop: '15px' }} href="/instruction">Transfer Instructions</Button>
