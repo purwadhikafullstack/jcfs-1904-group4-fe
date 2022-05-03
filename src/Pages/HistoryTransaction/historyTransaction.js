@@ -71,7 +71,7 @@ function HistoryTransaction() {
             const { warehouse_id } = resId.data;
 
             setWarehouse(warehouse_id[0]);
-            const res = await axios.get(`/transactions/get/wh/${warehouse.warehouse_id}`)
+            const res = await axios.get(`/transactions/get/wh/${warehouse_id[0].warehouse_id}`)
             const { transactions } = res.data;
 
             setTransactions(transactions);
@@ -112,7 +112,7 @@ function HistoryTransaction() {
 
     return (
         <div className="d-flex justify-content-center mt-5">
-            <Card style={{ minHeight: '400px', marginInline: '20px', marginBottom: '50px', backgroundColor: 'white', boxShadow: '0 6px 6px 0 rgb(0, 0, 0, 0.2)' }}>
+            <Card style={{ minHeight: '450px', minWidth: '790px', marginInline: '20px', marginBottom: '50px', backgroundColor: 'white', boxShadow: '0 6px 6px 0 rgb(0, 0, 0, 0.2)' }}>
                 <Card.Header style={{ fontSize: '30px' }}>Transactions</Card.Header>
                 <Card.Body className="d-flex justify-content-center">
                     <div className="d-flex flex-column">

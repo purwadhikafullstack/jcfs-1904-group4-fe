@@ -50,11 +50,34 @@ function HistoryCard(props) {
         try {
             const res = await axios.get(`/transactions/get/details/${transaction_id}`)
             const { data } = res;
-            console.log(data.transactions)
 
             setTransactionDetails(data.transactions)
         } catch (error) {
             alert("You do not have any transaction record")
+        }
+    };
+
+    const onConfirmClick = () => {
+        confirmPhoto();
+    };
+
+    const onRejectClick = () => {
+        rejectPhoto();
+    };
+
+    const confirmPhoto = async () => {
+        try {
+            const res = await axios.put(`/transactions/confirm/${transaction_id}`)
+        } catch (error) {
+            alert("An error occured")
+        }
+    };
+
+    const rejectPhoto = async () => {
+        try {
+            const res = await axios.put(`/transactions/reject/${transaction_id}`)
+        } catch (error) {
+            alert("An error occured")
         }
     };
 
@@ -93,7 +116,8 @@ function HistoryCard(props) {
                                         style={{ objectFit: 'cover', width: '200px', height: '200px', borderRadius: '3px' }}
                                     >
                                     </Card.Img>
-                                    <Button className="mt-3" color="success">Confirm Payment</Button>
+                                    <Button className="mt-3" color="success" onClick={onConfirmClick}>Confirm Payment</Button>
+                                    <Button className="mt-2" color="error" onClick={onRejectClick}>Reject Payment</Button>
                                 </div>
                             </div>
                         </div>
