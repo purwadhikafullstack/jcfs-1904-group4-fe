@@ -25,16 +25,10 @@ function Navigation() {
             <Navbar.Collapse id="navbarScroll" style={{ marginLeft: '25px', maxHeight: '300px' }}>
               <Nav className="me-auto" navbarScroll>
                 <Nav.Link href="/">Home</Nav.Link>
-                <NavDropdown title="Products" id="basic-nav-dropdown" style={{ marginTop: '0px', marginInline: '0px' }}>
-                  <NavDropdown.Header>Product Category</NavDropdown.Header>
-                  <NavDropdown.Item href="/">All Products</NavDropdown.Item>
-                </NavDropdown>
+                <Nav.Link href="/">Products</Nav.Link>
                 <Nav.Link href="#link" style={{ marginRight: '7px' }}>
                   About Us
                 </Nav.Link>
-                <Form style={{ display: 'flex' }}>
-                  <FormControl type="search" placeholder="Search" className="me-2" aria-label="Search" />
-                </Form>
               </Nav>
               <Nav style={{ marginRight: '20px' }}>
                 <Nav.Link style={{ color: 'green' }}>{username}</Nav.Link>

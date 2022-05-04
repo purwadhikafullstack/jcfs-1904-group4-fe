@@ -28,7 +28,7 @@ function HistoryCard(props) {
         setExpanded(!expanded);
     };
 
-    const { transaction_id, recipient, invoice_number, amount_price, status, created_at, proof_image } = props.data;
+    const { transaction_id, recipient, invoice_number, amount_price, status, created_at, user_id } = props.data;
 
     const [imagePreview, setImagePreview] = useState("");
     const [transactionDetails, setTransactionDetails] = useState([]);
@@ -38,7 +38,7 @@ function HistoryCard(props) {
         fetchTransactionPhoto();
     }, [])
 
-    const imageURL = `http://localhost:2022/transaction/${proof_image}`
+    const imageURL = `http://localhost:2022/transaction/${user_id}-transaction-${transaction_id}.jpg`
     const fetchTransactionPhoto = async () => {
         const res = await fetch(imageURL);
         const imageBlob = await res.blob();

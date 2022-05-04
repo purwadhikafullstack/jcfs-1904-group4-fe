@@ -21,7 +21,7 @@ function Transaction() {
 
     const getTransactions = async () => { 
 
-    if (filterTransactions.sortBy === "all") {
+    if (filterTransactions.filterBy === "all") {
         
             try {
                 const res = await axios.get(`/transactions/get/${user_id}`)
@@ -32,7 +32,7 @@ function Transaction() {
                 alert("You do not have any transaction record")
             }
 
-    } else if (filterTransactions.sortBy === "ongoing") {
+    } else if (filterTransactions.filterBy === "ongoing") {
 
             try {
                 const res = await axios.get(`/transactions/get/ongoing/${user_id}`)
@@ -43,7 +43,7 @@ function Transaction() {
                 alert("You do not have any ongoing transactions")
             }
 
-    } else if (filterTransactions.sortBy === "arrived") {   
+    } else if (filterTransactions.filterBy === "arrived") {   
 
             try {
                 const res = await axios.get(`/transactions/past/${user_id}`)
