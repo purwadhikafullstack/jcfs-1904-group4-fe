@@ -169,7 +169,7 @@ function ProductCard(props) {
                 </div>
                 <div className="d-flex flex-row mt-3 justify-content-end mr-3">
                     <Button variant="contained" color="success" onClick={updateProductButton}>Save Changes</Button>
-                    <Button variant="contained" color="primary" className="mx-5" onClick={removeProductButton}>Remove from website</Button>
+                    <Button variant="contained" color="primary" style={{ marginInline: '40px' }} onClick={removeProductButton}>Remove from website</Button>
                     <Button variant="contained" color="error" style={{ height: '37px', marginRight: '4px' }} onClick={deleteProductButton}>Delete from database</Button>
                 </div>
             </Card>

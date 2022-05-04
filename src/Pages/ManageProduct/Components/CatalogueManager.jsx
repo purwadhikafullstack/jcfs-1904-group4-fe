@@ -5,7 +5,7 @@ import { Button } from 'react-bootstrap';
 
 // props : paginationState, setPaginationState, setProducts
 function ProductManager(props) {
-  const { paginationState, setPaginationState, sqlPagination, setSqlPagination, setProducts } = props;
+    const { paginationState, setPaginationState, sqlPagination, setSqlPagination, setProducts } = props;
     const { page, lastPage } = paginationState;
 
     const [productCategories, setProductCategories] = useState([]);

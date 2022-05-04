@@ -4,7 +4,7 @@ import './style.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { keepLoginAction } from '../src/Store/Actions/action.js';
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import Navigation from './Components/Navigation/navigation';
 
@@ -16,6 +16,7 @@ import Address from './Pages/Client/address';
 import Products from './Pages/Products/products';
 import Checkout from './Pages/Checkout/checkout';
 import Register from './Pages/Register/Register';
+import SuperAdmin from './Pages/SuperAdmin/superAdmin';
 import AddProducts from './Pages/ManageProduct/AddProducts';
 import Transaction from './Pages/Transactions/transactions';
 import Instructions from './Pages/Transactions/instructions';
@@ -23,6 +24,7 @@ import ResetPassword from './Pages/ResetPassword/ResetPassword';
 import ProductDetail from './Pages/ProductDetail/productDetail';
 import ManageProducts from './Pages/ManageProduct/ManageProduct';
 import ForgotPassword from './Pages/ForgotPassword/ForgotPassword';
+import SuperTransaction from './Pages/SuperAdmin/superTransactions';
 import HistoryTransaction from './Pages/HistoryTransaction/historyTransaction';
 
 function App() {
@@ -58,6 +60,7 @@ function App() {
             <Route path="/address" element={<Address />} />
             <Route path="/register" element={<Register />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/super-admin" element={<SuperAdmin />} />
             <Route path="/transaction" element={<Transaction />} />
             <Route path="/instruction" element={<Instructions />} />
             <Route path="/add-products" element={<AddProducts />} />
@@ -65,6 +68,7 @@ function App() {
             <Route path="/manage-products" element={<ManageProducts />} />
             <Route path="/products/:product_id" element={<ProductDetail />} />
             <Route path="/reset-password/:token" element={<ResetPassword />} />
+            <Route path="/super-transaction" element={<SuperTransaction />} />
             <Route path="/history-transaction" element={<HistoryTransaction />} />
           </Routes>
         </Router>

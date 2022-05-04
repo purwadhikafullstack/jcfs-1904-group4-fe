@@ -90,7 +90,7 @@ function Navigation() {
             <Navbar.Collapse id="navbarScroll" style={{ marginLeft: '25px', maxHeight: '300px' }}>
               <Nav className="me-auto" navbarScroll>
                 <Nav.Link href="/manage-products">Manage Products</Nav.Link>
-                <Nav.Link href="/manage-transactions">Transactions</Nav.Link>
+                <Nav.Link href="/super-transaction">Transactions</Nav.Link>
                 <Nav.Link href="/manage-warehouse" style={{ marginRight: '7px' }}>
                   Manage Warehouse
                 </Nav.Link>
@@ -119,24 +119,10 @@ function Navigation() {
           <Navbar.Collapse id="navbarScroll" style={{ marginLeft: '25px', maxHeight: '300px' }}>
             <Nav className="me-auto" navbarScroll>
               <Nav.Link href="/">Home</Nav.Link>
-              <NavDropdown title="Products" id="basic-nav-dropdown" style={{ marginTop: '0px', marginInline: '0px' }}>
-                <NavDropdown.Header>Product Category</NavDropdown.Header>
-                <NavDropdown.Item href="/">All Products</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.1">Tables</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">Chairs</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Mirrors</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Beds/Mattresses</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Shelves</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Carpets</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Benches</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">TV Brackets</NavDropdown.Item>
-              </NavDropdown>
-              <Nav.Link href="#link" style={{ marginRight: '7px' }}>
-                About Us
-              </Nav.Link>
-              <Form style={{ display: 'flex' }}>
-                <FormControl type="search" placeholder="Search" className="me-2" aria-label="Search" />
-              </Form>
+                <Nav.Link href="/">Products</Nav.Link>
+                <Nav.Link href="#link" style={{ marginRight: '7px' }}>
+                  About Us
+                </Nav.Link>
             </Nav>
             <Nav style={{ marginRight: '10px' }}>
               <Nav.Link href="/login" style={{ color: 'green' }}>

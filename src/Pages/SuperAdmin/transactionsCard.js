@@ -20,14 +20,14 @@ const ExpandMore = styled((props) => {
     }),
   }));
 
-function HistoryCard(props) {
+function TransactionsCard(props) {
     const [expanded, setExpanded] = React.useState(false);
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
 
-    const { transaction_id, recipient, invoice_number, amount_price, status, created_at, user_id } = props.data;
+    const { warehouse_id, transaction_id, recipient, invoice_number, amount_price, status, created_at, user_id } = props.data;
 
     const [imagePreview, setImagePreview] = useState("");
     const [transactionDetails, setTransactionDetails] = useState([]);
@@ -58,12 +58,13 @@ function HistoryCard(props) {
 
     return (
         <div>
-            <Card className='kartu' style={{ width: '750px', marginBottom: '20px', boxShadow: '0 4px 4px 0 rgb(0, 0, 0, 0.2)' }}>
+            <Card style={{ width: '750px', marginBottom: '20px', boxShadow: '0 4px 4px 0 rgb(0, 0, 0, 0.2)' }}>
                 <Card.Body>
                     <div className="d-flex flex-row">
                         <div style={{ marginRight: '70px' }}>
                             <Card.Title className="mb-3" style={{ fontSize: '25px' }}>Invoice number:</Card.Title>
                             <Card.Subtitle className="mb-5">{invoice_number}</Card.Subtitle>
+                            <Card.Subtitle className="mb-3">Warehouse: {warehouse_id}</Card.Subtitle>
                             <Card.Subtitle className="mb-3">Recipient: {recipient}</Card.Subtitle>
                             <Card.Subtitle className="mb-3">Total Price: Rp. {amount_price.toLocaleString('id-ID')}</Card.Subtitle>
                             {status === "waiting_payment" && (
@@ -134,4 +135,4 @@ function HistoryCard(props) {
     )
 };
 
-export default HistoryCard;
+export default TransactionsCard;
