@@ -126,7 +126,7 @@ function Address() {
         <div>
             <div className="d-flex justify-content-center mt-4">
                 <Button variant="outlined" color="primary" className="mx-2" href="/client" startIcon={<ArrowBack />}>Back to My Account</Button>
-                <Button variant="contained" color="primary" className="mx-2" href="/" style={{color: 'white'}}>Products</Button>
+                <Button variant="contained" color="primary" className="mx-2" href="/" style={{color: 'white'}}>Shop Now</Button>
             </div>
             
             <div className="d-flex justify-content-center mt-3" style={{marginBottom: '40px'}}>

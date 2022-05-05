@@ -1,5 +1,5 @@
 import React from 'react';
-import { Nav, Navbar, NavDropdown, Form, FormControl } from 'react-bootstrap';
+import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutAction } from '../../Store/Actions/action';
 
@@ -25,7 +25,7 @@ function Navigation() {
             <Navbar.Collapse id="navbarScroll" style={{ marginLeft: '25px', maxHeight: '300px' }}>
               <Nav className="me-auto" navbarScroll>
                 <Nav.Link href="/">Home</Nav.Link>
-                <Nav.Link href="/">Products</Nav.Link>
+                <Nav.Link href="/products">Products</Nav.Link>
                 <Nav.Link href="#link" style={{ marginRight: '7px' }}>
                   About Us
                 </Nav.Link>
@@ -39,7 +39,7 @@ function Navigation() {
                 <Nav.Link href="/cart" style={{ color: 'green' }}>
                   My Cart
                 </Nav.Link>
-                <Nav.Link href="/" style={{ color: 'green' }} onClick={onLogoutClick}>
+                <Nav.Link href="/login" style={{ color: 'green' }} onClick={onLogoutClick}>
                   Logout
                 </Nav.Link>
               </Nav>
@@ -51,7 +51,7 @@ function Navigation() {
       return (
         <>
           <Navbar bg="light" expand="lg" style={{ boxShadow: '0 6px 6px 0 rgb(0, 0, 0, 0.2)' }}>
-            <Navbar.Brand href="#home" style={{ paddingTop: '2.5px', marginLeft: '25px' }}>
+            <Navbar.Brand href="/" style={{ paddingTop: '2.5px', marginLeft: '25px' }}>
               ezfurniture management
             </Navbar.Brand>
 
@@ -70,7 +70,7 @@ function Navigation() {
 
               <Nav style={{ marginRight: '20px' }}>
                 <Nav.Link style={{ color: 'green' }}>{username}</Nav.Link>
-                <Nav.Link href="/" style={{ color: 'green' }} onClick={onLogoutClick}>
+                <Nav.Link href="/login" style={{ color: 'green' }} onClick={onLogoutClick}>
                   Logout
                 </Nav.Link>
               </Nav>
@@ -82,7 +82,7 @@ function Navigation() {
       return (
         <>
           <Navbar bg="light" expand="lg" style={{ boxShadow: '0 6px 6px 0 rgb(0, 0, 0, 0.2)' }}>
-            <Navbar.Brand href="#home" style={{ paddingTop: '2.5px', marginLeft: '25px' }}>
+            <Navbar.Brand href="/" style={{ paddingTop: '2.5px', marginLeft: '25px' }}>
               ezfurniture management
             </Navbar.Brand>
 
@@ -98,7 +98,7 @@ function Navigation() {
 
               <Nav style={{ marginRight: '20px' }}>
                 <Nav.Link style={{ color: 'green' }}>{username}</Nav.Link>
-                <Nav.Link href="/" style={{ color: 'green' }} onClick={onLogoutClick}>
+                <Nav.Link href="/login" style={{ color: 'green' }} onClick={onLogoutClick}>
                   Logout
                 </Nav.Link>
               </Nav>

@@ -1,57 +1,52 @@
-import React, {useState, useEffect} from "react";
-// import axios from "../../../Config/axios";
+import React from "react";
+import { useSelector } from 'react-redux';
+
+import { Card } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 
 function Home() {
-//   const [products, setProducts] = useState([]);
-//   const [filteredProduucts, setFilteredProducts] = useState([]);
-//   const [paginationState, setPaginationState] = useState({
-//     page: 1,
-//     lastPage: 0,
-//     itemsPerPage: 5
-// }); 
+    const { role } = useSelector((state) => state.auth);
 
-// const fetchProducts = async () => {
-//     try {
-//         const res = await axios.get("/products/get");
-//         const { data } = res;
-//         setProducts(data);
-//         setPaginationState({
-//             ...paginationState,
-//             lastPage: Math.ceil(data.length / paginationState.itemsPerPage)
-//         });
-//     } catch (error) {
-//       console.log(alert(error.message));
-//     }
-//   };
-
-//   useEffect(() => {
-//       fetchProducts();
-//   }, []);
-
-//   const filterProducts = (formData) => {
-//       const resultFilter = products.filter((product) => {
-//           const productName = product.productName.toLowerCase();
-//           const keyword = formData.keyword.toLowerCase();
-//           return (
-//               productName.includes(keyword) &&
-//               product.category.includes(formData.category)
-//           );
-//       });
-
-//       setPaginationState({
-//           ...paginationState,
-//           page: 1,
-//           lastPage: Math.ceil(resultFilter.length / paginationState.itemsPerPage)
-//       });
-
-//       setFilteredProducts(resultFilter);
-//   }
-
-    return (
-        <div>
-            Home Page
-        </div>
-    )
+    if (role === "super_admin") {
+        return (
+            <div className="d-flex justify-content-center" style={{ marginTop: '200px' }}>
+                <Card style={{ width: '600px', height: '300px' }} className="d-flex align-items-center">
+                    <Card.Body className="d-flex justify-content-around">
+                        <h1>Welcome to ezfurniture</h1>
+                        <Button variant="outline-success" href="/super-transaction">Go to Transactions</Button>
+                        <Button variant="outline-success" href="/manage-products">Go to Product Catalogue</Button>
+                        <Button variant="outline-success" href="/orders">Go to Orders</Button>
+                    </Card.Body>
+                </Card>
+            </div>
+        )
+    } else if (role === "admin") {
+        return (
+            <div className="d-flex justify-content-center" style={{ marginTop: '200px' }}>
+                <Card style={{ width: '600px', height: '300px' }} className="d-flex align-items-center">
+                    <Card.Body className="d-flex justify-content-around">
+                        <h1>Welcome to ezfurniture</h1>
+                        <Button variant="outline-success" href="/super-transaction">Go to Transactions</Button>
+                        <Button variant="outline-success" href="/manage-products">Go to Product Catalogue</Button>
+                        <Button variant="outline-success" href="/orders">Go to Orders</Button>
+                    </Card.Body>
+                </Card>
+            </div>
+        )
+    } else if (role === "client") {
+        return (
+            <div className="d-flex justify-content-center" style={{ marginTop: '200px' }}>
+                <Card style={{ width: '600px', height: '300px' }} className="d-flex align-items-center">
+                    <Card.Body className="d-flex justify-content-around">
+                        <h1>Welcome to ezfurniture</h1>
+                        <Button variant="outline-success" href="/products">Shop Now!</Button>
+                        <Button variant="outline-success" href="/cart">Go to my cart</Button>
+                        <Button variant="outline-success" href="/transaction">Go to my transactions</Button>
+                    </Card.Body>
+                </Card>
+            </div>
+        )
+    }
 };
 
 export default Home;

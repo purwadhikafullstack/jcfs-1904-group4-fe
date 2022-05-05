@@ -13,6 +13,12 @@ function ProductDetail() {
   const [product, setProduct] = useState({});
   const [localPrice, setLocalPrice] = useState([]);
   const [qtty, setQtty] = useState(1);
+  const [imagePreview, setImagePreview] = useState("");
+
+  useEffect(() => {
+    getProducts();
+    fetchProductPicture();
+  }, [])
 
   const getProducts = async () => {
     try {
@@ -26,9 +32,13 @@ function ProductDetail() {
     }
   };
 
-  useEffect(() => {
-    getProducts();
-  }, [])
+  const imageURL = `http://localhost:2022/products/${product.product_image_name}`
+  const fetchProductPicture = async () => {
+      const res = await fetch(imageURL);
+      const imageBlob = await res.blob();
+      const imageObjectURL = URL.createObjectURL(imageBlob);
+      setImagePreview(imageObjectURL);
+  };
 
   const quantityBtnHandler = (type) => {
     switch (type) {
@@ -104,7 +114,7 @@ function ProductDetail() {
             {product.product_name}
           </Card.Header>
 
-            <Card.Img variant="top" src={product.product_image_name} 
+            <Card.Img variant="top" src={imagePreview} 
                       style={{objectFit: 'cover', width: '698px', height: '450px'}}>
             </Card.Img>
             <Card.Body style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' }}>

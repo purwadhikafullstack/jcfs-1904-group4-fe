@@ -56,7 +56,7 @@ function Login() {
     } else if (role === "admin") {
       return <Navigate to="/admin" replace />;
     } else if (role === "super_admin") {
-      return <Navigate to="/admin" replace />;
+      return <Navigate to="/super-admin" replace />;
     }
   };
 
