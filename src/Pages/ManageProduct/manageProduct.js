@@ -19,13 +19,13 @@ function ManageProducts() {
 
   useEffect(() => {
     fetchProducts();
-  }, [paginationState]);
+  }, [sqlPagination]);
 
   const fetchProducts = async () => {
     try {
       const res = await axios.get("/products/get", 
         { params: { 
-            page: paginationState.page, 
+            page: sqlPagination.page, 
             itemsPerPage: paginationState.itemsPerPage, 
             OFFSET: (sqlPagination.page - 1) * sqlPagination.itemsPerPage
         }},
@@ -44,7 +44,7 @@ function ManageProducts() {
 
   return (
         <div className="d-flex justify-content-center mt-5">
-            <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
                 <CatalogueManager
                     setProducts={setProducts}
                     sqlPagination={sqlPagination}

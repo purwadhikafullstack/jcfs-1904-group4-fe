@@ -7,6 +7,8 @@ import { Button } from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
 
 function Address() {
+    const user_id = useSelector((state) => state.auth.user_id);
+
     const [address, setAddress] = useState([])
     const [editChosenAddress, setEditChosenAddress] = useState({
         detail_address: '',
@@ -27,10 +29,8 @@ function Address() {
         district: '',
         village: '',
         postal_code: '',
-        is_default: '1'
+        is_default: '0'
     });
-    
-    const user_id = useSelector((state) => state.auth.user_id);
     
     useEffect(() => {
         getAddress();
@@ -72,6 +72,11 @@ function Address() {
 
     const patchAddress = async () => {
         try {
+            const resDefault = await axios.get(`/address/default/${user_id}`)
+            const { address } = resDefault.data;
+
+            const resRemove = await axios.put(`/address/removeDefault/${address[0].address_id}`)
+
             const res = await axios.put(`/address/put/${chooseAddress.address_id}`,
             {
                 detail_address: editChosenAddress.detail_address,
@@ -91,19 +96,39 @@ function Address() {
 
     const postNewAddress = async () => {
         try {
-            const res = await axios.post(`/address/new`,
-            {
-                user_id: user_id,
-                detail_address: formState.detail_address,
-                province: formState.province,
-                city: formState.city,
-                district: formState.district,
-                village: formState.village,
-                postal_code: formState.postal_code,
-                is_default: formState.is_default
-            })
+            if (formState.is_default === 1) {
+                const resDefault = await axios.get(`/address/default/${user_id}`)
+                const { address } = resDefault.data;
 
-            alert("Address Successfully Added")
+                const resRemove = await axios.put(`/address/removeDefault/${address[0].address_id}`)
+                const res = await axios.post(`/address/new`,
+                {
+                    user_id: user_id,
+                    detail_address: formState.detail_address,
+                    province: formState.province,
+                    city: formState.city,
+                    district: formState.district,
+                    village: formState.village,
+                    postal_code: formState.postal_code,
+                    is_default: formState.is_default
+                })
+
+                alert("Address Successfully Added")
+            } else {
+                const res = await axios.post(`/address/new`,
+                {
+                    user_id: user_id,
+                    detail_address: formState.detail_address,
+                    province: formState.province,
+                    city: formState.city,
+                    district: formState.district,
+                    village: formState.village,
+                    postal_code: formState.postal_code,
+                    is_default: formState.is_default
+                })
+
+                alert("Address Successfully Added")
+            }
         } catch (error) {
             console.log(alert(error.message))
         }
@@ -119,7 +144,7 @@ function Address() {
 
     const editChange = (e) => {
         setEditChosenAddress({...editChosenAddress, [e.target.name]: e.target.value})
-    }
+    };
 
 
     return (
@@ -203,7 +228,7 @@ function Address() {
                             />
 
                             <h5 className="ml-2 mt-4">Set as default address ?</h5>
-                            <select className="form-control mt-3" name="is_default">
+                            <select className="form-control mt-3" name="is_default" onChange={editChange}>
                                 <option value="0">No</option>
                                 <option value="1">Yes</option>
                             </select>

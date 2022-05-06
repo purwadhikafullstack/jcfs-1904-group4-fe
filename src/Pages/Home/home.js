@@ -9,12 +9,15 @@ function Home() {
 
     if (role === "super_admin") {
         return (
-            <div className="d-flex justify-content-center" style={{ marginTop: '200px' }}>
-                <Card style={{ width: '600px', height: '300px' }} className="d-flex align-items-center">
-                    <Card.Body className="d-flex justify-content-around">
-                        <h1>Welcome to ezfurniture</h1>
+            <div className="d-flex flex-row" style={{ height: '900px' }}>
+                <div style={{ width:'50%' }} className="d-flex justify-content-center align-items-center"> 
+                    <h1>ezfurniture management: Super Admin</h1>
+                </div>
+
+                <Card style={{ width:'50%', height: '100%' }}>
+                    <Card.Body>
                         <Button variant="outline-success" href="/super-transaction">Go to Transactions</Button>
-                        <Button variant="outline-success" href="/manage-products">Go to Product Catalogue</Button>
+                        <Button variant="outline-success" href="/manage-products" className="my-3">Go to Product Catalogue</Button>
                         <Button variant="outline-success" href="/orders">Go to Orders</Button>
                     </Card.Body>
                 </Card>
@@ -22,12 +25,15 @@ function Home() {
         )
     } else if (role === "admin") {
         return (
-            <div className="d-flex justify-content-center" style={{ marginTop: '200px' }}>
-                <Card style={{ width: '600px', height: '300px' }} className="d-flex align-items-center">
-                    <Card.Body className="d-flex justify-content-around">
-                        <h1>Welcome to ezfurniture</h1>
+            <div className="d-flex flex-row" style={{ height: '900px' }}>
+                <div style={{ width:'50%' }} className="d-flex justify-content-center align-items-center"> 
+                    <h1>ezfurniture management: Warehouse Admin</h1>
+                </div>
+
+                <Card style={{ width:'50%', height: '100%' }}>
+                    <Card.Body>
                         <Button variant="outline-success" href="/super-transaction">Go to Transactions</Button>
-                        <Button variant="outline-success" href="/manage-products">Go to Product Catalogue</Button>
+                        <Button variant="outline-success" href="/manage-products" className="my-3">Go to Product Catalogue</Button>
                         <Button variant="outline-success" href="/orders">Go to Orders</Button>
                     </Card.Body>
                 </Card>
@@ -35,12 +41,15 @@ function Home() {
         )
     } else if (role === "client") {
         return (
-            <div className="d-flex justify-content-center" style={{ marginTop: '200px' }}>
-                <Card style={{ width: '600px', height: '300px' }} className="d-flex align-items-center">
-                    <Card.Body className="d-flex justify-content-around">
-                        <h1>Welcome to ezfurniture</h1>
+            <div className="d-flex flex-row" style={{ height: '900px' }}>
+                <div style={{ width:'50%' }} className="d-flex justify-content-center align-items-center"> 
+                    <h1>ezfurniture</h1>
+                </div>
+
+                <Card style={{ width:'50%', height: '100%' }}>
+                    <Card.Body>
                         <Button variant="outline-success" href="/products">Shop Now!</Button>
-                        <Button variant="outline-success" href="/cart">Go to my cart</Button>
+                        <Button variant="outline-success" href="/cart" className="my-3">Go to my cart</Button>
                         <Button variant="outline-success" href="/transaction">Go to my transactions</Button>
                     </Card.Body>
                 </Card>

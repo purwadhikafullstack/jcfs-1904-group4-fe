@@ -6,10 +6,11 @@ import { Button } from "@mui/material";
 import axios from "../../Config/axios";
 
 function Client() {
-    const [image, setImage] = useState(null);
-    const [imagePreview, setImagePreview] = useState("");
     const user_id = useSelector((state) => state.auth.user_id);
     const getToken = useSelector((state) => state.auth.token);
+
+    const [image, setImage] = useState(null);
+    const [imagePreview, setImagePreview] = useState("");
     const [address, setAddress] = useState([]);
     const [profileData, setProfileData] = useState({
         full_name: "",
@@ -20,9 +21,9 @@ function Client() {
 
     const getAddress = async () => {
         try {
-            const res = await axios.get(`/address/${user_id}`);
-            const { data } = res;
-            setAddress(data.address[0]);
+            const res = await axios.get(`/address/default/${user_id}`);
+            const { address } = res.data;
+            setAddress(address[0]);
 
         } catch (error) {
             console.log(alert(error.message))
@@ -35,6 +36,17 @@ function Client() {
         const imageBlob = await res.blob();
         const imageObjectURL = URL.createObjectURL(imageBlob);
         setImagePreview(imageObjectURL);
+    };
+
+    const getProfileData = async () => {
+        try {
+            const res = await axios.get(`/users/profile/${user_id}`)
+            const { user_data } = res.data;
+
+            setProfileData(user_data[0])
+        } catch (error) {
+            console.log(alert(error.message))
+        }
     };
 
     const saveData = async () => {
@@ -85,6 +97,7 @@ function Client() {
     useEffect(() => {
         getAddress();
         fetchProfilePicture();
+        getProfileData();
     }, []);
     
 
@@ -123,13 +136,13 @@ function Client() {
                             <Card.Header>Profile Data</Card.Header>
                             <Card.Body>
                                 <input type="text" className="form-control" placeholder="Fullname" aria-label="Username" aria-describedby="basic-addon1"
-                                    name="full_name" onChange={handleChange} 
+                                    name="full_name" onChange={handleChange} value={profileData.full_name}
                                 />
                                 <input type="text" className="form-control mt-3" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1"
-                                    name="email" onChange={handleChange}
+                                    name="email" onChange={handleChange} value={profileData.email}
                                 />
                                 <input type="text" className="form-control mt-3" placeholder="Age" aria-label="Username" aria-describedby="basic-addon1"
-                                    name="age" onChange={handleChange}
+                                    name="age" onChange={handleChange} value={profileData.age}
                                 />
                                 <select className="form-control mt-3" onChange={handleChange} name="gender">
                                     <option value="male">Male</option>
