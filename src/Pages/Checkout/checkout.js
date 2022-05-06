@@ -186,6 +186,7 @@ function Checkout() {
         setChooseWarehouse({...chooseWarehouse, [e.target.name]: e.target.value})
     };
 
+    if (defaultAddress) {
     return (
         <div className="d-flex justify-content-center mt-5">
             <div className="d-flex">
@@ -312,6 +313,53 @@ function Checkout() {
             </div>
         </div>
     )
-}
+} else {
+    return (
+        <div className="d-flex justify-content-center mt-5">
+            <div className="d-flex">
+
+                <Card style={{ width: '750px', height: '520px', marginBottom: '50px' }}>
+                    <Card.Header style={{ fontSize: '25px' }}>
+                        Purchase Details
+                    </Card.Header>
+                    <Card.Body style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', padding: '20px' }}>
+                        <h3>You have not registered any address, please add an address to complete this transaction</h3>
+                        <div className="mt-4 d-flex justify-content-center flex-row">
+                            <Button variant="outlined" color="primary" style={{ fontSize: '15px', height: '40px', marginLeft: '10px' }} href='/address'>
+                                Add Address
+                            </Button>
+                        </div>
+
+                        <Card.Title className="mt-5 mb-3">
+                            <i class="bi bi-cart4" style={{ marginRight: '10px' }}></i>
+                            Products :
+                        </Card.Title>
+                        <table>
+                            <tr>
+                                <th>Product ID</th>
+                                <th>Product Name</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                            </tr>
+                            {userCart.map((cart) => 
+                                <tr key={cart.product_id}d>
+                                    <td>{cart.product_id}</td> 
+                                    <td>{cart.product_name}</td>
+                                    <td>{cart.quantity}</td>
+                                    <td>Rp. {cart.price.toLocaleString('id-ID')}</td>
+                                </tr>
+                            )}
+                        </table>
+                        
+                        <Card.Subtitle className="mt-4">Total Price : Rp. {totalState.subTotal.toLocaleString('id-ID')}</Card.Subtitle>
+                        <Card.Subtitle className="mt-2">Tax (5%) : Rp. {totalState.tax.toLocaleString('id-ID')} </Card.Subtitle>
+                        <Card.Subtitle className="mt-2">Shipping Fee : Rp. {shipping.fee.toLocaleString('id-ID')} </Card.Subtitle>
+                        <Card.Title className="mt-2 mb-4">Subtotal : Rp. {grandTotal.toLocaleString('id-ID')}</Card.Title>
+                    </Card.Body>
+                </Card>
+            </div>
+        </div>
+    )}
+};
 
 export default Checkout;

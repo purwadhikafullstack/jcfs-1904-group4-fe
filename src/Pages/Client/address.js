@@ -9,7 +9,7 @@ import { ArrowBack } from "@mui/icons-material";
 function Address() {
     const user_id = useSelector((state) => state.auth.user_id);
 
-    const [address, setAddress] = useState([])
+    const [address, setAddress] = useState([]);
     const [editChosenAddress, setEditChosenAddress] = useState({
         detail_address: '',
         province: '',
@@ -29,7 +29,7 @@ function Address() {
         district: '',
         village: '',
         postal_code: '',
-        is_default: '0'
+        is_default: '1'
     });
     
     useEffect(() => {
@@ -146,12 +146,12 @@ function Address() {
         setEditChosenAddress({...editChosenAddress, [e.target.name]: e.target.value})
     };
 
-
+    if (address.length) {
     return (
         <div>
             <div className="d-flex justify-content-center mt-4">
                 <Button variant="outlined" color="primary" className="mx-2" href="/client" startIcon={<ArrowBack />}>Back to My Account</Button>
-                <Button variant="contained" color="primary" className="mx-2" href="/" style={{color: 'white'}}>Shop Now</Button>
+                <Button variant="contained" color="primary" className="mx-2" href="/products" style={{color: 'white'}}>Shop Now</Button>
             </div>
             
             <div className="d-flex justify-content-center mt-3" style={{marginBottom: '40px'}}>
@@ -244,6 +244,58 @@ function Address() {
             </div>
         </div>
     );
-};
+} else {
+    return (
+        <div>
+            <div className="d-flex justify-content-center mt-4">
+                <Button variant="outlined" color="primary" className="mx-2" href="/client" startIcon={<ArrowBack />}>Back to My Account</Button>
+                <Button variant="contained" color="primary" className="mx-2" href="/products" style={{color: 'white'}}>Shop Now</Button>
+            </div>
+            
+            <div className="d-flex justify-content-center mt-3" style={{marginBottom: '40px'}}>
+                <div className="d-flex flex-column">
+                    <Card style={{width: '1000px', height: '530px'}}>
+                        <Card.Header>
+                            <i class="bi bi-plus-lg" style={{marginRight: '15px'}}></i>
+                            Add New Address
+                        </Card.Header>
+                        <Card.Body>
+                            <input type="text" className="form-control mt-2" placeholder="Full Address" aria-label="Username" aria-describedby="basic-addon1"
+                                   onChange={handleChange} name="detail_address"
+                            />
+                            <input type="text" className="form-control mt-2" placeholder="Province" aria-label="Username" aria-describedby="basic-addon1"
+                                   onChange={handleChange} name="province"
+                            />
+                            <input type="text" className="form-control mt-2" placeholder="City" aria-label="Username" aria-describedby="basic-addon1"
+                                   onChange={handleChange} name="city"
+                            />
+                            <input type="text" className="form-control mt-2" placeholder="District" aria-label="Username" aria-describedby="basic-addon1"
+                                   onChange={handleChange} name="district"
+                            />
+                            <input type="text" className="form-control mt-2" placeholder="Village" aria-label="Username" aria-describedby="basic-addon1"
+                                   onChange={handleChange} name="village"
+                            />
+                            <input type="text" className="form-control mt-2" placeholder="Postal Code" aria-label="Username" aria-describedby="basic-addon1"
+                                   onChange={handleChange} name="postal_code"
+                            />
+
+                            <h5 className="ml-2 mt-4">Set as default address ?</h5>
+                            <select className="form-control mt-3" onChange={handleChange} name="is_default">
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+
+                            <Button variant="outlined" color="success" className="mt-4" style={{width: '200px'}}
+                                    onClick={postNewAddress}
+                            >
+                                Add Address
+                            </Button>
+                        </Card.Body>
+                    </Card>
+                </div>
+            </div>
+        </div>
+    )}
+}
 
 export default Address;
