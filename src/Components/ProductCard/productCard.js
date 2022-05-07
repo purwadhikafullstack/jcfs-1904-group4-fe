@@ -108,12 +108,12 @@ function ProductCard(props) {
                         <Card.Title>{product_name}</Card.Title>
                         <Card.Subtitle style={{fontSize: '20px'}}>Rp. {price.toLocaleString('id-ID')}</Card.Subtitle>
                         <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
-                            <Button variant="outlined" color="error" style={{width: '100%'}} href={`/products/${product_id}`}>
+                            <Button variant="outlined" color="error" style={{width: '100%', color: 'red'}} href={`/products/${product_id}`}>
                                 Details
                             </Button>
                         </div>
                         <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
-                            <Button variant="contained" color="success" style={{width: '100%'}} href="/login">
+                            <Button variant="contained" color="success" style={{width: '100%', color: 'white'}} href="/login">
                                 Add to Cart
                             </Button>
                         </div>
