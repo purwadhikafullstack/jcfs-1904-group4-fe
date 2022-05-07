@@ -9,6 +9,7 @@ import { Button } from '@mui/material';
 function ProductCard(props) {
     const { product_id, product_name, price, product_image_name } = props.products;
     const user_id = useSelector((state) => state.auth.user_id);
+    const { role } = useSelector((state) => state.auth);
 
     const [imagePreview, setImagePreview] = useState("");
 
@@ -77,6 +78,7 @@ function ProductCard(props) {
         }
     };
 
+    if (role === "client") {
     return (
         <div>
             <Card className="kartu" style={{ width: '250px', height: '450px', borderRadius: '5px', boxShadow: '0 4px 4px 0 rgb(0, 0, 0, 0.2)', backgroundColor: '#eaeaea', marginInline: '20px', marginBottom: '40px'}}>
@@ -97,7 +99,28 @@ function ProductCard(props) {
                 </Card.Body>
             </Card>
         </div>
-    )
+    )} else if (role === "") {
+    return (
+            <div>
+                <Card className="kartu" style={{ width: '250px', height: '450px', borderRadius: '5px', boxShadow: '0 4px 4px 0 rgb(0, 0, 0, 0.2)', backgroundColor: '#eaeaea', marginInline: '20px', marginBottom: '40px'}}>
+                    <Card.Img variant="top" src={imagePreview} style={{width: '248px', height: '248px', objectFit: 'cover'}}/>
+                    <Card.Body>
+                        <Card.Title>{product_name}</Card.Title>
+                        <Card.Subtitle style={{fontSize: '20px'}}>Rp. {price.toLocaleString('id-ID')}</Card.Subtitle>
+                        <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
+                            <Button variant="outlined" color="error" style={{width: '100%'}} href={`/products/${product_id}`}>
+                                Details
+                            </Button>
+                        </div>
+                        <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
+                            <Button variant="contained" color="success" style={{width: '100%'}} href="/login">
+                                Add to Cart
+                            </Button>
+                        </div>
+                    </Card.Body>
+                </Card>
+            </div>
+    )}
 };
 
 export default ProductCard;

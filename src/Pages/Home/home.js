@@ -55,6 +55,22 @@ function Home() {
                 </Card>
             </div>
         )
+    } else if (role === "") {
+        return (
+            <div className="d-flex flex-row" style={{ height: '900px' }}>
+                <div style={{ width:'50%' }} className="d-flex justify-content-center align-items-center"> 
+                    <h1>ezfurniture</h1>
+                </div>
+
+                <Card style={{ width:'50%', height: '100%' }}>
+                    <Card.Body>
+                        <Button variant="outline-success" href="/login">Login with an existing account</Button>
+                        <Button variant="outline-success" href="/register" className="my-3">Create an account</Button>
+                        <Button variant="outline-success" href="/products">Look at our products</Button>
+                    </Card.Body>
+                </Card>
+            </div>
+        )
     }
 };
 

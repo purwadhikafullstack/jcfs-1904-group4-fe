@@ -9,6 +9,7 @@ function ProductDetail() {
   const params = useParams();
   const { product_id } = params
   const user_id = useSelector((state) => state.auth.user_id);
+  const { role } = useSelector((state) => state.auth);
   
   const [product, setProduct] = useState({});
   const [localPrice, setLocalPrice] = useState([]);
@@ -104,69 +105,129 @@ function ProductDetail() {
     }
   };
 
+  if (role === "client") {
   return (
-
     <>
-    <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', marginTop: '75px', marginInline: '30px'}}>
-      <div>
-        <Card style={{ width: '700px', height: '750px', marginInline: '30px', boxShadow: '3px 3px 3px 3px rgb(0, 0, 0, 0.1)' }}>
-          <Card.Header style={{display: 'flex', justifyContent: 'center', fontSize: '22px', paddingTop: '10px', paddingBottom: '10px'}}>
-            {product.product_name}
-          </Card.Header>
+      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', marginTop: '75px', marginInline: '30px'}}>
+        <div>
+          <Card style={{ width: '700px', height: '750px', marginInline: '30px', boxShadow: '3px 3px 3px 3px rgb(0, 0, 0, 0.1)' }}>
+            <Card.Header style={{display: 'flex', justifyContent: 'center', fontSize: '22px', paddingTop: '10px', paddingBottom: '10px'}}>
+              {product.product_name}
+            </Card.Header>
 
-            <Card.Img variant="top" src={imagePreview} 
-                      style={{objectFit: 'cover', width: '698px', height: '450px'}}>
-            </Card.Img>
-            <Card.Body style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' }}>
-              <Card.Title>Product Details</Card.Title>
-              <Card.Text style={{marginTop: '18px'}}>
-                {product.product_desc}
-              </Card.Text>
-            </Card.Body>
-        </Card>
+              <Card.Img variant="top" src={imagePreview} 
+                        style={{objectFit: 'cover', width: '698px', height: '450px'}}>
+              </Card.Img>
+              <Card.Body style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' }}>
+                <Card.Title>Product Details</Card.Title>
+                <Card.Text style={{marginTop: '18px'}}>
+                  {product.product_desc}
+                </Card.Text>
+              </Card.Body>
+          </Card>
+        </div>
+
+        <div>
+          <Card style={{ padding: '20px', width: '400px', height: '225px', boxShadow: '3px 3px 3px 3px rgb(0, 0, 0, 0.1)' }}>
+            
+              <Card.Title style={{ fontSize: '30px' }}>Rp. {localPrice}</Card.Title>
+              <div style={{display: 'flex', flexDirection: 'row', marginTop: '20px'}}>
+                <Card.Title style={{ fontSize: '20px', marginTop: '8px' }}>
+                  Quantity: {qtty}
+                </Card.Title>
+                <Button variant="outline-dark" style={{ paddingInline: '14px', paddingTop: '4px', marginInline: '20px', borderRadius: '50%', borderWidth: '2px', fontWeight: 'bold' }}
+                  onClick={() => {
+                    quantityBtnHandler("decrement")
+                  }}
+                  disabled={qtty === 1}
+                >
+                    -
+                </Button>
+                <Button variant="outline-dark" style={{borderRadius: '50%', borderWidth: '2px', fontWeight: 'bold', paddingTop: ' 3px'}}
+                  onClick={() => {
+                    quantityBtnHandler("increment")
+                  }}
+                >
+                    +
+                </Button>
+              </div>
+              <div style={{marginTop: '40px', display: 'flex', justifyContent: 'center', width: '100%'}}>
+                <Button variant="success" style={{width: '100%'}} onClick={addToCartHandler}>
+                  Add to Cart
+                </Button>
+              </div>
+          </Card>
+
+          <Card style={{display: 'flex', justifyContent: 'center', width: '400px', height: '100px', marginTop: '30px', boxShadow: '3px 3px 3px 3px rgb(0, 0, 0, 0.1)'}}>
+              <Button variant="dark" style={{paddingInline: '14px', marginInline: '20px'}} href="/">
+                Back to Products
+              </Button>
+          </Card>
+        </div>
       </div>
-
-      <div>
-        <Card style={{ padding: '20px', width: '400px', height: '225px', boxShadow: '3px 3px 3px 3px rgb(0, 0, 0, 0.1)' }}>
-          
-            <Card.Title style={{ fontSize: '30px' }}>Rp. {localPrice}</Card.Title>
-            <div style={{display: 'flex', flexDirection: 'row', marginTop: '20px'}}>
-              <Card.Title style={{ fontSize: '20px', marginTop: '8px' }}>
-                Quantity: {qtty}
-              </Card.Title>
-              <Button variant="outline-dark" style={{ paddingInline: '14px', paddingTop: '4px', marginInline: '20px', borderRadius: '50%', borderWidth: '2px', fontWeight: 'bold' }}
-                 onClick={() => {
-                   quantityBtnHandler("decrement")
-                 }}
-                 disabled={qtty === 1}
-              >
-                  -
-              </Button>
-              <Button variant="outline-dark" style={{borderRadius: '50%', borderWidth: '2px', fontWeight: 'bold', paddingTop: ' 3px'}}
-                 onClick={() => {
-                  quantityBtnHandler("increment")
-                }}
-              >
-                  +
-              </Button>
-            </div>
-            <div style={{marginTop: '40px', display: 'flex', justifyContent: 'center', width: '100%'}}>
-              <Button variant="success" style={{width: '100%'}} onClick={addToCartHandler}>
-                Add to Cart
-              </Button>
-            </div>
-        </Card>
-
-        <Card style={{display: 'flex', justifyContent: 'center', width: '400px', height: '100px', marginTop: '30px', boxShadow: '3px 3px 3px 3px rgb(0, 0, 0, 0.1)'}}>
-            <Button variant="dark" style={{paddingInline: '14px', marginInline: '20px'}} href="/">
-              Back to Products
-            </Button>
-        </Card>
-      </div>
-    </div>
     </>
-
-  );
+  )} else if (role === "") {
+    return (
+      <>
+        <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', marginTop: '75px', marginInline: '30px'}}>
+          <div>
+            <Card style={{ width: '700px', height: '750px', marginInline: '30px', boxShadow: '3px 3px 3px 3px rgb(0, 0, 0, 0.1)' }}>
+              <Card.Header style={{display: 'flex', justifyContent: 'center', fontSize: '22px', paddingTop: '10px', paddingBottom: '10px'}}>
+                {product.product_name}
+              </Card.Header>
+    
+                <Card.Img variant="top" src={imagePreview} 
+                          style={{objectFit: 'cover', width: '698px', height: '450px'}}>
+                </Card.Img>
+                <Card.Body style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' }}>
+                  <Card.Title>Product Details</Card.Title>
+                  <Card.Text style={{marginTop: '18px'}}>
+                    {product.product_desc}
+                  </Card.Text>
+                </Card.Body>
+            </Card>
+          </div>
+    
+          <div>
+            <Card style={{ padding: '20px', width: '400px', height: '225px', boxShadow: '3px 3px 3px 3px rgb(0, 0, 0, 0.1)' }}>
+              
+                <Card.Title style={{ fontSize: '30px' }}>Rp. {localPrice}</Card.Title>
+                <div style={{display: 'flex', flexDirection: 'row', marginTop: '20px'}}>
+                  <Card.Title style={{ fontSize: '20px', marginTop: '8px' }}>
+                    Quantity: {qtty}
+                  </Card.Title>
+                  <Button variant="outline-dark" style={{ paddingInline: '14px', paddingTop: '4px', marginInline: '20px', borderRadius: '50%', borderWidth: '2px', fontWeight: 'bold' }}
+                    onClick={() => {
+                      quantityBtnHandler("decrement")
+                    }}
+                    disabled={qtty === 1}
+                  >
+                      -
+                  </Button>
+                  <Button variant="outline-dark" style={{borderRadius: '50%', borderWidth: '2px', fontWeight: 'bold', paddingTop: ' 3px'}}
+                    onClick={() => {
+                      quantityBtnHandler("increment")
+                    }}
+                  >
+                      +
+                  </Button>
+                </div>
+                <div style={{marginTop: '40px', display: 'flex', justifyContent: 'center', width: '100%'}}>
+                  <Button variant="success" style={{width: '100%'}} href="/login">
+                    Add to Cart
+                  </Button>
+                </div>
+            </Card>
+    
+            <Card style={{display: 'flex', justifyContent: 'center', width: '400px', height: '100px', marginTop: '30px', boxShadow: '3px 3px 3px 3px rgb(0, 0, 0, 0.1)'}}>
+                <Button variant="dark" style={{paddingInline: '14px', marginInline: '20px'}} href="/products">
+                  Back to Products
+                </Button>
+            </Card>
+          </div>
+        </div>
+      </>
+    )}
 };
 
 export default ProductDetail;
