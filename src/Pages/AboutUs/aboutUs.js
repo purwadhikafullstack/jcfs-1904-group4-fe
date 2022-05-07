@@ -13,9 +13,9 @@ function AboutUs() {
                             <Card.Body style={{ height: '700px', display: 'flex', justifyContent: 'flex-start', marginTop: '20px' }}>
                                 <div className="d-flex flex-row" style={{ width: '100%' }}>
                                     <div style={{ width: '50%' }}>
-                                        <Card.Title style={{ fontSize: '25px' }}>Company Profile</Card.Title>
+                                        <Card.Title style={{ fontSize: '30px' }}>Company Profile</Card.Title>
                                         <h5 className="mt-5">
-                                            ezfurniture LTD. was founded by two young engineers Jayson and Mujaddid in 2022 
+                                            ezfurniture LTD. was founded by two young engineers, Jayson and Mujaddid, in 2022 
                                             who realized that Indonesia needed a new breakthorugh in selling modern yet stylish furniture to fill local homes.
                                             Since it was founded, the company has been striving in the furniture industry and has successfully satisfied the majority
                                             of customers.
@@ -34,31 +34,35 @@ function AboutUs() {
                         </Tab>
                         <Tab eventKey="locations" title="Our Locations">
                             <Card.Body style={{ height: '700px', display: 'flex', justifyContent: 'flex-start', marginTop: '20px' }}>
-                                <Card.Title style={{ fontSize: '25px' }}>Store Locations</Card.Title>
-                                <Card.Title style={{ fontSize: '20px', marginTop: '20px' }}>Jakarta Warehouse</Card.Title>
-                                <Card.Title style={{ fontSize: '20px', marginTop: '20px' }}>Yogyakarta Warehouse</Card.Title>
-                                <Card.Title style={{ fontSize: '20px', marginTop: '20px' }}>Medan Warehouse</Card.Title>
-                                <Card.Title style={{ fontSize: '20px', marginTop: '20px' }}>Makassar Warehouse</Card.Title>
+                                <Card.Title style={{ fontSize: '30px', marginTop: '20px', display: 'flex', justifyContent: 'center' }}>Store Locations</Card.Title>
+                                <Card.Title style={{ fontSize: '20px', marginTop: '30px' }}>Jakarta Warehouse</Card.Title>
+                                <Card.Subtitle className="mt-3">Jl.</Card.Subtitle>
+                                <Card.Title style={{ fontSize: '20px', marginTop: '30px' }}>Yogyakarta Warehouse</Card.Title>
+                                <Card.Subtitle className="mt-3">Jl.</Card.Subtitle>
+                                <Card.Title style={{ fontSize: '20px', marginTop: '30px' }}>Medan Warehouse</Card.Title>
+                                <Card.Subtitle className="mt-3">Jl.</Card.Subtitle>
+                                <Card.Title style={{ fontSize: '20px', marginTop: '30px' }}>Makassar Warehouse</Card.Title>
+                                <Card.Subtitle className="mt-3">Jl.</Card.Subtitle>
                             </Card.Body>
                         </Tab>
                         <Tab eventKey="contact" title="Contact Us">
                             <Card.Body style={{ height: '700px', display: 'flex', justifyContent: 'flex-start', marginTop: '20px' }}>
-                                <Card.Title style={{ fontSize: '25px' }}>Contact Us</Card.Title>
+                                <Card.Title style={{ fontSize: '30px', marginTop: '20px', display: 'flex', justifyContent: 'center' }}>Contact Us</Card.Title>
                             </Card.Body>
                         </Tab>
                         <Tab eventKey="socials" title="Our Socials">
-                            <Card.Body style={{ height: '700px', display: 'flex', justifyContent: 'flex-start', marginTop: '20px' }}>
-                                <i class="bi bi-twitter" style={{ fontSize: '60px', marginLeft: '20px', marginTop: '30px' }}>
-                                    <h4>@ezfurnitureIDJ</h4>
+                            <Card.Body style={{ height: '700px', display: 'flex', justifyContent: 'space-around', marginTop: '20px' }}>
+                                <i class="bi bi-twitter" style={{ fontSize: '60px', marginLeft: '20px', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                    <h4 className="ml-5">@ezfurnitureIDN</h4>
                                 </i>    
-                                <i class="bi bi-instagram" style={{ fontSize: '60px', marginTop: '30px', marginLeft: '20px' }}>
-                                    <h4>@ezfurniture</h4>
+                                <i class="bi bi-instagram" style={{ fontSize: '60px', marginTop: '30px', marginLeft: '20px', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                    <h4 className="ml-5">@ezfurniture</h4>
                                 </i>
-                                <i class="bi bi-facebook" style={{ fontSize: '60px', marginTop: '30px', marginLeft: '20px' }}>
-                                    <h4>ezfurniture Indonesia</h4>
+                                <i class="bi bi-facebook" style={{ fontSize: '60px', marginTop: '30px', marginLeft: '20px', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                    <h4 className="ml-5">ezfurniture Indonesia</h4>
                                 </i>
-                                <i class="bi bi-youtube" style={{ fontSize: '60px', marginTop: '30px', marginLeft: '20px' }}>
-                                    <h4>ezfurniture Indonesia</h4>
+                                <i class="bi bi-youtube" style={{ fontSize: '60px', marginTop: '30px', marginLeft: '20px', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                    <h4 className="ml-5">ezfurniture Indonesia</h4>
                                 </i>
                             </Card.Body>
                         </Tab>
