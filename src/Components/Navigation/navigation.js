@@ -119,7 +119,7 @@ function Navigation() {
           <Navbar.Collapse id="navbarScroll" style={{ marginLeft: '25px', maxHeight: '300px' }}>
             <Nav className="me-auto" navbarScroll>
               <Nav.Link href="/">Home</Nav.Link>
-                <Nav.Link href="/">Products</Nav.Link>
+                <Nav.Link href="/products">Products</Nav.Link>
                 <Nav.Link href="#link" style={{ marginRight: '7px' }}>
                   About Us
                 </Nav.Link>

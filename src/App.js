@@ -10,14 +10,12 @@ import Navigation from './Components/Navigation/navigation';
 
 import Cart from './Pages/Cart/cart';
 import Home from './Pages/Home/home';
-import Admin from './Pages/Admin/admin';
 import Login from './Pages/Login/Login';
 import Client from './Pages/Client/client';
 import Address from './Pages/Client/address';
 import Products from './Pages/Products/products';
 import Checkout from './Pages/Checkout/checkout';
 import Register from './Pages/Register/Register';
-import SuperAdmin from './Pages/SuperAdmin/superAdmin';
 import AddProducts from './Pages/ManageProduct/AddProducts';
 import Transaction from './Pages/Transactions/transactions';
 import Instructions from './Pages/Transactions/instructions';
@@ -56,13 +54,11 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/admin" element={<Admin />} />
             <Route path="/client" element={<Client />} />
             <Route path="/address" element={<Address />} />
             <Route path="/products" element={<Products />} />
             <Route path="/register" element={<Register />} />
             <Route path="/checkout" element={<Checkout />} />
-            <Route path="/super-admin" element={<SuperAdmin />} />
             <Route path="/transaction" element={<Transaction />} />
             <Route path="/instruction" element={<Instructions />} />
             <Route path="/add-products" element={<AddProducts />} />

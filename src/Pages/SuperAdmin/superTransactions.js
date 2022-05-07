@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../Config/axios";
 
-import TransactionsCard from "./transactionsCard";
+import TransactionsCard from "./superCard";
 
 import { Card } from "react-bootstrap";
 import { Button } from "@mui/material";

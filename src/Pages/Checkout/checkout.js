@@ -79,7 +79,6 @@ function Checkout() {
             const { data } = res;
 
             setDefaultAddress(data.address[0]);
-
         } catch (error) {
             console.log(alert(error.message))
         }
@@ -99,7 +98,6 @@ function Checkout() {
             setTotalState({ subTotal, tax, totalPrice });
             setGrandTotal(total)
             setUserCart(data.cart)
-
         } catch (error) {
             console.log(alert(error.message))
         }

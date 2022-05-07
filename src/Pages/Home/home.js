@@ -9,7 +9,7 @@ function Home() {
 
     if (role === "super_admin") {
         return (
-            <div className="d-flex flex-row" style={{ height: '900px' }}>
+            <div className="d-flex flex-row" style={{ height: '905px' }}>
                 <div style={{ width:'50%' }} className="d-flex justify-content-center align-items-center"> 
                     <h1>ezfurniture management: Super Admin</h1>
                 </div>
@@ -25,7 +25,7 @@ function Home() {
         )
     } else if (role === "admin") {
         return (
-            <div className="d-flex flex-row" style={{ height: '900px' }}>
+            <div className="d-flex flex-row" style={{ height: '905px' }}>
                 <div style={{ width:'50%' }} className="d-flex justify-content-center align-items-center"> 
                     <h1>ezfurniture management: Warehouse Admin</h1>
                 </div>
@@ -41,7 +41,7 @@ function Home() {
         )
     } else if (role === "client") {
         return (
-            <div className="d-flex flex-row" style={{ height: '900px' }}>
+            <div className="d-flex flex-row" style={{ height: '905px' }}>
                 <div style={{ width:'50%' }} className="d-flex justify-content-center align-items-center"> 
                     <h1>ezfurniture</h1>
                 </div>
@@ -57,7 +57,7 @@ function Home() {
         )
     } else if (role === "") {
         return (
-            <div className="d-flex flex-row" style={{ height: '900px' }}>
+            <div className="d-flex flex-row" style={{ height: '905px' }}>
                 <div style={{ width:'50%' }} className="d-flex justify-content-center align-items-center"> 
                     <h1>ezfurniture</h1>
                 </div>

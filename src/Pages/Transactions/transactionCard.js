@@ -37,10 +37,12 @@ function TransactionCard(props) {
     const [image, setImage] = useState(null);
     const [imagePreview, setImagePreview] = useState("");
     const [transactionDetails, setTransactionDetails] = useState([]);
+    const [transactionAddress, setTransactionAddress] = useState([]);
 
     useEffect(() => {
         getTransactionDetails();
         fetchTransactionPhoto();
+        getTransactionAddress();
     }, [])
 
     const onImageChange = (e) => {
@@ -82,6 +84,17 @@ function TransactionCard(props) {
         }
     };
 
+    const getTransactionAddress = async () => {
+        try {
+            const res = await axios.get(`/address/transaction/${transaction_id}`)
+            const { address } = res.data;
+
+            setTransactionAddress(address[0])
+        } catch (error) {
+            alert("An error occured")
+        }
+    };
+
     return (
         <div>
             <Card className='kartu' style={{ width: '750px', marginBottom: '20px', boxShadow: '0 4px 4px 0 rgb(0, 0, 0, 0.2)' }}>
@@ -107,22 +120,14 @@ function TransactionCard(props) {
                             )}
                             <Card.Subtitle>Date: {created_at}</Card.Subtitle>
                         </div>
-                        <div style={{ display: 'flex', justifyContent: 'center', width: '400px', marginTop: '10px', marginBottom: '20px' }}>
-                            <div className="d-flex flex-column">
-                                <div className="d-flex justify-content-center">
-                                    <Card.Img
-                                        variant="top"
-                                        alt="No file uploaded yet" 
-                                        src={imagePreview} 
-                                        style={{ objectFit: 'cover', width: '200px', height: '200px', borderRadius: '3px' }}
-                                    >
-                                    </Card.Img>
-                                </div>
-                                <input type="file" alt="Profile Picture" onChange={onImageChange} style={{ width: '250px', marginBottom: '20px', marginTop: '20px' }}></input>
-                                <Button variant="outlined" color="success" onClick={postPhoto} style={{ width: '100%' }}>
-                                    Upload Image
-                                </Button>
-                            </div>
+                        <div>
+                            <Card.Title className="mb-5" style={{ fontSize: '25px' }}>Shipping Address:</Card.Title>
+                            <Card.Subtitle className="mb-3">Address: {transactionAddress.detail_address}</Card.Subtitle>
+                            <Card.Subtitle className="mb-3">Province: {transactionAddress.province}</Card.Subtitle>
+                            <Card.Subtitle className="mb-3">City: {transactionAddress.city}</Card.Subtitle>
+                            <Card.Subtitle className="mb-3">District: {transactionAddress.district}</Card.Subtitle>
+                            <Card.Subtitle className="mb-3">Village: {transactionAddress.village}</Card.Subtitle>
+                            <Card.Subtitle className="mb-3">Postal Code: {transactionAddress.postal_code}</Card.Subtitle>
                         </div>
                     </div>
 
@@ -155,7 +160,25 @@ function TransactionCard(props) {
                                         </tr>
                                     )}
                                 </tbody> 
-                        </table>
+                            </table>
+
+                            <Typography style={{ fontSize: '25px', marginTop: '30px' }}>Upload Transfer Evidence:</Typography>
+                            <div style={{ display: 'flex', justifyContent: 'center', width: '700px', marginTop: '30px', marginBottom: '20px' }}>
+                                <div className="d-flex flex-column">
+                                    <div className="d-flex justify-content-center flex-column">
+                                        <Card.Img
+                                            variant="top"
+                                            alt="No file uploaded yet" 
+                                            src={imagePreview} 
+                                            style={{ objectFit: 'cover', width: '550px', height: '550px', borderRadius: '3px' }}
+                                        ></Card.Img>
+                                    </div>
+                                    <input type="file" alt="Profile Picture" onChange={onImageChange} style={{ width: '250px', marginBottom: '20px', marginTop: '20px' }}></input>
+                                    <Button variant="outlined" color="success" onClick={postPhoto} style={{ width: '100%' }}>
+                                        Upload Image
+                                    </Button>
+                                </div>
+                            </div>
                         </CardContent>
                     </Collapse>
                 </Card.Body>

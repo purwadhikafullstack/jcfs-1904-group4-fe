@@ -31,10 +31,12 @@ function HistoryCard(props) {
 
     const [imagePreview, setImagePreview] = useState("");
     const [transactionDetails, setTransactionDetails] = useState([]);
+    const [transactionAddress, setTransactionAddress] = useState([]);
 
     useEffect(() => {
         getTransactionDetails();
         fetchTransactionPhoto();
+        getTransactionAddress();
     }, [])
 
     const imageURL = `http://localhost:2022/transaction/${user_id}-transaction-${transaction_id}.jpg`
@@ -53,6 +55,17 @@ function HistoryCard(props) {
             setTransactionDetails(data.transactions)
         } catch (error) {
             alert("You do not have any transaction record")
+        }
+    };
+
+    const getTransactionAddress = async () => {
+        try {
+            const res = await axios.get(`/address/transaction/${transaction_id}`)
+            const { address } = res.data;
+
+            setTransactionAddress(address[0])
+        } catch (error) {
+            alert("An error occured")
         }
     };
 
@@ -81,18 +94,14 @@ function HistoryCard(props) {
                             )}
                             <Card.Subtitle>Date: {created_at}</Card.Subtitle>
                         </div>
-                        <div style={{ display: 'flex', justifyContent: 'center', width: '400px', marginTop: '10px', marginBottom: '20px' }}>
-                            <div className="d-flex flex-column">
-                                <div className="d-flex justify-content-center flex-column">
-                                    <Card.Img
-                                        variant="top"
-                                        alt="No file uploaded yet" 
-                                        src={imagePreview} 
-                                        style={{ objectFit: 'cover', width: '200px', height: '200px', borderRadius: '3px' }}
-                                    >
-                                    </Card.Img>
-                                </div>
-                            </div>
+                        <div>
+                            <Card.Title className="mb-5" style={{ fontSize: '25px' }}>Shipping Address:</Card.Title>
+                            <Card.Subtitle className="mb-3">Address: {transactionAddress.detail_address}</Card.Subtitle>
+                            <Card.Subtitle className="mb-3">Province: {transactionAddress.province}</Card.Subtitle>
+                            <Card.Subtitle className="mb-3">City: {transactionAddress.city}</Card.Subtitle>
+                            <Card.Subtitle className="mb-3">District: {transactionAddress.district}</Card.Subtitle>
+                            <Card.Subtitle className="mb-3">Village: {transactionAddress.village}</Card.Subtitle>
+                            <Card.Subtitle className="mb-3">Postal Code: {transactionAddress.postal_code}</Card.Subtitle>
                         </div>
                     </div>
 
@@ -125,7 +134,22 @@ function HistoryCard(props) {
                                         </tr>
                                     )}
                                 </tbody> 
-                        </table>
+                            </table>
+
+                            <Typography style={{ fontSize: '25px', marginTop: '30px' }}>Transfer Evidence:</Typography>
+                            <div style={{ display: 'flex', justifyContent: 'center', width: '700px', marginTop: '20px', marginBottom: '20px' }}>
+                                <div className="d-flex flex-column">
+                                    <div className="d-flex justify-content-center flex-column">
+                                        <Card.Img
+                                            variant="top"
+                                            alt="No file uploaded yet" 
+                                            src={imagePreview} 
+                                            style={{ objectFit: 'cover', width: '550px', height: '550px', borderRadius: '3px' }}
+                                        >
+                                        </Card.Img>
+                                    </div>
+                                </div>
+                            </div>
                         </CardContent>
                     </Collapse>
                 </Card.Body>
