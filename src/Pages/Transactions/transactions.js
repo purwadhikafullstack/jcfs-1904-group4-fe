@@ -77,7 +77,7 @@ function Transaction() {
                 </Card.Body>
             </Card>
             <div className="d-flex flex-column">
-                <Card style={{ width: '350px', height: '125px' }}>
+                <Card style={{ width: '350px' }}>
                     <Card.Header style={{ fontSize: '20px' }}>Filter Transactions</Card.Header>
                     <Card.Body style={{ padding: '20px' }}>
                         <select className="form-control" style={{ display: 'flex', justifyContent: 'center' }} onChange={onSelectHandler}>
@@ -87,7 +87,14 @@ function Transaction() {
                         </select>
                     </Card.Body>
                 </Card>
-                <Button color="error" style={{ marginTop: '15px' }} href="/instruction">Transfer Instructions</Button>
+                <Card className="mt-3">
+                    <Card.Header style={{ fontSize: '20px' }}>Need help with payments?</Card.Header>
+                    <Card.Body style={{ padding: '20px' }}>
+                        <Button variant="contained" color="error" style={{ color: "white" }} href="/instruction">
+                            Transfer Instructions
+                        </Button>
+                    </Card.Body>
+                </Card>
             </div>
         </div>
     )
