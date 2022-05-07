@@ -19,12 +19,18 @@ function Client() {
         gender: ""
     });
 
+    useEffect(() => {
+        getAddress();
+        fetchProfilePicture();
+        getProfileData();
+    }, []);
+
     const getAddress = async () => {
         try {
             const res = await axios.get(`/address/default/${user_id}`);
             const { address } = res.data;
-            setAddress(address[0]);
 
+            setAddress(address[0]);
         } catch (error) {
             console.log(alert(error.message))
         }
@@ -94,39 +100,32 @@ function Client() {
         setProfileData({...profileData, [e.target.name]: e.target.value})
     };
 
-    useEffect(() => {
-        getAddress();
-        fetchProfilePicture();
-        getProfileData();
-    }, []);
-    
-
     if (address) {
     return (
-        <div style={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
-            <Card style={{width: '1000px', height: '800px'}}>
-                <Card.Header style={{fontSize: '30px', display: 'flex', justifyContent: 'center'}}>
-                    <i class="bi bi-person-circle" style={{marginRight: '18px'}}></i>
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '30px' }}>
+            <Card style={{ width: '1000px', height: '800px' }}>
+                <Card.Header style={{ fontSize: '30px', display: 'flex', justifyContent: 'center' }}>
+                    <i class="bi bi-person-circle" style={{ marginRight: '18px' }}></i>
                     My Profile
                 </Card.Header>
 
-                <div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column', marginTop: '50px'}}>
-                    <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around', marginInline: '30px'}}>
+                <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', marginTop: '50px' }}>
+                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', marginInline: '30px' }}>
 
                         <Card border="secondary" style={{ width: '420px', height: '275px'}}>
 
                             <Card.Header>Profile Picture</Card.Header>
 
-                            <div style={{display: 'flex', justifyContent: 'center', marginTop: '15px'}}>
+                            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '15px' }}>
                                 <Card.Img 
                                     variant="top" 
                                     src={imagePreview} 
-                                    style={{objectFit: 'cover', width: '100px', height: '100px', borderRadius: '50%'}}
+                                    style={{ objectFit: 'cover', width: '100px', height: '100px', borderRadius: '50%' }}
                                 >
                                 </Card.Img>
                             </div>
-                            <Card.Body style={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', paddingTop: '8px'}}>
-                                <input type="file" alt="Profile Picture" onChange={onImageChange} style={{paddingLeft: '110px'}}></input>
+                            <Card.Body style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', paddingTop: '8px' }}>
+                                <input type="file" alt="Profile Picture" onChange={onImageChange} style={{ paddingLeft: '110px' }}></input>
                                 <Button className="mt-2" variant="outlined" color="primary" onClick={postPhoto}>
                                     Save
                                 </Button>
@@ -154,31 +153,32 @@ function Client() {
 
                     </div>
 
-                    <div style={{display: 'flex', justifyContent: 'center', marginTop: '35px'}}>
+                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '35px' }}>
                         <Button color="primary" style={{width: '850px'}} onClick={saveData}>
                             Save Changes
                         </Button>
                     </div>
 
-                    <div style={{display: 'flex', justifyContent: 'center', marginInline: '30px'}}>
-                        <Card border="secondary" style={{width: '850px', height: '270px', marginTop: '30px'}}>
+                    <div style={{ display: 'flex', justifyContent: 'center', marginInline: '30px' }}>
+                        <Card border="secondary" style={{ width: '850px', height: '270px', marginTop: '30px' }}>
                             <Card.Header>
                                 <i class="bi bi-house-fill" style={{marginRight: '15px'}}></i>
-                                My Default Address</Card.Header>
-                                <Card.Body>
-                                    <div className="d-flex justify-content-center">
-                                        <h6>Address: {address.detail_address}</h6>
-                                        <h6>City: {address.city}</h6>
-                                        <h6>Province: {address.province}</h6>
-                                        <h6>Village: {address.village}</h6>
-                                        <h6>Postal Code: {address.postal_code}</h6>
-                                    </div>
-                                    <div className="mt-2" style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
-                                        <Button variant="outlined" color="primary" style={{fontSize: '15px', height: '40px', marginLeft: '10px'}} href='/address'>
-                                            Add / Edit Address
-                                        </Button>
-                                    </div>
-                                </Card.Body>
+                                My Default Address
+                            </Card.Header>
+                            <Card.Body>
+                                <div className="d-flex justify-content-center flex-column">
+                                    <h6>Address: {address.detail_address}</h6>
+                                    <h6>City: {address.city}</h6>
+                                    <h6>Province: {address.province}</h6>
+                                    <h6>Village: {address.village}</h6>
+                                    <h6>Postal Code: {address.postal_code}</h6>
+                                </div>
+                                <div className="mt-2" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+                                    <Button variant="outlined" color="primary" style={{ fontSize: '15px', height: '40px', marginLeft: '10px' }} href='/address'>
+                                        Add / Edit Address
+                                    </Button>
+                                </div>
+                            </Card.Body>
                         </Card>
                     </div>
                 </div>
@@ -189,28 +189,28 @@ function Client() {
     return (
         <div className="d-flex justify-content-center" style={{ marginTop: '30px' }}>
             <Card style={{width: '1000px', height: '800px'}}>
-                <Card.Header style={{fontSize: '30px', display: 'flex', justifyContent: 'center'}}>
-                    <i class="bi bi-person-circle" style={{marginRight: '18px'}}></i>
+                <Card.Header style={{ fontSize: '30px', display: 'flex', justifyContent: 'center' }}>
+                    <i class="bi bi-person-circle" style={{ marginRight: '18px' }}></i>
                     My Profile
                 </Card.Header>
 
-                <div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column', marginTop: '50px'}}>
-                    <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around', marginInline: '30px'}}>
+                <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', marginTop: '50px' }}>
+                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', marginInline: '30px' }}>
 
                         <Card border="secondary" style={{ width: '420px', height: '275px'}}>
 
                             <Card.Header>Profile Picture</Card.Header>
 
-                            <div style={{display: 'flex', justifyContent: 'center', marginTop: '15px'}}>
+                            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '15px' }}>
                                 <Card.Img 
                                     variant="top" 
                                     src={imagePreview} 
-                                    style={{objectFit: 'cover', width: '100px', height: '100px', borderRadius: '50%'}}
+                                    style={{ objectFit: 'cover', width: '100px', height: '100px', borderRadius: '50%' }}
                                 >
                                 </Card.Img>
                             </div>
-                            <Card.Body style={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', paddingTop: '8px'}}>
-                                <input type="file" alt="Profile Picture" onChange={onImageChange} style={{paddingLeft: '110px'}}></input>
+                            <Card.Body style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', paddingTop: '8px' }}>
+                                <input type="file" alt="Profile Picture" onChange={onImageChange} style={{ paddingLeft: '110px' }}></input>
                                 <Button className="mt-2" variant="outlined" color="primary" onClick={postPhoto}>
                                     Save
                                 </Button>
@@ -238,16 +238,16 @@ function Client() {
 
                     </div>
 
-                    <div style={{display: 'flex', justifyContent: 'center', marginTop: '35px'}}>
+                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '35px' }}>
                         <Button color="primary" style={{ width: '850px' }} onClick={saveData}>
                             Save Changes
                         </Button>
                     </div>
 
-                    <div style={{display: 'flex', justifyContent: 'center', marginInline: '30px'}}>
-                        <Card border="secondary" style={{width: '850px', height: '270px', marginTop: '30px'}}>
+                    <div style={{ display: 'flex', justifyContent: 'center', marginInline: '30px' }}>
+                        <Card border="secondary" style={{ width: '850px', height: '270px', marginTop: '30px' }}>
                             <Card.Header>
-                                <i class="bi bi-house-fill" style={{marginRight: '15px'}}></i>
+                                <i class="bi bi-house-fill" style={{ marginRight: '15px' }}></i>
                                 My Default Address
                             </Card.Header>
                             <Card.Body>
