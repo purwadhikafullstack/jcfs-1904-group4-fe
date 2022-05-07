@@ -26,9 +26,7 @@ function Navigation() {
               <Nav className="me-auto" navbarScroll>
                 <Nav.Link href="/">Home</Nav.Link>
                 <Nav.Link href="/products">Products</Nav.Link>
-                <Nav.Link href="#link" style={{ marginRight: '7px' }}>
-                  About Us
-                </Nav.Link>
+                <Nav.Link href="/about-us" style={{ marginRight: '7px' }}>About Us</Nav.Link>
               </Nav>
               <Nav style={{ marginRight: '20px' }}>
                 <Nav.Link style={{ color: 'green' }}>{username}</Nav.Link>
@@ -120,9 +118,7 @@ function Navigation() {
             <Nav className="me-auto" navbarScroll>
               <Nav.Link href="/">Home</Nav.Link>
                 <Nav.Link href="/products">Products</Nav.Link>
-                <Nav.Link href="#link" style={{ marginRight: '7px' }}>
-                  About Us
-                </Nav.Link>
+                <Nav.Link href="/about-us" style={{ marginRight: '7px' }}>About Us</Nav.Link>
             </Nav>
             <Nav style={{ marginRight: '10px' }}>
               <Nav.Link href="/login" style={{ color: 'green' }}>

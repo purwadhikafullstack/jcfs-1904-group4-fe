@@ -13,6 +13,7 @@ import Home from './Pages/Home/home';
 import Login from './Pages/Login/Login';
 import Client from './Pages/Client/client';
 import Address from './Pages/Client/address';
+import AboutUs from './Pages/AboutUs/aboutUs';
 import Products from './Pages/Products/products';
 import Checkout from './Pages/Checkout/checkout';
 import Register from './Pages/Register/Register';
@@ -56,6 +57,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/client" element={<Client />} />
             <Route path="/address" element={<Address />} />
+            <Route path="/about-us" element={<AboutUs />} />
             <Route path="/products" element={<Products />} />
             <Route path="/register" element={<Register />} />
             <Route path="/checkout" element={<Checkout />} />
