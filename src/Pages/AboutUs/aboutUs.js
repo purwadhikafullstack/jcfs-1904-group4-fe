@@ -27,7 +27,7 @@ function AboutUs() {
                                     </div>
                                     <div style={{ width: '50%', display: 'flex', justifyContent: 'center' }}>
                                         <Card.Img variant="top" src={'https://i.pinimg.com/originals/d5/8e/8b/d58e8b81cea5327608f037ba6633ac59.jpg'} 
-                                        style={{width: '600px', height: '600px', objectFit: 'cover'}}/>
+                                        style={{ width: '600px', height: '600px', objectFit: 'cover' }}/>
                                     </div>
                                 </div>
                             </Card.Body>
@@ -35,19 +35,43 @@ function AboutUs() {
                         <Tab eventKey="locations" title="Our Locations">
                             <Card.Body style={{ height: '700px', display: 'flex', justifyContent: 'flex-start', marginTop: '20px' }}>
                                 <Card.Title style={{ fontSize: '30px', marginTop: '20px', display: 'flex', justifyContent: 'center' }}>Store Locations</Card.Title>
-                                <Card.Title style={{ fontSize: '20px', marginTop: '30px' }}>Jakarta Warehouse</Card.Title>
-                                <Card.Subtitle className="mt-3">Jl.</Card.Subtitle>
+                                <Card.Title style={{ fontSize: '20px', marginTop: '50px' }}>Jakarta Warehouse</Card.Title>
+                                <Card.Subtitle className="mt-3">Jl. Pulo Gadung no. 99, 12345</Card.Subtitle>
                                 <Card.Title style={{ fontSize: '20px', marginTop: '30px' }}>Yogyakarta Warehouse</Card.Title>
-                                <Card.Subtitle className="mt-3">Jl.</Card.Subtitle>
+                                <Card.Subtitle className="mt-3">Jl. Malioboro no. 99, 12345</Card.Subtitle>
                                 <Card.Title style={{ fontSize: '20px', marginTop: '30px' }}>Medan Warehouse</Card.Title>
-                                <Card.Subtitle className="mt-3">Jl.</Card.Subtitle>
+                                <Card.Subtitle className="mt-3">Jl. MH. Thamrin no. 99, 12345</Card.Subtitle>
                                 <Card.Title style={{ fontSize: '20px', marginTop: '30px' }}>Makassar Warehouse</Card.Title>
-                                <Card.Subtitle className="mt-3">Jl.</Card.Subtitle>
+                                <Card.Subtitle className="mt-3">Jl. Jend. Sudriman no. 99, 12345</Card.Subtitle>
                             </Card.Body>
                         </Tab>
                         <Tab eventKey="contact" title="Contact Us">
                             <Card.Body style={{ height: '700px', display: 'flex', justifyContent: 'flex-start', marginTop: '20px' }}>
                                 <Card.Title style={{ fontSize: '30px', marginTop: '20px', display: 'flex', justifyContent: 'center' }}>Contact Us</Card.Title>
+                                <Card.Title className="mt-5">
+                                    <i class="bi bi-envelope" style={{ marginRight: '15px' }}></i>
+                                    Email: ezfurnitureID@gmail.com
+                                </Card.Title>
+                                <Card.Title className="mt-5">
+                                    <i class="bi bi-telephone" style={{ marginRight: '15px' }}></i>
+                                    Jakarta Warehouse
+                                    <Card.Subtitle className="mt-3">+628123456789</Card.Subtitle>
+                                </Card.Title>
+                                <Card.Title className="mt-5">
+                                    <i class="bi bi-telephone" style={{ marginRight: '15px' }}></i>
+                                    Yogyakarta Warehouse
+                                    <Card.Subtitle className="mt-3">+628123456789</Card.Subtitle>
+                                </Card.Title>
+                                <Card.Title className="mt-5">
+                                    <i class="bi bi-telephone" style={{ marginRight: '15px' }}></i>
+                                    Medan Warehouse
+                                    <Card.Subtitle className="mt-3">+628123456789</Card.Subtitle>
+                                </Card.Title>
+                                <Card.Title className="mt-5">
+                                    <i class="bi bi-telephone" style={{ marginRight: '15px' }}></i>
+                                    Makassar Warehouse
+                                    <Card.Subtitle className="mt-3">+628123456789</Card.Subtitle>
+                                </Card.Title>
                             </Card.Body>
                         </Tab>
                         <Tab eventKey="socials" title="Our Socials">
