@@ -43,23 +43,16 @@ function AddProducts() {
             });
 
             const { insertId } = res.data;
-            setProductId(insertId);
+            setProductId(insertId)
 
-            alert("Product succesfully added")
-        } catch (error) {
-            console.log(alert(error.message));
-        }
-    };
-
-    const postNewProductCategory = async () => {
-        try {
-            const res = await axios.post(`/products/category/${productId}`,
+            const resCat = await axios.post(`/products/category/${insertId}`,
             {
                 category_id: formState.category_id
             });
 
+            alert("Product succesfully added")
         } catch (error) {
-            console.log(alert(error.message))
+            console.log(alert(error.message));
         }
     };
 
@@ -88,7 +81,6 @@ function AddProducts() {
 
     const addProductButton = () => {
         postProduct();
-        postNewProductCategory();
     };
 
     const postPhotoButton = () => {
