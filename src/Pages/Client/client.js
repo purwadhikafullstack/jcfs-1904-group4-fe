@@ -6,6 +6,11 @@ import { Button } from "@mui/material";
 import axios from "../../Config/axios";
 
 function Client() {
+    const user_id = useSelector((state) => state.auth.user_id);
+    const getToken = useSelector((state) => state.auth.token);
+
+    const [image, setImage] = useState(null);
+    const [imagePreview, setImagePreview] = useState("");
     const [address, setAddress] = useState([]);
     const [profileData, setProfileData] = useState({
         full_name: "",
@@ -13,18 +18,38 @@ function Client() {
         age: "",
         gender: ""
     });
-    const { user_id } = useSelector((state) => state.auth);
 
-    const handleChange = (e) => {
-        setProfileData({...profileData, [e.target.name]: e.target.value})
-    };
+    useEffect(() => {
+        getAddress();
+        fetchProfilePicture();
+        getProfileData();
+    }, []);
 
     const getAddress = async () => {
         try {
-            const res = await axios.get(`/address/${user_id}`);
-            const { data } = res;
-            setAddress(data.address[0]);
+            const res = await axios.get(`/address/default/${user_id}`);
+            const { address } = res.data;
 
+            setAddress(address[0]);
+        } catch (error) {
+            console.log(alert(error.message))
+        }
+    };
+
+    const imageURL = `http://localhost:2022/photos/${user_id}-photo.jpg`
+    const fetchProfilePicture = async () => {
+        const res = await fetch(imageURL);
+        const imageBlob = await res.blob();
+        const imageObjectURL = URL.createObjectURL(imageBlob);
+        setImagePreview(imageObjectURL);
+    };
+
+    const getProfileData = async () => {
+        try {
+            const res = await axios.get(`/users/profile/${user_id}`)
+            const { user_data } = res.data;
+
+            setProfileData(user_data[0])
         } catch (error) {
             console.log(alert(error.message))
         }
@@ -46,30 +71,64 @@ function Client() {
         }
     };
 
-    useEffect(() => {
-        getAddress();
-    }, []);
+    const postPhoto = async () => {
+        try {
+            const formData = new FormData();
+            formData.append("photo", image);
 
+            const res = await axios.post(`/users/upload/${user_id}`,
+            formData,
+            {
+                headers: {
+                    Authorization: `Bearer ${getToken}`,
+                  }
+            });
+
+            alert("Update was successful")
+        } catch (error) {
+            console.log(alert(error.message))
+        }
+    }; 
+
+    const onImageChange = (e) => {
+        const image = e.target.files[0];
+        setImage(image);
+        setImagePreview(URL.createObjectURL(image));
+    };
+
+    const handleChange = (e) => {
+        setProfileData({...profileData, [e.target.name]: e.target.value})
+    };
+
+    if (address) {
     return (
-        <div style={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
-            <Card style={{width: '1000px', height: '800px'}}>
-                <Card.Header style={{fontSize: '30px', display: 'flex', justifyContent: 'center'}}>
-                    <i class="bi bi-person-circle" style={{marginRight: '18px'}}></i>
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '30px' }}>
+            <Card style={{ width: '1000px', height: '800px' }}>
+                <Card.Header style={{ fontSize: '30px', display: 'flex', justifyContent: 'center' }}>
+                    <i class="bi bi-person-circle" style={{ marginRight: '18px' }}></i>
                     My Profile
                 </Card.Header>
 
-                <div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column', marginTop: '50px'}}>
-                    <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around', marginInline: '30px'}}>
+                <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', marginTop: '50px' }}>
+                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', marginInline: '30px' }}>
 
                         <Card border="secondary" style={{ width: '420px', height: '275px'}}>
+
                             <Card.Header>Profile Picture</Card.Header>
-                            <div style={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
-                                <Card.Img variant="top" src="http://cdn.onlinewebfonts.com/svg/img_24787.png" style={{objectFit: 'cover', width: '100px', heigh: '100px'}}></Card.Img>
+
+                            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '15px' }}>
+                                <Card.Img 
+                                    variant="top" 
+                                    src={imagePreview} 
+                                    style={{ objectFit: 'cover', width: '100px', height: '100px', borderRadius: '50%' }}
+                                >
+                                </Card.Img>
                             </div>
-                            <Card.Body style={{display: 'flex', justifyContent: 'center'}}>
-                                <div>
-                                    <Button color="primary" style={{marginInline: '10px'}}>Add / Edit</Button>
-                                </div>
+                            <Card.Body style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', paddingTop: '8px' }}>
+                                <input type="file" alt="Profile Picture" onChange={onImageChange} style={{ paddingLeft: '110px' }}></input>
+                                <Button className="mt-2" variant="outlined" color="primary" onClick={postPhoto}>
+                                    Save
+                                </Button>
                             </Card.Body>
                         </Card>
 
@@ -77,13 +136,13 @@ function Client() {
                             <Card.Header>Profile Data</Card.Header>
                             <Card.Body>
                                 <input type="text" className="form-control" placeholder="Fullname" aria-label="Username" aria-describedby="basic-addon1"
-                                    name="full_name" onChange={handleChange} 
+                                    name="full_name" onChange={handleChange} value={profileData.full_name}
                                 />
                                 <input type="text" className="form-control mt-3" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1"
-                                    name="email" onChange={handleChange}
+                                    name="email" onChange={handleChange} value={profileData.email}
                                 />
                                 <input type="text" className="form-control mt-3" placeholder="Age" aria-label="Username" aria-describedby="basic-addon1"
-                                    name="age" onChange={handleChange}
+                                    name="age" onChange={handleChange} value={profileData.age}
                                 />
                                 <select className="form-control mt-3" onChange={handleChange} name="gender">
                                     <option value="male">Male</option>
@@ -91,27 +150,31 @@ function Client() {
                                 </select>
                             </Card.Body>
                         </Card>
+
                     </div>
 
-                    <div style={{display: 'flex', justifyContent: 'center', marginTop: '35px', }}>
-                        <Button color="primary" style={{width: '850px'}} onClick={saveData}>Save Changes</Button>
+                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '35px' }}>
+                        <Button color="primary" style={{width: '850px'}} onClick={saveData}>
+                            Save Changes
+                        </Button>
                     </div>
 
-                    <div style={{display: 'flex', justifyContent: 'center', marginInline: '30px'}}>
-                        <Card border="secondary" style={{width: '850px', height: '270px', marginTop: '30px'}}>
+                    <div style={{ display: 'flex', justifyContent: 'center', marginInline: '30px' }}>
+                        <Card border="secondary" style={{ width: '850px', height: '270px', marginTop: '30px' }}>
                             <Card.Header>
                                 <i class="bi bi-house-fill" style={{marginRight: '15px'}}></i>
-                                My Default Address</Card.Header>
+                                My Default Address
+                            </Card.Header>
                             <Card.Body>
-                                <div style={{display: 'flex', flexDirection: 'column'}}>
+                                <div className="d-flex justify-content-center flex-column">
                                     <h6>Address: {address.detail_address}</h6>
                                     <h6>City: {address.city}</h6>
                                     <h6>Province: {address.province}</h6>
                                     <h6>Village: {address.village}</h6>
                                     <h6>Postal Code: {address.postal_code}</h6>
                                 </div>
-                                <div className="mt-2" style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
-                                    <Button variant="outlined" color="primary" style={{fontSize: '15px', height: '40px', marginLeft: '10px'}} href="/address">
+                                <div className="mt-2" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+                                    <Button variant="outlined" color="primary" style={{ fontSize: '15px', height: '40px', marginLeft: '10px' }} href='/address'>
                                         Add / Edit Address
                                     </Button>
                                 </div>
@@ -119,10 +182,90 @@ function Client() {
                         </Card>
                     </div>
                 </div>
-
             </Card>
         </div>
     )
+    } else {
+    return (
+        <div className="d-flex justify-content-center" style={{ marginTop: '30px' }}>
+            <Card style={{width: '1000px', height: '800px'}}>
+                <Card.Header style={{ fontSize: '30px', display: 'flex', justifyContent: 'center' }}>
+                    <i class="bi bi-person-circle" style={{ marginRight: '18px' }}></i>
+                    My Profile
+                </Card.Header>
+
+                <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', marginTop: '50px' }}>
+                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', marginInline: '30px' }}>
+
+                        <Card border="secondary" style={{ width: '420px', height: '275px'}}>
+
+                            <Card.Header>Profile Picture</Card.Header>
+
+                            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '15px' }}>
+                                <Card.Img 
+                                    variant="top" 
+                                    src={imagePreview} 
+                                    style={{ objectFit: 'cover', width: '100px', height: '100px', borderRadius: '50%' }}
+                                >
+                                </Card.Img>
+                            </div>
+                            <Card.Body style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', paddingTop: '8px' }}>
+                                <input type="file" alt="Profile Picture" onChange={onImageChange} style={{ paddingLeft: '110px' }}></input>
+                                <Button className="mt-2" variant="outlined" color="primary" onClick={postPhoto}>
+                                    Save
+                                </Button>
+                            </Card.Body>
+                        </Card>
+
+                        <Card border="secondary" style={{ width: '350px', height: '275px' }}>
+                            <Card.Header>Profile Data</Card.Header>
+                            <Card.Body>
+                                <input type="text" className="form-control" placeholder="Fullname" aria-label="Username" aria-describedby="basic-addon1"
+                                    name="full_name" onChange={handleChange} value={profileData.full_name}
+                                />
+                                <input type="text" className="form-control mt-3" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1"
+                                    name="email" onChange={handleChange} value={profileData.email}
+                                />
+                                <input type="text" className="form-control mt-3" placeholder="Age" aria-label="Username" aria-describedby="basic-addon1"
+                                    name="age" onChange={handleChange} value={profileData.age}
+                                />
+                                <select className="form-control mt-3" onChange={handleChange} name="gender">
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </Card.Body>
+                        </Card>
+
+                    </div>
+
+                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '35px' }}>
+                        <Button color="primary" style={{ width: '850px' }} onClick={saveData}>
+                            Save Changes
+                        </Button>
+                    </div>
+
+                    <div style={{ display: 'flex', justifyContent: 'center', marginInline: '30px' }}>
+                        <Card border="secondary" style={{ width: '850px', height: '270px', marginTop: '30px' }}>
+                            <Card.Header>
+                                <i class="bi bi-house-fill" style={{ marginRight: '15px' }}></i>
+                                My Default Address
+                            </Card.Header>
+                            <Card.Body>
+                                <div className="mt-2 d-flex justify-content-center flex-row">
+                                    <h3>You have not registered any address, please add an address</h3>
+                                </div>
+                                <div className="mt-4 d-flex justify-content-center flex-row">
+                                    <Button variant="outlined" color="primary" style={{ fontSize: '15px', height: '40px', marginLeft: '10px' }} href='/address'>
+                                        Add Address
+                                    </Button>
+                                </div>
+                            </Card.Body>
+                        </Card>
+                    </div>
+                </div>
+            </Card>
+        </div>
+    )}
 };
 
 export default Client;

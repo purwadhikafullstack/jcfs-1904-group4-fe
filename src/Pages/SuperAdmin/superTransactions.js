@@ -1,49 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import axios from "../../Config/axios";
 
-import HistoryCard from "./historyCard";
+import TransactionsCard from "./superCard";
 
 import { Card } from "react-bootstrap";
 import { Button } from "@mui/material";
 
-function HistoryTransaction() {
-    const wh_admin_id = useSelector((state) => state.auth.user_id);
-
+function SuperTransaction() {
     const [clientName, setClientName] = useState({
         keyword: ""
     });
     const [transactions, setTransactions] = useState([]);
-    const [warehouse, setWarehouse] = useState([]);
     const [filterTransactions, setFilterTransactions] = useState({
         filterBy: "all"
     });
 
     useEffect(() => {
-        getWarehouseId();
-    }, [])
-
-    useEffect(() => {
         getTransactions();
-    }, [filterTransactions, warehouse]);
-
-    const getWarehouseId = async () => {
-        try {
-            const res = await axios.get(`/users/wh_id/${wh_admin_id}`)
-            const { warehouse_id } = res.data;
-
-            setWarehouse(warehouse_id[0]);
-        } catch (error) {
-            console.log(alert(error.message));
-        }
-    };
+    }, [filterTransactions]);
 
     const getTransactions = async () => { 
 
         if (filterTransactions.filterBy === "all") {
             
                 try {
-                    const res = await axios.get(`/transactions/wh/all/${warehouse.warehouse_id}`)
+                    const res = await axios.get(`/transactions/all`)
                     const { data } = res;
     
                     setTransactions(data.transactions)
@@ -54,7 +35,7 @@ function HistoryTransaction() {
         } else if (filterTransactions.filterBy === "ongoing") {
     
                 try {
-                    const res = await axios.get(`/transactions/wh/ongoing/${warehouse.warehouse_id}`)
+                    const res = await axios.get(`/transactions/ongoing`)
                     const { data } = res;
     
                     setTransactions(data.transactions)
@@ -65,7 +46,7 @@ function HistoryTransaction() {
         } else if (filterTransactions.filterBy === "arrived") {   
     
                 try {
-                    const res = await axios.get(`/transactions/wh/${warehouse.warehouse_id}`)
+                    const res = await axios.get(`/transactions/past`)
                     const { data } = res;
     
                     setTransactions(data.transactions)
@@ -79,10 +60,9 @@ function HistoryTransaction() {
     const getClientTransactions = async () => {
         try {
             // Get transactions from user... and warehouse... 
-            const res = await axios.get(`/transactions/wh/search`,
+            const res = await axios.get(`/transactions/search`,
             {
                 params: {
-                    warehouse_id: warehouse.warehouse_id,
                     recipient_name: clientName.keyword
                 }
             })
@@ -113,7 +93,7 @@ function HistoryTransaction() {
                 <Card.Body className="d-flex justify-content-center">
                     <div className="d-flex flex-column">
                         {transactions.map((card) => (
-                            <HistoryCard 
+                            <TransactionsCard 
                                 key={card.transaction_id}
                                 data={card}
                             />
@@ -142,4 +122,4 @@ function HistoryTransaction() {
     )
 };
 
-export default HistoryTransaction;
+export default SuperTransaction;
