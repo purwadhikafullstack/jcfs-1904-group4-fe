@@ -11,17 +11,17 @@ function Transaction() {
     const user_id = useSelector((state) => state.auth.user_id);
 
     const [transactions, setTransactions] = useState([]);
-    const [sortTransactions, setSortTransactions] = useState({
-        sortBy: "all"
+    const [filterTransactions, setFilterTransactions] = useState({
+        filterBy: "all"
     });
 
     useEffect(() => {
         getTransactions();
-    }, [sortTransactions]);
+    }, [filterTransactions]);
 
     const getTransactions = async () => { 
 
-    if (sortTransactions.sortBy === "all") {
+    if (filterTransactions.filterBy === "all") {
         
             try {
                 const res = await axios.get(`/transactions/get/${user_id}`)
@@ -32,7 +32,7 @@ function Transaction() {
                 alert("You do not have any transaction record")
             }
 
-    } else if (sortTransactions.sortBy === "ongoing") {
+    } else if (filterTransactions.filterBy === "ongoing") {
 
             try {
                 const res = await axios.get(`/transactions/get/ongoing/${user_id}`)
@@ -43,7 +43,7 @@ function Transaction() {
                 alert("You do not have any ongoing transactions")
             }
 
-    } else if (sortTransactions.sortBy === "arrived") {   
+    } else if (filterTransactions.filterBy === "arrived") {   
 
             try {
                 const res = await axios.get(`/transactions/past/${user_id}`)
@@ -58,15 +58,15 @@ function Transaction() {
     };
 
     const onSelectHandler = (e) => {
-        setSortTransactions({ sortBy: e.target.value });
+        setFilterTransactions({ filterBy: e.target.value });
       };
 
     return (
         <div className="d-flex justify-content-center mt-5">
-            <Card style={{ width: '900px', minHeight: '400px', marginInline: '20px', backgroundColor: 'white', boxShadow: '0 6px 6px 0 rgb(0, 0, 0, 0.2)' }}>
+            <Card style={{ minHeight: '400px', marginInline: '20px', marginBottom: '50px', backgroundColor: 'white', boxShadow: '0 6px 6px 0 rgb(0, 0, 0, 0.2)' }}>
                 <Card.Header style={{ fontSize: '30px' }}>My Transactions</Card.Header>
-                <Card.Body>
-                    <div  className="d-flex justify-content-center">
+                <Card.Body className="d-flex justify-content-center">
+                    <div className="d-flex flex-column">
                         {transactions.map((trans) => (
                             <TransactionCard 
                                 key={trans.transaction_id}
@@ -77,7 +77,7 @@ function Transaction() {
                 </Card.Body>
             </Card>
             <div className="d-flex flex-column">
-                <Card style={{ width: '350px', height: '125px' }}>
+                <Card style={{ width: '350px' }}>
                     <Card.Header style={{ fontSize: '20px' }}>Filter Transactions</Card.Header>
                     <Card.Body style={{ padding: '20px' }}>
                         <select className="form-control" style={{ display: 'flex', justifyContent: 'center' }} onChange={onSelectHandler}>
@@ -87,7 +87,14 @@ function Transaction() {
                         </select>
                     </Card.Body>
                 </Card>
-                <Button color="error" style={{ marginTop: '15px' }} href="/instruction">Transfer Instructions</Button>
+                <Card className="mt-3">
+                    <Card.Header style={{ fontSize: '20px' }}>Need help with payments?</Card.Header>
+                    <Card.Body style={{ padding: '20px' }}>
+                        <Button variant="contained" color="error" style={{ color: "white" }} href="/instruction">
+                            Transfer Instructions
+                        </Button>
+                    </Card.Body>
+                </Card>
             </div>
         </div>
     )

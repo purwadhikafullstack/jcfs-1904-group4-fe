@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import axios from "../../Config/axios";
-
-import './style.css';    
+  
 import { Card } from "react-bootstrap";
-import { Button } from "@mui/material";
 import Collapse from '@mui/material/Collapse';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
@@ -23,18 +20,15 @@ const ExpandMore = styled((props) => {
     }),
   }));
 
-function TransactionCard(props) {
+function HistoryCard(props) {
     const [expanded, setExpanded] = React.useState(false);
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
 
-    const user_id = useSelector((state) => state.auth.user_id);
+    const { transaction_id, recipient, invoice_number, amount_price, status, created_at, user_id } = props.data;
 
-    const { transaction_id, recipient, invoice_number, amount_price, status, created_at } = props.data
-
-    const [image, setImage] = useState(null);
     const [imagePreview, setImagePreview] = useState("");
     const [transactionDetails, setTransactionDetails] = useState([]);
     const [transactionAddress, setTransactionAddress] = useState([]);
@@ -45,32 +39,12 @@ function TransactionCard(props) {
         getTransactionAddress();
     }, [])
 
-    const onImageChange = (e) => {
-        const image = e.target.files[0];
-        setImage(image);
-        setImagePreview(URL.createObjectURL(image));
-    };
-
     const imageURL = `http://localhost:2022/transaction/${user_id}-transaction-${transaction_id}.jpg`
     const fetchTransactionPhoto = async () => {
         const res = await fetch(imageURL);
         const imageBlob = await res.blob();
         const imageObjectURL = URL.createObjectURL(imageBlob);
         setImagePreview(imageObjectURL);
-    };
-
-    const postPhoto = async () => {
-        try {
-            const formData = new FormData();
-            formData.append("photo", image);
-
-            const res = await axios.post(`/transactions/photo/${user_id}/${transaction_id}`, formData);
-            const resPutStatus = await axios.put(`/transactions/status/${user_id}/${transaction_id}`)
-
-            alert("Upload was successful")
-        } catch (error) {
-            console.log(alert(error.message))
-        }
     };
 
     const getTransactionDetails = async () => {
@@ -162,8 +136,8 @@ function TransactionCard(props) {
                                 </tbody> 
                             </table>
 
-                            <Typography style={{ fontSize: '25px', marginTop: '30px' }}>Upload Transfer Evidence:</Typography>
-                            <div style={{ display: 'flex', justifyContent: 'center', width: '700px', marginTop: '30px', marginBottom: '20px' }}>
+                            <Typography style={{ fontSize: '25px', marginTop: '30px' }}>Transfer Evidence:</Typography>
+                            <div style={{ display: 'flex', justifyContent: 'center', width: '700px', marginTop: '20px', marginBottom: '20px' }}>
                                 <div className="d-flex flex-column">
                                     <div className="d-flex justify-content-center flex-column">
                                         <Card.Img
@@ -171,12 +145,9 @@ function TransactionCard(props) {
                                             alt="No file uploaded yet" 
                                             src={imagePreview} 
                                             style={{ objectFit: 'cover', width: '550px', height: '550px', borderRadius: '3px' }}
-                                        ></Card.Img>
+                                        >
+                                        </Card.Img>
                                     </div>
-                                    <input type="file" alt="Profile Picture" onChange={onImageChange} style={{ width: '250px', marginBottom: '20px', marginTop: '20px' }}></input>
-                                    <Button variant="outlined" color="success" onClick={postPhoto} style={{ width: '100%' }}>
-                                        Upload Image
-                                    </Button>
                                 </div>
                             </div>
                         </CardContent>
@@ -187,4 +158,4 @@ function TransactionCard(props) {
     )
 };
 
-export default TransactionCard;
+export default HistoryCard;

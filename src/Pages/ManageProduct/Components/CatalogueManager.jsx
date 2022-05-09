@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from '../../../Config/axios';
 
+import { Button } from 'react-bootstrap';
+
 // props : paginationState, setPaginationState, setProducts
-function ProductsManager(props) {
+function ProductManager(props) {
     const { paginationState, setPaginationState, sqlPagination, setSqlPagination, setProducts } = props;
     const { page, lastPage } = paginationState;
 
@@ -16,27 +18,6 @@ function ProductsManager(props) {
       typeSort: "ASC"
     });
 
-    const fetchProducts = async () => {
-      try {
-        const res = await axios.get("/products/get", 
-          { params: { 
-              page: paginationState.page, 
-              itemsPerPage: paginationState.itemsPerPage, 
-              OFFSET: (sqlPagination.page - 1) * sqlPagination.itemsPerPage
-          }},
-        );
-        const { result, count } = res.data;
-  
-        setProducts(result);
-        setPaginationState({
-          ...sqlPagination,
-          lastPage: Math.ceil(count[0].count / sqlPagination.itemsPerPage)
-        });
-      } catch (error) {
-        console.log(alert(error.message));
-      }
-    };
-
     const searchProducts = async () => {
       try {
         const res = await axios.get('/products/get',
@@ -45,16 +26,16 @@ function ProductsManager(props) {
             product_name: formState.keyword,
             sortBy: sortOption.sortBy,
             typeSort: sortOption.typeSort,
-            page: paginationState.page, 
+            page: sqlPagination.page, 
             itemsPerPage: paginationState.itemsPerPage, 
-            OFFSET: (paginationState.page - 1) * paginationState.itemsPerPage 
+            OFFSET: (sqlPagination.page - 1) * sqlPagination.itemsPerPage 
         }});
 
         const { result, count } = res.data;
         setProducts(result)
         setPaginationState({
-          ...paginationState,
-          lastPage: Math.ceil(count[0].count / paginationState.itemsPerPage)
+          ...sqlPagination,
+          lastPage: Math.ceil(count[0].count / sqlPagination.itemsPerPage)
         });
       } catch (error) {
         console.log(alert(error.message));
@@ -87,17 +68,13 @@ function ProductsManager(props) {
     const onSearchClick = () => {
       searchProducts();
     };
-
-    const defaultClick = () => {
-      fetchProducts();
-    };
   
     const btnPrevPageHandler = () => {
-      setSqlPagination({ ...sqlPagination, page: page - 1 });
+      setSqlPagination({ ...paginationState, page: page - 1 });
       setPaginationState({ ...paginationState, page: page - 1 });
     };
     const btnNextPageHandler = () => {
-      setSqlPagination({ ...sqlPagination, page: page + 1 });
+      setSqlPagination({ ...paginationState, page: page + 1 });
       setPaginationState({ ...paginationState, page: page + 1 });
     };
 
@@ -123,11 +100,11 @@ function ProductsManager(props) {
     };
   
     return (
-      <div style={ {marginInline: '20px' }}>
+      <div style={{ marginInline: '20px' }}>
 
-        <div className="card text-white bg-dark mb-3" style={{ maxWidth: '250px', minWidth: '150px', boxShadow: '0 4px 4px 0 rgb(0, 0, 0, 0.2)' }}>
-          <div className="card-header d-flex justify-content-center">
-            Filter & Sort
+        <div className="card text-white bg-light mb-3" style={{ maxWidth: '250px', minWidth: '150px', boxShadow: '0 4px 4px 0 rgb(0, 0, 0, 0.2)' }}>
+          <div className="card-header d-flex justify-content-center" style={{ color: 'black' }}>
+            Filter
           </div>
           <div className="card-body">
           
@@ -139,17 +116,17 @@ function ProductsManager(props) {
             </div>
 
             {/* Product Dropdown Filter */}
-            <label className="d-flex justify-content-center">Product Category</label>
-            <select className="form-control d-flex justify-content-center" style={{ backgroundColor: 'white', border: '0px', color: 'rgb(33, 37, 41)' }} onChange={handleChange} name="category">
+            <label className="d-flex justify-content-center" style={{ color: 'black' }}>Product Category</label>
+            <select className="form-control d-flex justify-content-center" style={{ backgroundColor: 'white', borderStyle: 'grey', color: 'black' }} onChange={handleChange} name="category">
               {productCategories.map((category) => 
-                <option key={category.category_id} value={category.category_id}>{category.category_name}</option>
+                <option key={category.category_id} value={category.category_name}>
+                    {category.category_name}
+                </option>
               )}
             </select>
 
-            <button type="button" class="btn btn-danger" style={{ marginTop: '18px', width: '100%' }} onClick={defaultClick}>Back to all</button>
-
-            <label className="d-flex justify-content-center mt-3">Sort By</label>
-            <select className="form-control d-flex justify-content-center" style={{ backgroundColor: 'rgb(25, 135, 84)', border: '0px', color: 'white' }} 
+            <label className="d-flex justify-content-center mt-3" style={{ color: 'black' }}>Sort By</label>
+            <select className="form-control d-flex justify-content-center" style={{ backgroundColor: 'white', borderStyle: 'grey', color: 'black' }} 
                     onChange={selectSortHandler}
             >
               <option value="az">Default</option>
@@ -160,31 +137,32 @@ function ProductsManager(props) {
             </select>
             
             {/* Search Button */}
-            <button type="button" class="btn btn-danger" style={{ marginTop: '18px', width: '100%' }} onClick={onSearchClick}>Search</button>
-          
+            <button type="button" class="btn btn-danger" style={{marginTop: '18px', width: '100%'}} onClick={onSearchClick}>Search</button>
+              
+            <Button style={{ width: '100%', marginTop: '50px' }} href="/add-products">Add Products</Button>
           </div>
         </div>
 
         {/* Pagination */}
-        <div className="card text-white bg-dark mb-3" style={{ maxWidth: '250px', minWidth: '150px', boxShadow: '0 4px 4px 0 rgb(0, 0, 0, 0.2)' }}>
-          <div className="card-header d-flex justify-content-center">
+        <div className="card text-white bg-light mb-3" style={{ maxWidth: '250px', minWidth: '150px', boxShadow: '0 4px 4px 0 rgb(0, 0, 0, 0.2)'}}>
+          <div className="card-header d-flex justify-content-center" style={{ color: 'black' }}>
             Page {page} of {lastPage}
           </div>
-          <div className="card-body  d-flex justify-content-center">
+          <div className="card-body d-flex justify-content-center">
             <div class="btn">
-              <button type="button" class="btn btn-success" onClick={btnPrevPageHandler} disabled={page === 1} style={{ width: '70px', marginRight: '20px' }}>
+              <button type="button" class="btn btn-danger" onClick={btnPrevPageHandler} disabled={page === 1} style={{ width: '70px', marginRight: '20px' }}>
                 {"<<"}
               </button>
-              <button type="button" class="btn btn-success" onClick={btnNextPageHandler} disabled={page === lastPage} style={{ width: '70px', marginLeft: '20px' }}>
+              <button type="button" class="btn btn-danger" onClick={btnNextPageHandler} disabled={page === lastPage} style={{ width: '70px', marginLeft: '20px' }}>
                 {">>"}
               </button>
             </div>
             
           </div>
         </div>
+
       </div>
     );
 };
 
-export default ProductsManager;
-
+export default ProductManager;
