@@ -1,5 +1,7 @@
 import './salesReport.css';
+import axios from '../../Config/axios.js';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import SalesChart from './components/charts/SalesChart';
@@ -7,6 +9,8 @@ import FeaturedInfo from './components/featuredInfo/FeaturedInfo';
 import { UserData } from './components/data/userData';
 
 function SalesReport() {
+  const { token } = useSelector((state) => state.auth);
+
   const [startMonthDate, setStarMonthtDate] = useState(new Date('2021/01'));
   const [endMonthDate, setEndMonthDate] = useState(new Date('2021/04'));
 
@@ -31,15 +35,6 @@ function SalesReport() {
   const handleChange = (e) => {
     setFilterState({ ...filterState, [e.target.name]: e.target.value });
   };
-
-  // console.log(startYearDate);
-  // console.log(endYearDate);
-  console.log(startMonthDate);
-  console.log(endMonthDate);
-
-  // useEffect pertama kali
-  // price amount antara tahun 1 - 2 di backend
-  // return year, month, price year, price month data yg diget
 
   const searchSalesReport = async () => {};
 

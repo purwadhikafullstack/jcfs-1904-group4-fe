@@ -1,22 +1,35 @@
 import './featuredInfo.css';
+import { useState } from 'react';
 import React, { useSEffect } from 'react';
 import { useSelector } from 'react-redux';
 import axios from '../../../../Config/axios';
 
 export default function FeaturedInfo() {
-  const { warehouse_id, token } = useSelector((state) => state.auth);
+  const { token, warehouse_id } = useSelector((state) => state.auth);
+  const [totalSales, setTotalSales] = useState();
 
   const getTotalSales = async () => {
     try {
+      const res = await axios.post(`/sales-report/total-sales`, {
+        warehouse_id,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const { data } = res;
+      // setTotalSales(data);
+      console.log(data);
     } catch (error) {}
   };
+
+  console.log(getTotalSales());
 
   return (
     <div className="featured">
       <div className="featuredItem">
         <span className="featuredTitle">Total Sales</span>
         <div className="featuredMoneyContainer">
-          <span className="featuredMoney">Rp {getTotalSales}</span>
+          <span className="featuredMoney">Rp {totalSales}</span>
         </div>
         <span className="featuredSub">Most categories: Chair</span>
       </div>
