@@ -14,7 +14,7 @@ const authReducer = (state = init, action) => {
         ...state,
         user_id: action.payload.user.user_id,
         username: action.payload.user.username,
-        warehouse_id: action.payload.user.warehoue_id,
+        warehouse_id: action.payload.user.warehouse_id,
         role: action.payload.user.role,
         is_verified: action.payload.user.is_verified,
         token: action.payload.postToken,

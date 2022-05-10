@@ -19,6 +19,7 @@ import Checkout from './Pages/Checkout/checkout';
 import Register from './Pages/Register/Register';
 import AddProducts from './Pages/ManageProduct/AddProducts';
 import Transaction from './Pages/Transactions/transactions';
+import SalesReport from './Pages/SalesReport/SalesReport';
 import Instructions from './Pages/Transactions/instructions';
 import ResetPassword from './Pages/ResetPassword/ResetPassword';
 import ProductDetail from './Pages/ProductDetail/productDetail';
@@ -64,6 +65,7 @@ function App() {
             <Route path="/transaction" element={<Transaction />} />
             <Route path="/instruction" element={<Instructions />} />
             <Route path="/add-products" element={<AddProducts />} />
+            <Route path="/sales-report" element={<SalesReport />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/manage-products" element={<ManageProducts />} />
             <Route path="/products/:product_id" element={<ProductDetail />} />
