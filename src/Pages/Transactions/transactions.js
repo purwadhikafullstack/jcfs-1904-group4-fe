@@ -46,7 +46,7 @@ function Transaction() {
     } else if (filterTransactions.filterBy === "arrived") {   
 
             try {
-                const res = await axios.get(`/transactions/past/${user_id}`)
+                const res = await axios.get(`/transactions/get/past/${user_id}`)
                 const { data } = res;
 
                 setTransactions(data.transactions)
