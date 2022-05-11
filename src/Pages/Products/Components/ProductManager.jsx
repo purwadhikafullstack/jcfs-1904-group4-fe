@@ -65,7 +65,6 @@ function ProductsManager(props) {
       try {
         const res = await axios.get("/categories/get");
         const { data } = res
-
         setProductCategories(data.categories);
       } catch (error) {
         console.log(alert(error.message));
