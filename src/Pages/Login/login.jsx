@@ -1,17 +1,16 @@
-import axios from '../../Config/axios';
+import axios from '../../Config/axios.js';
 import React, { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginAction } from '../../Store/Actions/action.js';
 import './login.css';
 
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Form } from 'react-bootstrap';
 import { GoogleLoginButton } from 'react-social-login-buttons';
 
 function Login() {
   const dispatch = useDispatch();
-  const username = useSelector((state) => state.auth.username);
-  const getToken = useSelector((state) => state.auth.token);
+  const { username, token, role } = useSelector((state) => state.auth);
 
   const [formState, setFormState] = useState({
     username: '',
@@ -28,7 +27,7 @@ function Login() {
         username: formState.username,
         password: formState.password,
         headers: {
-          Authorization: `Bearer ${getToken}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -51,33 +50,40 @@ function Login() {
     if (e.code === 'Enter') onLogin();
   };
 
-  if (username) {
-    return <Navigate to="/" replace />;
+  if (username && role) {
+    if (role === 'client') {
+      return <Navigate to="/" replace />;
+    } else if (role === 'admin') {
+      return <Navigate to="/" replace />;
+    } else if (role === 'super_admin') {
+      return <Navigate to="/" replace />;
+    }
   }
 
   return (
-    <Form className="login-form">
-      <h1>
-        <span className="font-weight-bold text-center">Please Login</span>
-      </h1>
-
-      <FormGroup>
-        <Label>Username*</Label>
-        <Input type="text" name="username" placeholder="Username" onChange={handleChange} onKeyPress={onInputPress}></Input>
-      </FormGroup>
-      <FormGroup>
-        <Label>Password*</Label>
-        <Input type="password" name="password" placeholder="Password" onChange={handleChange} onKeyPress={onInputPress}></Input>
-      </FormGroup>
-      <Button color="primary" block onClick={onLoginClick}>
+    <Form className="login-form column-container justify-between">
+      <h2 className="pt-2">Welcome Back</h2>
+      <div className="row-container justify-between">
+        <h5 className="font-weight-bold">Login to your account</h5>
+        <h5 style={{ color: 'red' }}>*required</h5>
+      </div>
+      <Form.Group>
+        <Form.Label>Username*</Form.Label>
+        <Form.Control type="text" name="username" placeholder="Username" onChange={handleChange} onKeyPress={onInputPress}></Form.Control>
+      </Form.Group>
+      <Form.Group>
+        <Form.Label>Password*</Form.Label>
+        <Form.Control type="password" name="password" placeholder="Password" onChange={handleChange} onKeyPress={onInputPress}></Form.Control>
+      </Form.Group>
+      <Button style={{ fontSize: '19px' }} color="primary" block onClick={onLoginClick}>
         Login
       </Button>
       <p className="text-center pt-3">Or continue with your social account</p>
-      <GoogleLoginButton className="mt-3 mb-3" />
-      <div className="text-center">
+      <GoogleLoginButton className="mt-3 mb-3" align="center" />
+      <div className="text-center pb-4">
         <Link to="/register">Register</Link>
         <span className="p-2">|</span>
-        <Link to="">Forgot Password</Link>
+        <Link to="/forgot-password">Forgot Password</Link>
       </div>
     </Form>
   );
